@@ -1,5 +1,8 @@
 # Torrent Dashboard
->This dashboard was designed for use with a raspberry pi on a local network to interface with a Transmission client on the same network over the RPC protocol. Uses the official Raspberry Pi Touchscreen with chromium in Kiosk mode.
+>This dashboard was designed for use with a raspberry pi on a local network to interface with a Transmission client on the same network over the RPC protocol. Uses the official Raspberry Pi Touchscreen with chromium in Kiosk mode. I made this for personal use, so it really isn't meant to handle configurations for other environments, but if you want to modify it for your own use, please freel free.
+
+![screenshot](https://github.com/8bit-echo/Torrent-Dashboard/raw/master/screenshot.png "screenshot")
+
 
 ## Getting Started
  - clone this repo
@@ -11,7 +14,6 @@
  - run the node server on the backend to start the application. `node ./server.js`
  - go to localhost:3000 in your browser. the front-end assets are served by the node server.
 
-![screenshot]('./screenshot.png')
 
 
 ## Development
