@@ -1,0 +1,23 @@
+{
+  "name": "torrent-dash-back-end",
+  "version": "1.0.0",
+  "description": "node server",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "inspect": "node inspect server.js",
+    "start": "node server.js",
+    "dev": "nodemon ./server.js localhost 3000"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.3",
+    "typescript": "^3.6.3"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "node-ssh": "^6.0.0",
+    "transmission-promise": "^1.1.4"
+  }
+}
