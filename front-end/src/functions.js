@@ -6,9 +6,9 @@ export async function get(endpoint) {
 
 export async function post(endpoint, payload) {
   let response = await fetch(`http://localhost:3000${endpoint}`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify(payload)
   });

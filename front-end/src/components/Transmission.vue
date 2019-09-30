@@ -5,8 +5,8 @@
 </template>
 
 <script>
-import Torrent from "./Torrent";
-import { get } from "../functions";
+import Torrent from './Torrent';
+import { get } from '../functions';
 export default {
   components: {
     Torrent
@@ -18,7 +18,7 @@ export default {
   },
 
   mounted() {
-    get("/torrents").then(data => {
+    get('/torrents').then(data => {
       this.torrents = data.torrents;
     });
     // console.log(this.torrents);

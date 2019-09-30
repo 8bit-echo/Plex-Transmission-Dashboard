@@ -9,36 +9,42 @@
       </div>
     </div>
     <button @click="toggleVPN()">Toggle VPN</button>
-    <button>Move to TV</button>
-    <button>Move to Movies</button>
+    <button>
+      Move to TV Shows
+      <img src="../assets/plextv-icon.svg" width="25" />
+    </button>
+    <button>
+      Move to Movies
+      <img src="../assets/plextv-icon.svg" width="25" />
+    </button>
     <button>Start</button>
     <button>Stop</button>
   </div>
 </template>
 
 <script>
-import { get, post } from "../functions";
+import { get, post } from '../functions';
 
 export default {
   data() {
     return {
-      vpnStatus: "-"
+      vpnStatus: '-'
     };
   },
 
   methods: {
     toggleVPN() {
       let action;
-      if (this.vpnStatus == "ACTIVE") {
-        action = "stop";
+      if (this.vpnStatus == 'ACTIVE') {
+        action = 'stop';
       } else {
-        action = "start";
+        action = 'start';
       }
 
-      post("/vpn", { action }).then(response => {
+      post('/vpn', { action }).then(response => {
         if (response.success) {
           console.log(`vpn start: success`);
-          get("/vpn-status").then(result => {
+          get('/vpn-status').then(result => {
             this.vpnStatus = result.status;
           });
         }
@@ -47,7 +53,7 @@ export default {
   },
 
   created() {
-    get("/vpn-status").then(result => {
+    get('/vpn-status').then(result => {
       this.vpnStatus = result.status;
     });
   }
@@ -71,6 +77,9 @@ export default {
     border: none;
     outline: none;
     box-shadow: 0 0 8px rgba(16, 10, 39, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     &:active {
       background-color: #408fcf;

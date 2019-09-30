@@ -3,9 +3,10 @@
     <div class="inner-container">
       <p class="name">{{ torrent.name | cleanup }}</p>
       <div class="meta">
-        {{ torrent.percentDone | toPercentage }}
-        <span class="download-rate" v-if="torrent.downloadRate">
-          {{ torrent.downloadRate | calcTxRate }}
+        {{ torrent.percentDone | toPercentage }} of
+        {{ torrent.totalSize | toHuman }}
+        <span class="download-rate" v-if="torrent.rateDownload">
+          ↓ {{ torrent.rateDownload | toHuman }}/s
         </span>
       </div>
     </div>
@@ -19,11 +20,11 @@
 
 <script>
 export default {
-  props: ["torrent"],
+  props: ['torrent'],
 
   methods: {
     percentDone: float => {
-      return float * 100 + "%";
+      return float * 100 + '%';
     }
   },
 
@@ -34,23 +35,21 @@ export default {
   },
 
   filters: {
-    calcTxRate: bps => {
-      bps = parseInt(bps);
-      if (bps < 1000) {
-        return `${bps} bytes/s`;
-      } else if (bps < 1000000) {
-        return `${bps / 1000} kB/s`;
-      } else {
-        return `${bps / 1000000} MB/s`;
-      }
+    toHuman: bytes => {
+      const i = Math.floor(Math.log(bytes) / Math.log(1024));
+      return (
+        (bytes / Math.pow(1024, i)).toFixed(2) * 1 +
+        ' ' +
+        ['B', 'kB', 'MB', 'GB', 'TB'][i]
+      );
     },
 
     toPercentage: float => {
-      return float * 100 + "%";
+      return float * 100 + '%';
     },
 
     cleanup: string => {
-      return string.replace(/www\.(.+)\.(com|org|net) - /gi, "");
+      return string.replace(/www\.(.+)\.(com|org|net) - /gi, '');
     }
   }
 };

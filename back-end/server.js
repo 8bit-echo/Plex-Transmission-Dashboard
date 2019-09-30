@@ -1,3 +1,8 @@
+const useLocalData = true;
+
+const fs = require('fs');
+const path = require('path');
+const dummyData = require(path.resolve('../dummy-data.json'));
 const express = require('express');
 const dotenv = require('dotenv').config();
 const app = express();
@@ -10,10 +15,36 @@ const tx = new Transmission({
   password: process.env.TX_PASS,
 });
 const fn = require('./functions');
-const fields = ['id', 'error', 'errorString', 'eta', 'isFinished', 'isStalled', 'leftUntilDone', 'metadataPercentComplete', 'peersConnected', 'peersGettingFromUs', 'peersSendingToUs', 'percentDone', 'queuePosition', 'rateDownload', 'rateUpload', 'recheckProgress', 'seedRatioMode', 'seedRatioLimit', 'sizeWhenDone', 'status', 'trackers', 'downloadDir', 'uploadedEver', 'uploadRatio', 'webseedsSendingToUs'];
+const fields = [
+  'id',
+  'error',
+  'errorString',
+  'eta',
+  'isFinished',
+  'isStalled',
+  'leftUntilDone',
+  'metadataPercentComplete',
+  'peersConnected',
+  'peersGettingFromUs',
+  'peersSendingToUs',
+  'percentDone',
+  'queuePosition',
+  'rateDownload',
+  'rateUpload',
+  'recheckProgress',
+  'seedRatioMode',
+  'seedRatioLimit',
+  'sizeWhenDone',
+  'status',
+  'trackers',
+  'downloadDir',
+  'uploadedEver',
+  'uploadRatio',
+  'webseedsSendingToUs',
+];
 
 app.use(express.static('../front-end/dist'));
-app.use(express.json())
+app.use(express.json());
 
 app.listen(port, () => {
   console.log(`app running on port ${3000}`);
@@ -33,28 +64,36 @@ app.get('/active', (req, res) => {
 
 app.get('/torrents', (req, res) => {
   console.log('got request to retrieve all torrents');
-  tx.all('', fields)
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.send(err);
-      console.error(err);
-    });
+  if (useLocalData) {
+    res.send({ torrents: dummyData });
+  } else {
+    tx.all('', fields)
+      .then(data => {
+        res.send(data);
+      })
+      .catch(err => {
+        res.send(err);
+        console.error(err);
+      });
+  }
 });
 
 app.get('/vpn-status', (req, res) => {
-  console.log('got request for vpn status');
-  const status = fn.getVPNStatus();
+  if (useLocalData) {
+    res.send({ status: 'ACTIVE' });
+  } else {
+    console.log('got request for vpn status');
+    const status = fn.getVPNStatus();
 
-  status.then(status => {
-    if (status.length) {
-      status = 'ACTIVE';
-    } else {
-      status = 'INACTIVE';
-    }
-    res.send(JSON.stringify({ status }));
-  });
+    status.then(status => {
+      if (status.length) {
+        status = 'ACTIVE';
+      } else {
+        status = 'INACTIVE';
+      }
+      res.send(JSON.stringify({ status }));
+    });
+  }
 });
 
 app.post('/vpn', (req, res) => {
@@ -64,11 +103,11 @@ app.post('/vpn', (req, res) => {
 
   if (req.body.action == 'stop') {
     const result = fn.disableVPN();
-      console.log(`server:66 result: ${result}`);
-      if (!result.error) {
-        response.success = true;
-        response.status = 'INACTIVE';
-      }
+    console.log(`server:66 result: ${result}`);
+    if (!result.error) {
+      response.success = true;
+      response.status = 'INACTIVE';
+    }
   } else if (req.body.action == 'start') {
     const result = fn.enableVPN();
     response.success = true;
@@ -77,4 +116,4 @@ app.post('/vpn', (req, res) => {
     res.status(400).send();
   }
   res.send(response);
-})
+});

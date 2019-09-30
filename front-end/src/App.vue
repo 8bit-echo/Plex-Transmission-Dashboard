@@ -6,12 +6,12 @@
 </template>
 
 <script>
-import Vue from "vue";
-import Controls from "./components/Controls.vue";
-import Transmission from "./components/Transmission.vue";
+import Vue from 'vue';
+import Controls from './components/Controls.vue';
+import Transmission from './components/Transmission.vue';
 
 export default Vue.extend({
-  name: "app",
+  name: 'app',
   components: {
     Controls,
     Transmission
