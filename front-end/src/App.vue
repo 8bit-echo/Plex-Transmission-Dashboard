@@ -2,19 +2,22 @@
   <div id="app" class="container">
     <controls />
     <transmission />
+    <modal />
   </div>
 </template>
 
 <script>
 import Vue from 'vue';
-import Controls from './components/Controls.vue';
-import Transmission from './components/Transmission.vue';
+import Controls from './components/Controls';
+import Transmission from './components/Transmission';
+import Modal from './components/Modal';
 
 export default Vue.extend({
   name: 'app',
   components: {
     Controls,
-    Transmission
+    Transmission,
+    Modal
   }
 });
 </script>
@@ -29,7 +32,8 @@ body {
   height: 100%;
   width: 100%;
   margin: 0;
-  font-family: sans-serif;
+  font-family: 'Avenir', sans-serif;
+  letter-spacing: 0.75px;
 }
 
 *,

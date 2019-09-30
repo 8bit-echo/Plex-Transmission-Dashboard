@@ -17,13 +17,14 @@
       Move to Movies
       <img src="../assets/plextv-icon.svg" width="25" />
     </button>
-    <button>Start</button>
+    <button @click="test()">Start</button>
     <button>Stop</button>
   </div>
 </template>
 
 <script>
 import { get, post } from '../functions';
+import { AppState } from '../AppState';
 
 export default {
   data() {
@@ -49,6 +50,10 @@ export default {
           });
         }
       });
+    },
+
+    test() {
+      AppState.$emit('openModal', { msg: 'Start torrent' });
     }
   },
 
@@ -67,6 +72,7 @@ export default {
 
   button {
     width: 90%;
+    font-family: 'Avenir', sans-serif;
     display: block;
     background-color: #3b3b48;
     color: white;
