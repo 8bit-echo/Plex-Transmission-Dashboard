@@ -70,13 +70,15 @@ export default {
     },
 
     getTVFolder() {
-      post('/guess-tv-show', {torrentName: this.selectedTorrent.name}).then(response => {
-        const { msg, error } = response;
-        if (error) {
-          // handle error ?
-        }
+      post('/guess-tv-show', { torrentName: this.selectedTorrent.name }).then(
+        response => {
+          const { msg, error } = response;
+          if (error) {
+            // handle error ?
+          }
           AppState.$emit('openModal', { msg });
-      });
+        }
+      );
     }
   },
 
