@@ -4,12 +4,12 @@ const serverRoot = '/media/mini/ServerSpace/';
 const sshConfig = {
   host: process.env.SSH_HOST,
   username: process.env.SSH_USER1,
-  privateKey: process.env.SSH_KEY_PATH,
+  privateKey: process.env.SSH_KEY_PATH
 };
 const sshConfigRoot = {
   host: process.env.SSH_HOST,
   username: process.env.SSH_USER2,
-  privateKey: process.env.SSH_KEY_PATH,
+  privateKey: process.env.SSH_KEY_PATH
 };
 
 async function shell(cmd) {
@@ -59,15 +59,66 @@ async function disableVPN() {
 
 async function enableVPN() {
   try {
-    let output = await sudo('openvpn --config /home/mini/Templates/minivultr.ovpn --mute-replay-warnings');
+    let output = await sudo(
+      'openvpn --config /home/mini/Templates/minivultr.ovpn --mute-replay-warnings'
+    );
     // if (output.length >= 1) {
     //   return { error: null };
     // }
-      console.log(output);
-      return { error: null };
+    console.log(output);
+    return { error: null };
   } catch (error) {
     return { error };
   }
+}
+
+async function getTVFolders() {
+  try {
+    const folders = await shell(`ls "${serverRoot}/Media/TV Shows"`);
+    const asArray = JSON.parse(`["${folders.replace(/\n/g, `","`)}"]`);
+    return asArray;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function guessTVShow(file, folders) {
+  let bestGuess = undefined;
+  folders.some((folder, i) => {
+    const fileName = stringPrep(file);
+    const folderName = stringPrep(folder);
+    if (fileName.includes(folderName)) {
+      bestGuess = folders[i];
+    }
+    return fileName.includes(folderName);
+  });
+
+  return bestGuess;
+}
+
+function stringPrep(str) {
+  return str
+    .toLowerCase()
+    .replace(
+      /(web?(rip|dl)|\[[a-z]+\]|((h|x)\.?26(4|5))|(hdtv)|(\d{3,4}p)|(-)|(aac(\d\.\d)?)|(www\.(.+)\.(com|org|net))|(HEVCs?|10.?bit)|(bluray))/gi,
+      ''
+    )
+    .replace(
+      /((megusta)|(deflate)|(crimson)|(avs)|(btw)|(spik)|(internal)|(web)|(trump)|(yts\.lt))/gi,
+      ''
+    )
+    .replace(/(\(\))|(\[\])/gi, '');
+}
+
+function extractSeasonNumber(fileName, withPrefix = false) {
+  const match = fileName.match(/s(\d\d?)/i);
+  if (match) {
+    // remove leading 0 in season nums < 10
+    match[1] =
+      match[1].toString().charAt(0) === '0' ? match[1].slice(1, 2) : match[1];
+    return `${withPrefix ? 'Season ' : ''}${match[1]}`;
+  }
+  return `. Couldn't determine `;
 }
 
 module.exports = {
@@ -75,4 +126,7 @@ module.exports = {
   getVPNStatus,
   disableVPN,
   enableVPN,
+  getTVFolders,
+  guessTVShow,
+  extractSeasonNumber
 };

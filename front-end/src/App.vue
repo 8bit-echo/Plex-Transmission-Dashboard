@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="container">
-    <controls />
-    <transmission />
+    <controls :selectedTorrent="selectedTorrent" />
+    <transmission :selectedTorrent="selectedTorrent" />
     <modal />
   </div>
 </template>
@@ -18,6 +18,19 @@ export default Vue.extend({
     Controls,
     Transmission,
     Modal
+  },
+  data() {
+    return {
+      selectedTorrent: {
+        id: null
+      }
+    };
+  },
+
+  mounted() {
+    this.$root.$on('changeSelectedTorrent', torrent => {
+      this.selectedTorrent = torrent;
+    });
   }
 });
 </script>

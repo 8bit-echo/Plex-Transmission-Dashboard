@@ -1,5 +1,5 @@
 <template>
-  <div class="torrent">
+  <div :class="{ torrent: true, selected: selected }" @click="select(torrent)">
     <div class="inner-container">
       <p class="name">{{ torrent.name | cleanup }}</p>
       <div class="meta">
@@ -19,12 +19,23 @@
 </template>
 
 <script>
+import { AppState } from '../AppState';
 export default {
-  props: ['torrent'],
+  props: ['torrent', 'selected'],
+
+  data() {
+    return {
+      // selected: false,
+    };
+  },
 
   methods: {
     percentDone: float => {
       return float * 100 + '%';
+    },
+
+    select(torrent) {
+      AppState.$emit('torrentSelect', torrent);
     }
   },
 
@@ -49,7 +60,16 @@ export default {
     },
 
     cleanup: string => {
-      return string.replace(/www\.(.+)\.(com|org|net) - /gi, '');
+      return string
+        .replace(
+          /(web?(rip|dl)|\[[a-z]+\]|((h|x)\.?26(4|5))|(hdtv)|(\d{3,4}p)|(-)|(aac(\d\.\d)?)|(www\.(.+)\.(com|org|net))|(HEVCs?|10.?bit)|(bluray))/gi,
+          ''
+        )
+        .replace(
+          /((megusta)|(deflate)|(crimson)|(avs)|(btw)|(spik)|(internal)|(web)|(trump)|(yts\.lt))/gi,
+          ''
+        )
+        .replace(/(\(\))|(\[\])/gi, '');
     }
   }
 };
@@ -65,6 +85,10 @@ export default {
   border-radius: 7px;
   overflow: hidden;
   background: #2d2d38;
+
+  &.selected {
+    box-shadow: 0 0 10px rgba(white, 0.5);
+  }
 
   .inner-container {
     padding: 0 0.5em;

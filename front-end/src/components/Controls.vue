@@ -1,5 +1,5 @@
 <template>
-  <div class="controls">
+  <div class="controls" @click.self="deselectTorrents()">
     <div class="status-bar">
       <div class="vpnStatus indicator">
         VPN
@@ -9,27 +9,36 @@
       </div>
     </div>
     <button @click="toggleVPN()">Toggle VPN</button>
-    <button>
+    <button @click="getTVFolder()" :disabled="!selectedTorrent.id">
       Move to TV Shows
       <img src="../assets/plextv-icon.svg" width="25" />
     </button>
-    <button>
+    <button :disabled="!selectedTorrent.id">
       Move to Movies
       <img src="../assets/plextv-icon.svg" width="25" />
     </button>
-    <button @click="test()">Start</button>
-    <button>Stop</button>
+    <button
+      v-if="selectedTorrent.id"
+      @click="openModal()"
+      :disabled="!selectedTorrent.id"
+    >
+      {{ playPauseText }}
+    </button>
   </div>
 </template>
 
 <script>
 import { get, post } from '../functions';
 import { AppState } from '../AppState';
+import { txStatus } from '../functions';
 
 export default {
+  props: ['selectedTorrent'],
+
   data() {
     return {
-      vpnStatus: '-'
+      vpnStatus: '-',
+      playPauseText: 'Start'
     };
   },
 
@@ -52,8 +61,38 @@ export default {
       });
     },
 
-    test() {
+    deselectTorrents() {
+      AppState.$emit('torrentSelect', { id: null });
+    },
+
+    openModal() {
       AppState.$emit('openModal', { msg: 'Start torrent' });
+    },
+
+    getTVFolder() {
+      post('/guess-tv-show', {torrentName: this.selectedTorrent.name}).then(response => {
+        const { msg, error } = response;
+        if (error) {
+          // handle error ?
+        }
+          AppState.$emit('openModal', { msg });
+      });
+    }
+  },
+
+  watch: {
+    selectedTorrent: {
+      deep: true,
+      handler(newVal) {
+        if (
+          newVal.status === txStatus.DOWNLOAD ||
+          newVal.status === txStatus.SEED
+        ) {
+          this.playPauseText = 'Stop';
+        } else {
+          this.playPauseText = 'Start';
+        }
+      }
     }
   },
 
@@ -89,6 +128,10 @@ export default {
 
     &:active {
       background-color: #408fcf;
+    }
+
+    &[disabled] {
+      opacity: 0.5;
     }
   }
 

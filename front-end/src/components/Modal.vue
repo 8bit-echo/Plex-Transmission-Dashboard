@@ -8,7 +8,7 @@
 
       <div class="actions">
         <button @click="hideDialog()">Cancel</button>
-        <button class="primary" @click="handleConfirm()">Okay</button>
+        <button class="primary" @click="handleConfirm()">Confirm</button>
       </div>
     </dialog>
   </div>
@@ -78,7 +78,6 @@ dialog {
     background: #2d2d38;
     display: flex;
     justify-content: space-around;
-    padding: 0.5rem;
 
     button {
       width: 40%;

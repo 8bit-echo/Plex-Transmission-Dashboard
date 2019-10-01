@@ -12,7 +12,7 @@ const tx = new Transmission({
   host: '192.168.0.29',
   port: 9091,
   username: process.env.TX_USER,
-  password: process.env.TX_PASS,
+  password: process.env.TX_PASS
 });
 const fn = require('./functions');
 const fields = [
@@ -25,22 +25,22 @@ const fields = [
   'leftUntilDone',
   'metadataPercentComplete',
   'peersConnected',
-  'peersGettingFromUs',
+  // 'peersGettingFromUs',
   'peersSendingToUs',
   'percentDone',
   'queuePosition',
   'rateDownload',
-  'rateUpload',
-  'recheckProgress',
-  'seedRatioMode',
-  'seedRatioLimit',
+  // 'rateUpload',
+  // 'recheckProgress',
+  // 'seedRatioMode',
+  // 'seedRatioLimit',
   'sizeWhenDone',
   'status',
   'trackers',
   'downloadDir',
-  'uploadedEver',
-  'uploadRatio',
-  'webseedsSendingToUs',
+  // 'uploadedEver',
+  // 'uploadRatio',
+  'webseedsSendingToUs'
 ];
 
 app.use(express.static('../front-end/dist'));
@@ -116,4 +116,19 @@ app.post('/vpn', (req, res) => {
     res.status(400).send();
   }
   res.send(response);
+});
+
+app.post('/guess-tv-show', (req, res) => {
+  const { torrentName } = req.body;
+  console.log(`got request to guess TV Show for file: ${torrentName}`);
+  let bestGuess = '';
+  fn.getTVFolders().then(folders => {
+    bestGuess = fn.guessTVShow(torrentName, folders);
+    if (!bestGuess) {
+      res.send({msg: `Unable to match to an existing folder`, error: true});  
+    } else {
+      const seasonNum = fn.extractSeasonNumber(torrentName, true);
+      res.send({msg: `Move to ${bestGuess} - ${seasonNum} folder?`});
+    }
+  });
 });
