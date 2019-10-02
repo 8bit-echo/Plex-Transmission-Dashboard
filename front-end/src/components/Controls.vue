@@ -117,9 +117,16 @@ export default {
   },
 
   created() {
+
     get('/vpn-status').then(result => {
       this.vpnStatus = result.status;
     });
+
+    setInterval(() => {
+      get('/vpn-status').then(result => {
+      this.vpnStatus = result.status;
+    });
+    }, 60000);
   }
 };
 </script>
