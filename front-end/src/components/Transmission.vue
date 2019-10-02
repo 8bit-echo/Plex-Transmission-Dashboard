@@ -16,7 +16,9 @@ export default {
   components: {
     Torrent
   },
+
   props: ['selectedTorrent'],
+
   data() {
     return {
       torrents: []

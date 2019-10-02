@@ -70,13 +70,23 @@ export default {
     },
 
     getTVFolder() {
+      // const self = this;
       post('/guess-tv-show', { torrentName: this.selectedTorrent.name }).then(
         response => {
-          const { msg, error } = response;
+          console.log('response from /guess-tv-show', response);
+          const { show, season, error } = response;
           if (error) {
             // handle error ?
           }
-          AppState.$emit('openModal', { msg });
+
+          AppState.$emit('openModal', {
+            msg: `Move to ${show} - ${season} folder?`,
+            show,
+            season,
+            handleConfirm: () => {
+              this.moveTVShow(this.selectedTorrent, show, season);
+            }
+          });
         }
       );
     },
@@ -89,6 +99,11 @@ export default {
           this.removeFromList(this.selectedTorrent);
         }
       });
+    },
+
+    moveTVShow(torrent, show, season) {
+      console.log('Controls will move TV Show');
+      console.log(torrent, show, season);
     },
 
     removeFromList(torrent) {
@@ -117,15 +132,14 @@ export default {
   },
 
   created() {
-
     get('/vpn-status').then(result => {
       this.vpnStatus = result.status;
     });
 
     setInterval(() => {
       get('/vpn-status').then(result => {
-      this.vpnStatus = result.status;
-    });
+        this.vpnStatus = result.status;
+      });
     }, 60000);
   }
 };

@@ -29,16 +29,6 @@ export default {
     };
   },
 
-  methods: {
-    percentDone: float => {
-      return float * 100 + '%';
-    },
-
-    select(torrent) {
-      AppState.$emit('torrentSelect', torrent);
-    }
-  },
-
   computed: {
     isDone: function() {
       return this.torrent.percentDone == 1;
@@ -70,6 +60,16 @@ export default {
           ''
         )
         .replace(/(\(\))|(\[\])/gi, '');
+    }
+  },
+
+  methods: {
+    percentDone: float => {
+      return float * 100 + '%';
+    },
+
+    select(torrent) {
+      AppState.$emit('torrentSelect', torrent);
     }
   }
 };

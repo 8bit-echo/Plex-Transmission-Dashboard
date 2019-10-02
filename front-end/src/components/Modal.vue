@@ -8,7 +8,7 @@
 
       <div class="actions">
         <button @click="hideDialog()">Cancel</button>
-        <button class="primary" @click="handleConfirm()">Confirm</button>
+        <button class="primary" @click="confirmAction()">Confirm</button>
       </div>
     </dialog>
   </div>
@@ -24,7 +24,6 @@ export default {
       isOpen: false,
       handleConfirm: () => {
         console.log('no confirm action taken');
-        this.hideDialog();
       }
     };
   },
@@ -37,12 +36,20 @@ export default {
     hideDialog() {
       this.isOpen = false;
       this.$refs.dialog.close();
+    },
+
+    confirmAction() {
+      this.handleConfirm();
+      this.hideDialog();
     }
   },
 
   mounted() {
     this.$root.$on('openEmit', payload => {
       this.msg = payload.msg;
+      if (typeof payload.handleConfirm == 'function') {
+        this.handleConfirm = payload.handleConfirm;
+      }
       this.showDialog();
     });
   }
