@@ -1,4 +1,4 @@
-const useLocalData = true;
+const useLocalData = false;
 
 const fs = require('fs');
 const path = require('path');
@@ -36,7 +36,7 @@ const fields = [
   // 'seedRatioLimit',
   'sizeWhenDone',
   'status',
-  'trackers',
+  // 'trackers',
   'downloadDir',
   // 'uploadedEver',
   // 'uploadRatio',
@@ -125,10 +125,41 @@ app.post('/guess-tv-show', (req, res) => {
   fn.getTVFolders().then(folders => {
     bestGuess = fn.guessTVShow(torrentName, folders);
     if (!bestGuess) {
-      res.send({msg: `Unable to match to an existing folder`, error: true});  
+      res.send({ msg: `Unable to match to an existing folder`, error: true });
     } else {
       const seasonNum = fn.extractSeasonNumber(torrentName, true);
-      res.send({msg: `Move to ${bestGuess} - ${seasonNum} folder?`});
+      res.send({ msg: `Move to ${bestGuess} - ${seasonNum} folder?` });
     }
+  });
+});
+
+app.post('/move-movie', (req, res) => {
+  console.log('got request to move movie file.');
+  const { name } = req.body;
+
+  fn.isDir(name)
+    .then(isDir => {
+      if (isDir) {
+        fn.removeDirtyFiles(name).then(result => {
+          fn.moveToMovies(name).then(success => {
+            res.send({ success });
+          });
+        });
+      } else {
+        fn.moveToMovies(name).then(success => {
+          res.send({ success });
+        });
+      }
+    })
+    .catch(err => {
+      console.log(`caught error determining if torrent was a folder ${err}`);
+    });
+});
+
+app.delete('/torrents', (req, res) => {
+  console.log('got request to remove torrent from list.');
+  const { id } = req.body;
+  tx.remove(id).then(response => {
+    res.send(response);
   });
 });

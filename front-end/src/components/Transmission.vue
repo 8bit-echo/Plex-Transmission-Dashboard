@@ -11,7 +11,6 @@
 
 <script>
 import Torrent from './Torrent';
-import { get } from '../functions';
 import { AppState } from '../AppState';
 export default {
   components: {
@@ -31,9 +30,8 @@ export default {
   },
 
   mounted() {
-    get('/torrents').then(data => {
-      AppState.$emit('gotTorrents', data.torrents);
-      this.torrents = AppState.torrents;
+    this.$root.$on('torrentsDidChange', torrents => {
+      this.torrents = torrents;
     });
   }
 };

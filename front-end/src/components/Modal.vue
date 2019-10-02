@@ -120,6 +120,9 @@ dialog {
     left: 0;
     font-size: 34px;
     line-height: 0.75;
+    background: transparent;
+    border: none;
+    outline: none;
   }
 }
 </style>

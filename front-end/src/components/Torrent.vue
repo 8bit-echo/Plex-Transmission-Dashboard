@@ -4,7 +4,7 @@
       <p class="name">{{ torrent.name | cleanup }}</p>
       <div class="meta">
         {{ torrent.percentDone | toPercentage }} of
-        {{ torrent.totalSize | toHuman }}
+        {{ torrent.sizeWhenDone | toHuman }}
         <span class="download-rate" v-if="torrent.rateDownload">
           ↓ {{ torrent.rateDownload | toHuman }}/s
         </span>

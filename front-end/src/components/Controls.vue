@@ -13,7 +13,7 @@
       Move to TV Shows
       <img src="../assets/plextv-icon.svg" width="25" />
     </button>
-    <button :disabled="!selectedTorrent.id">
+    <button @click="moveMovie()" :disabled="!selectedTorrent.id">
       Move to Movies
       <img src="../assets/plextv-icon.svg" width="25" />
     </button>
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { get, post } from '../functions';
+import { get, post, _delete } from '../functions';
 import { AppState } from '../AppState';
 import { txStatus } from '../functions';
 
@@ -79,6 +79,24 @@ export default {
           AppState.$emit('openModal', { msg });
         }
       );
+    },
+
+    moveMovie() {
+      post('/move-movie', this.selectedTorrent).then(response => {
+        console.log(response);
+
+        if (response.success) {
+          this.removeFromList(this.selectedTorrent);
+        }
+      });
+    },
+
+    removeFromList(torrent) {
+      _delete('/torrents', { id: torrent.id }).then(response => {
+        console.log(response);
+
+        AppState.$emit('torrentListShouldChange');
+      });
     }
   },
 

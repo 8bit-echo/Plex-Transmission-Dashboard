@@ -1,6 +1,9 @@
 const NodeSSH = require('node-ssh');
 const ssh = new NodeSSH();
 const serverRoot = '/media/mini/ServerSpace/';
+const downloads = `${serverRoot}Downloads`;
+const movies = `${serverRoot}/Media/Movies/`;
+const tvShows = `${serverRoot}/Media/TV Shows/`;
 const sshConfig = {
   host: process.env.SSH_HOST,
   username: process.env.SSH_USER1,
@@ -121,6 +124,44 @@ function extractSeasonNumber(fileName, withPrefix = false) {
   return `. Couldn't determine `;
 }
 
+async function isDir(fileName) {
+  try {
+    const cd = await shell(`cd "${downloads}/${fileName}"`);
+    if (cd == '') {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    return false;
+  }
+}
+
+async function moveToMovies(fileName) {
+  console.log(`executing move file ${fileName}`);
+  const mv = await shell(`mv "${downloads}/${fileName}" "${movies}"`);
+  const result = await mv;
+  console.log(result);
+  if (result == '') {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+async function removeDirtyFiles(dir) {
+  console.log('cleaning up file structure');
+  try {
+    await shell(
+      `find "${downloads}/${dir}" \\( -iname \\*.jpg -o -iname \\*.nfo -o -iname \\*.png -o -iname \\*.txt  \\) -type f -delete`
+    );
+    return true;
+  } catch (error) {
+    console.log(`dirty file cleanup caught error: ${error}`);
+    return false;
+  }
+}
+
 module.exports = {
   shell,
   getVPNStatus,
@@ -128,5 +169,8 @@ module.exports = {
   enableVPN,
   getTVFolders,
   guessTVShow,
-  extractSeasonNumber
+  extractSeasonNumber,
+  isDir,
+  moveToMovies,
+  removeDirtyFiles
 };
