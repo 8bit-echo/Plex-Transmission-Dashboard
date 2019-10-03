@@ -1,5 +1,8 @@
 <template>
-  <div :class="{ torrent: true, selected: selected }" @click="select(torrent)">
+  <div
+    :class="{ torrent: true, selected: selected, paused: torrent.status == 0 }"
+    @click="select(torrent)"
+  >
     <div class="inner-container">
       <p class="name">{{ torrent.name | cleanup }}</p>
       <div class="meta">
@@ -92,6 +95,10 @@ export default {
 
   &.selected {
     box-shadow: 0 0 10px rgba(white, 0.5);
+  }
+
+  &.paused {
+    filter: grayscale(1);
   }
 
   .inner-container {

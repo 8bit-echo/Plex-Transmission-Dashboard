@@ -22,7 +22,7 @@
     </button>
     <button
       v-if="selectedTorrent.id"
-      @click="openModal()"
+      @click="handleStartStop()"
       :disabled="!selectedTorrent.id"
     >
       {{ playPauseText }}
@@ -128,6 +128,16 @@ export default {
 
         AppState.$emit('torrentListShouldChange');
         this.isLoading = false;
+      });
+    },
+
+    handleStartStop() {
+      post('/pause', {
+        id: this.selectedTorrent.id,
+        action: this.playPauseText.toLowerCase()
+      }).then(response => {
+        console.log(`start/stop response`, response);
+        AppState.$emit('torrentListShouldChange');
       });
     }
   },

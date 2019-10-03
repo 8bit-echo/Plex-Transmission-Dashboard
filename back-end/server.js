@@ -206,3 +206,13 @@ app.delete('/torrents', (req, res) => {
     res.send(response);
   });
 });
+
+app.post('/pause', (req, res) => {
+  const {id, action} = req.body;
+  console.log(`got request to going to ${action} a torrent`);
+
+  tx[action](id).then(response => {
+    res.send(response);
+  });
+
+})
