@@ -7,6 +7,7 @@
           :class="{ statusLight: true, active: vpnStatus === 'ACTIVE' }"
         ></div>
       </div>
+      <div class="loading-indicator indicator" v-if="isLoading"><img src="../assets/spinner.svg" width="25"></div>
     </div>
     <button @click="toggleVPN()">Toggle VPN</button>
     <button @click="getTVFolder()" :disabled="!selectedTorrent.id">
@@ -15,7 +16,7 @@
     </button>
     <button @click="moveMovie()" :disabled="!selectedTorrent.id">
       Move to Movies
-      <img src="../assets/plextv-icon.svg" width="25" />
+      <img src="../assets/plextv-icon.svg" width="25"/>
     </button>
     <button
       v-if="selectedTorrent.id"
@@ -38,7 +39,8 @@ export default {
   data() {
     return {
       vpnStatus: '-',
-      playPauseText: 'Start'
+      playPauseText: 'Start',
+      isLoading: false
     };
   },
 
@@ -75,12 +77,15 @@ export default {
         response => {
           console.log('response from /guess-tv-show', response);
           const { show, season, error } = response;
+          const msg = `Move to ${show} - ${season} folder?`;
+
+          console.log(msg);
           if (error) {
             // handle error ?
           }
 
           AppState.$emit('openModal', {
-            msg: `Move to ${show} - ${season} folder?`,
+            msg,
             show,
             season,
             handleConfirm: () => {
@@ -92,6 +97,7 @@ export default {
     },
 
     moveMovie() {
+      this.isLoading = true;
       post('/move-movie', this.selectedTorrent).then(response => {
         console.log(response);
 
@@ -102,15 +108,24 @@ export default {
     },
 
     moveTVShow(torrent, show, season) {
+      this.isLoading = true;
       console.log('Controls will move TV Show');
       console.log(torrent, show, season);
+      post('/move-tv-show', { torrent, show, season }).then(response => {
+        if (response.success) {
+          this.removeFromList(this.selectedTorrent);
+        }
+      });
     },
 
     removeFromList(torrent) {
+      this.isLoading = true;
       _delete('/torrents', { id: torrent.id }).then(response => {
+        console.log('removing torrents from list.');
         console.log(response);
 
         AppState.$emit('torrentListShouldChange');
+        this.isLoading = false;
       });
     }
   },
@@ -177,6 +192,11 @@ export default {
   }
 
   .status-bar {
+    background: rgb(32, 32, 39);
+    width: 100%;
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
     .indicator {
       display: flex;
       align-items: center;
