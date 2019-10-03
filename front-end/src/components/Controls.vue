@@ -7,7 +7,9 @@
           :class="{ statusLight: true, active: vpnStatus === 'ACTIVE' }"
         ></div>
       </div>
-      <div class="loading-indicator indicator" v-if="isLoading"><img src="../assets/spinner.svg" width="25"></div>
+      <div class="loading-indicator indicator" v-if="isLoading">
+        <img src="../assets/spinner.svg" width="25" />
+      </div>
     </div>
     <button @click="toggleVPN()">Toggle VPN</button>
     <button @click="getTVFolder()" :disabled="!selectedTorrent.id">
@@ -16,7 +18,7 @@
     </button>
     <button @click="moveMovie()" :disabled="!selectedTorrent.id">
       Move to Movies
-      <img src="../assets/plextv-icon.svg" width="25"/>
+      <img src="../assets/plextv-icon.svg" width="25" />
     </button>
     <button
       v-if="selectedTorrent.id"
@@ -194,7 +196,7 @@ export default {
   .status-bar {
     background: rgb(32, 32, 39);
     width: 100%;
-    display: flex; 
+    display: flex;
     justify-content: space-between;
     align-items: center;
     .indicator {

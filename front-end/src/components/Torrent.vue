@@ -37,6 +37,9 @@ export default {
 
   filters: {
     toHuman: bytes => {
+      if (!bytes) {
+        return 'unknown';
+      }
       const i = Math.floor(Math.log(bytes) / Math.log(1024));
       return (
         (bytes / Math.pow(1024, i)).toFixed(2) * 1 +
@@ -46,20 +49,21 @@ export default {
     },
 
     toPercentage: float => {
-      return float * 100 + '%';
+      return (float * 100).toFixed(2) + '%';
     },
 
     cleanup: string => {
       return string
         .replace(
-          /(web?(rip|dl)|\[[a-z]+\]|((h|x)\.?26(4|5))|(hdtv)|(\d{3,4}p)|(-)|(aac(\d\.\d)?)|(www\.(.+)\.(com|org|net))|(HEVCs?|10.?bit)|(bluray))/gi,
+          /(web?(rip|dl)|\[[a-z]+\]|((h|x)\.?26(4|5))|(hdtv)|(\d{3,4}p)|(-)|(aac(\d\.\d)?)|(www\.(.+)\.(com|org|net))|(HEVCs?|10.?bit)|(bluray)|(dvd(rip)?))/gi,
           ''
         )
         .replace(
-          /((megusta)|(deflate)|(crimson)|(avs)|(btw)|(spik)|(internal)|(web)|(trump)|(yts\.lt))/gi,
+          /((megusta)|(deflate)|(crimson)|(avs)|(btw)|(spik)|(internal)|(web)|(trump)|(yts\.lt)|(yts\.am)|(rarbg))/gi,
           ''
         )
-        .replace(/(\(\))|(\[\])/gi, '');
+        .replace(/(\(\))|(\[\])/gi, '')
+        .replace(/\./g, ' ');
     }
   },
 
