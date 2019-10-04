@@ -34,7 +34,7 @@ export default {
   mounted() {
     this.$root.$on('torrentsDidChange', torrents => {
       // console.log('torrent list did change.');
-      console.log(torrents);
+      // console.log(torrents);
       this.torrents = torrents;
     });
   }
