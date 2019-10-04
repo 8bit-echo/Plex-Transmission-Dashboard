@@ -137,11 +137,35 @@ async function isDir(fileName) {
   }
 }
 
+async function folderExists(path) {
+  console.log(`checking for existing directory at: ${path}`);
+  const exists = await shell(`[ -d "${path}" ] && echo "true" || echo "false"`);
+  return JSON.parse(exists);
+}
+
 async function moveToMovies(fileName) {
   console.log(`executing move file ${fileName}`);
   const mv = await shell(`mv "${downloads}/${fileName}" "${movies}"`);
   const result = await mv;
   console.log(result);
+  if (result == '') {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+async function moveToTVShows(fileName, seasonPath) {
+  console.log(`executing move file ${fileName}`);
+
+  const exists = await folderExists(seasonPath);
+
+  if (!exists) {
+    await makeDir(seasonPath);
+  }
+
+  const mv = await shell(`mv "${downloads}/${fileName}" "${seasonPath}/"`);
+  const result = await mv;
   if (result == '') {
     return true;
   } else {
@@ -162,7 +186,17 @@ async function removeDirtyFiles(dir) {
   }
 }
 
+async function makeDir(dir) {
+  console.log(`path does not exist. making directory now at ${path}`);
+  const mkdir = await shell(`mkdir ${dir}`);
+  return true;
+}
+
 module.exports = {
+  serverRoot,
+  downloads,
+  tvShows,
+  movies,
   shell,
   getVPNStatus,
   disableVPN,
@@ -171,6 +205,11 @@ module.exports = {
   guessTVShow,
   extractSeasonNumber,
   isDir,
+  folderExists,
   moveToMovies,
-  removeDirtyFiles
+  removeDirtyFiles,
+  moveToTVShows,
+  makeDir
 };
+
+// folderExists(`${tvShows}/Ink Master/Season 12`);

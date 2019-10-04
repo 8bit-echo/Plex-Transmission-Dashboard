@@ -7,6 +7,9 @@
           :class="{ statusLight: true, active: vpnStatus === 'ACTIVE' }"
         ></div>
       </div>
+      <div class="loading-indicator indicator" v-if="isLoading">
+        <img src="../assets/spinner.svg" width="25" />
+      </div>
     </div>
     <button @click="toggleVPN()">Toggle VPN</button>
     <button @click="getTVFolder()" :disabled="!selectedTorrent.id">
@@ -19,7 +22,7 @@
     </button>
     <button
       v-if="selectedTorrent.id"
-      @click="openModal()"
+      @click="handleStartStop()"
       :disabled="!selectedTorrent.id"
     >
       {{ playPauseText }}
@@ -38,7 +41,8 @@ export default {
   data() {
     return {
       vpnStatus: '-',
-      playPauseText: 'Start'
+      playPauseText: 'Start',
+      isLoading: false
     };
   },
 
@@ -70,18 +74,32 @@ export default {
     },
 
     getTVFolder() {
+      // const self = this;
       post('/guess-tv-show', { torrentName: this.selectedTorrent.name }).then(
         response => {
-          const { msg, error } = response;
+          console.log('response from /guess-tv-show', response);
+          const { show, season, error } = response;
+          const msg = `Move to ${show} - ${season} folder?`;
+
+          console.log(msg);
           if (error) {
             // handle error ?
           }
-          AppState.$emit('openModal', { msg });
+
+          AppState.$emit('openModal', {
+            msg,
+            show,
+            season,
+            handleConfirm: () => {
+              this.moveTVShow(this.selectedTorrent, show, season);
+            }
+          });
         }
       );
     },
 
     moveMovie() {
+      this.isLoading = true;
       post('/move-movie', this.selectedTorrent).then(response => {
         console.log(response);
 
@@ -91,10 +109,34 @@ export default {
       });
     },
 
+    moveTVShow(torrent, show, season) {
+      this.isLoading = true;
+      console.log('Controls will move TV Show');
+      console.log(torrent, show, season);
+      post('/move-tv-show', { torrent, show, season }).then(response => {
+        if (response.success) {
+          this.removeFromList(this.selectedTorrent);
+        }
+      });
+    },
+
     removeFromList(torrent) {
+      this.isLoading = true;
       _delete('/torrents', { id: torrent.id }).then(response => {
+        console.log('removing torrents from list.');
         console.log(response);
 
+        AppState.$emit('torrentListShouldChange');
+        this.isLoading = false;
+      });
+    },
+
+    handleStartStop() {
+      post('/pause', {
+        id: this.selectedTorrent.id,
+        action: this.playPauseText.toLowerCase()
+      }).then(response => {
+        console.log(`start/stop response`, response);
         AppState.$emit('torrentListShouldChange');
       });
     }
@@ -117,15 +159,14 @@ export default {
   },
 
   created() {
-
     get('/vpn-status').then(result => {
       this.vpnStatus = result.status;
     });
 
     setInterval(() => {
       get('/vpn-status').then(result => {
-      this.vpnStatus = result.status;
-    });
+        this.vpnStatus = result.status;
+      });
     }, 60000);
   }
 };
@@ -163,6 +204,11 @@ export default {
   }
 
   .status-bar {
+    background: rgb(32, 32, 39);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     .indicator {
       display: flex;
       align-items: center;

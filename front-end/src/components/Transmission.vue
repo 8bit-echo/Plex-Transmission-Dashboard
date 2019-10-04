@@ -16,7 +16,9 @@ export default {
   components: {
     Torrent
   },
+
   props: ['selectedTorrent'],
+
   data() {
     return {
       torrents: []
@@ -31,6 +33,8 @@ export default {
 
   mounted() {
     this.$root.$on('torrentsDidChange', torrents => {
+      // console.log('torrent list did change.');
+      console.log(torrents);
       this.torrents = torrents;
     });
   }

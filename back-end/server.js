@@ -14,7 +14,22 @@ const tx = new Transmission({
   username: process.env.TX_USER,
   password: process.env.TX_PASS
 });
-const fn = require('./functions');
+const {
+  serverRoot,
+  downloads,
+  tvShows,
+  movies,
+  getVPNStatus,
+  disableVPN,
+  enableVPN,
+  getTVFolders,
+  guessTVShow,
+  extractSeasonNumber,
+  isDir,
+  removeDirtyFiles,
+  moveToMovies,
+  moveToTVShows
+} = require('./functions');
 const fields = [
   'id',
   'error',
@@ -83,7 +98,7 @@ app.get('/vpn-status', (req, res) => {
     res.send({ status: 'ACTIVE' });
   } else {
     console.log('got request for vpn status');
-    const status = fn.getVPNStatus();
+    const status = getVPNStatus();
 
     status.then(status => {
       if (status.length) {
@@ -102,14 +117,14 @@ app.post('/vpn', (req, res) => {
   const response = {};
 
   if (req.body.action == 'stop') {
-    const result = fn.disableVPN();
+    const result = disableVPN();
     console.log(`server:66 result: ${result}`);
     if (!result.error) {
       response.success = true;
       response.status = 'INACTIVE';
     }
   } else if (req.body.action == 'start') {
-    const result = fn.enableVPN();
+    const result = enableVPN();
     response.success = true;
     response.status = 'ACTIVE';
   } else {
@@ -121,14 +136,15 @@ app.post('/vpn', (req, res) => {
 app.post('/guess-tv-show', (req, res) => {
   const { torrentName } = req.body;
   console.log(`got request to guess TV Show for file: ${torrentName}`);
-  let bestGuess = '';
-  fn.getTVFolders().then(folders => {
-    bestGuess = fn.guessTVShow(torrentName, folders);
-    if (!bestGuess) {
+  let show = '';
+  getTVFolders().then(folders => {
+    show = guessTVShow(torrentName, folders);
+    if (!show) {
       res.send({ msg: `Unable to match to an existing folder`, error: true });
     } else {
-      const seasonNum = fn.extractSeasonNumber(torrentName, true);
-      res.send({ msg: `Move to ${bestGuess} - ${seasonNum} folder?` });
+      const season = extractSeasonNumber(torrentName, true);
+
+      res.send({ show, season });
     }
   });
 });
@@ -137,16 +153,16 @@ app.post('/move-movie', (req, res) => {
   console.log('got request to move movie file.');
   const { name } = req.body;
 
-  fn.isDir(name)
+  isDir(name)
     .then(isDir => {
       if (isDir) {
-        fn.removeDirtyFiles(name).then(result => {
-          fn.moveToMovies(name).then(success => {
+        removeDirtyFiles(name).then(result => {
+          moveToMovies(name).then(success => {
             res.send({ success });
           });
         });
       } else {
-        fn.moveToMovies(name).then(success => {
+        moveToMovies(name).then(success => {
           res.send({ success });
         });
       }
@@ -156,10 +172,47 @@ app.post('/move-movie', (req, res) => {
     });
 });
 
+app.post('/move-tv-show', (req, res) => {
+  const { torrent, season, show } = req.body;
+  const seasonPath = `${tvShows}/${show}/${season}`;
+
+  isDir(torrent.name)
+    .then(isDir => {
+      if (isDir) {
+        console.log('is a directory');
+        removeDirtyFiles(torrent.name).then(result => {
+          moveToTVShows(torrent.name, seasonPath).then(success => {
+            res.send({success});
+          });
+        });
+      } else {
+        console.log('is a file');
+        moveToTVShows(torrent.name, seasonPath).then(success => {
+          res.send({success});
+        });
+      }
+    })
+    .catch(err => {
+      console.log(`caught error trying to move TV show. ${err}`);
+      res.send({success: false, err});
+    });
+});
+
 app.delete('/torrents', (req, res) => {
   console.log('got request to remove torrent from list.');
   const { id } = req.body;
+  console.log(`removing torrent with ID: ${id} from list`);
   tx.remove(id).then(response => {
     res.send(response);
   });
 });
+
+app.post('/pause', (req, res) => {
+  const {id, action} = req.body;
+  console.log(`got request to going to ${action} a torrent`);
+
+  tx[action](id).then(response => {
+    res.send(response);
+  });
+
+})

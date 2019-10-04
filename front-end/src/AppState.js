@@ -20,10 +20,6 @@ export const AppState = new Vue({
   },
 
   created() {
-    this.$on('gotTorrents', payload => {
-      this.torrents = payload;
-    });
-
     this.$on('openModal', payload => {
       Application.$emit('openEmit', payload);
       console.log(payload);

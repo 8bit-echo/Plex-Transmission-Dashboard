@@ -1,5 +1,8 @@
 <template>
-  <div :class="{ torrent: true, selected: selected }" @click="select(torrent)">
+  <div
+    :class="{ torrent: true, selected: selected, paused: torrent.status == 0 }"
+    @click="select(torrent)"
+  >
     <div class="inner-container">
       <p class="name">{{ torrent.name | cleanup }}</p>
       <div class="meta">
@@ -29,16 +32,6 @@ export default {
     };
   },
 
-  methods: {
-    percentDone: float => {
-      return float * 100 + '%';
-    },
-
-    select(torrent) {
-      AppState.$emit('torrentSelect', torrent);
-    }
-  },
-
   computed: {
     isDone: function() {
       return this.torrent.percentDone == 1;
@@ -47,6 +40,9 @@ export default {
 
   filters: {
     toHuman: bytes => {
+      if (!bytes) {
+        return 'unknown';
+      }
       const i = Math.floor(Math.log(bytes) / Math.log(1024));
       return (
         (bytes / Math.pow(1024, i)).toFixed(2) * 1 +
@@ -56,20 +52,31 @@ export default {
     },
 
     toPercentage: float => {
-      return float * 100 + '%';
+      return (float * 100).toFixed(2) + '%';
     },
 
     cleanup: string => {
       return string
         .replace(
-          /(web?(rip|dl)|\[[a-z]+\]|((h|x)\.?26(4|5))|(hdtv)|(\d{3,4}p)|(-)|(aac(\d\.\d)?)|(www\.(.+)\.(com|org|net))|(HEVCs?|10.?bit)|(bluray))/gi,
+          /(web?(rip|dl)|\[[a-z]+\]|((h|x)\.?26(4|5))|(hdtv)|(\d{3,4}p)|(-)|(aac(\d\.\d)?)|(www\.(.+)\.(com|org|net))|(HEVCs?|10.?bit)|(bluray)|(dvd(rip)?))/gi,
           ''
         )
         .replace(
-          /((megusta)|(deflate)|(crimson)|(avs)|(btw)|(spik)|(internal)|(web)|(trump)|(yts\.lt))/gi,
+          /((megusta)|(deflate)|(crimson)|(avs)|(btw)|(spik)|(internal)|(web)|(trump)|(yts\.lt)|(yts\.am)|(rarbg))/gi,
           ''
         )
-        .replace(/(\(\))|(\[\])/gi, '');
+        .replace(/(\(\))|(\[\])/gi, '')
+        .replace(/\./g, ' ');
+    }
+  },
+
+  methods: {
+    percentDone: float => {
+      return float * 100 + '%';
+    },
+
+    select(torrent) {
+      AppState.$emit('torrentSelect', torrent);
     }
   }
 };
@@ -88,6 +95,10 @@ export default {
 
   &.selected {
     box-shadow: 0 0 10px rgba(white, 0.5);
+  }
+
+  &.paused {
+    filter: grayscale(1);
   }
 
   .inner-container {
