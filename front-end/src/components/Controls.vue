@@ -12,18 +12,18 @@
       </div>
     </div>
     <button @click="toggleVPN()">Toggle VPN</button>
-    <button @click="getTVFolder()" :disabled="!selectedTorrent.id">
+    <button @click="getTVFolder()" :disabled="disabled">
       Move to TV Shows
       <img src="../assets/plextv-icon.svg" width="25" />
     </button>
-    <button @click="moveMovie()" :disabled="!selectedTorrent.id">
+    <button @click="moveMovie()" :disabled="disabled">
       Move to Movies
       <img src="../assets/plextv-icon.svg" width="25" />
     </button>
     <button
       v-if="selectedTorrent.id"
       @click="handleStartStop()"
-      :disabled="!selectedTorrent.id"
+      :disabled="disabled"
     >
       {{ playPauseText }}
     </button>
@@ -44,6 +44,12 @@ export default {
       playPauseText: 'Start',
       isLoading: false
     };
+  },
+
+  computed: {
+    disabled() {
+      return !this.selectedTorrent.id || this.isLoading;
+    }
   },
 
   methods: {

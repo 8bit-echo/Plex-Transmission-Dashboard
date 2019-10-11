@@ -1,11 +1,11 @@
 export async function get(endpoint) {
-  let response = await fetch(`http://localhost:3000${endpoint}`);
+  let response = await fetch(`http://${process.env.VUE_APP_HOST}${endpoint}`);
   let json = await response.json();
   return json;
 }
 
 export async function post(endpoint, payload) {
-  let response = await fetch(`http://localhost:3000${endpoint}`, {
+  let response = await fetch(`http://${process.env.VUE_APP_HOST}${endpoint}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -17,7 +17,7 @@ export async function post(endpoint, payload) {
 }
 
 export async function _delete(endpoint, payload) {
-  let response = await fetch(`http://localhost:3000${endpoint}`, {
+  let response = await fetch(`http://${process.env.VUE_APP_HOST}${endpoint}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json'

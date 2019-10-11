@@ -1,5 +1,4 @@
 const useLocalData = false;
-
 const fs = require('fs');
 const path = require('path');
 const dummyData = require(path.resolve('../dummy-data.json'));
@@ -58,6 +57,11 @@ const fields = [
   'webseedsSendingToUs'
 ];
 
+app.use((_,res,next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 app.use(express.static('../front-end/dist'));
 app.use(express.json());
 
@@ -215,4 +219,14 @@ app.post('/pause', (req, res) => {
     res.send(response);
   });
 
+})
+
+app.post('/search', (req, res) => {
+  console.log('got request to search for torrents');
+  const {search} = req.body;
+  console.log(req.body);
+
+  setTimeout(() => {
+    res.send({key: `here are some results for "${search}"`});
+  }, 2000);
 })
