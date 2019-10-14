@@ -2,6 +2,7 @@ const useLocalData = false;
 const fs = require('fs');
 const path = require('path');
 const dummyData = require(path.resolve('../dummy-data.json'));
+const searchData = require(path.resolve('../search-data.json'));
 const express = require('express');
 const dotenv = require('dotenv').config();
 const app = express();
@@ -29,6 +30,7 @@ const {
   moveToMovies,
   moveToTVShows
 } = require('./functions');
+const { getZooqleResults, zooqleMovies, zooqleTV, get1337xResults } = require('./scraper');
 const fields = [
   'id',
   'error',
@@ -57,9 +59,12 @@ const fields = [
   'webseedsSendingToUs'
 ];
 
-app.use((_,res,next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+app.use((_, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  );
   next();
 });
 app.use(express.static('../front-end/dist'));
@@ -186,19 +191,19 @@ app.post('/move-tv-show', (req, res) => {
         console.log('is a directory');
         removeDirtyFiles(torrent.name).then(result => {
           moveToTVShows(torrent.name, seasonPath).then(success => {
-            res.send({success});
+            res.send({ success });
           });
         });
       } else {
         console.log('is a file');
         moveToTVShows(torrent.name, seasonPath).then(success => {
-          res.send({success});
+          res.send({ success });
         });
       }
     })
     .catch(err => {
       console.log(`caught error trying to move TV show. ${err}`);
-      res.send({success: false, err});
+      res.send({ success: false, err });
     });
 });
 
@@ -212,21 +217,42 @@ app.delete('/torrents', (req, res) => {
 });
 
 app.post('/pause', (req, res) => {
-  const {id, action} = req.body;
+  const { id, action } = req.body;
   console.log(`got request to going to ${action} a torrent`);
 
   tx[action](id).then(response => {
     res.send(response);
   });
-
-})
+});
 
 app.post('/search', (req, res) => {
   console.log('got request to search for torrents');
-  const {search} = req.body;
+  const { search } = req.body;
   console.log(req.body);
 
-  setTimeout(() => {
-    res.send({key: `here are some results for "${search}"`});
-  }, 2000);
-})
+  if (useLocalData) {
+    res.send(searchData);
+  } else {
+    if (search.length) {
+      Promise.all([
+        getZooqleResults(search),
+        get1337xResults(search),
+      ])
+        .then(results => {
+          fs.writeFileSync('../search-data.json',JSON.stringify({
+            zooqle: results[0],
+            _1337x: results[1]
+          }))
+          res.send(JSON.stringify({
+            zooqle: results[0],
+            _1337x: results[1]
+          }));
+        })
+        .catch(error => {
+          res.send({ error });
+        });
+    } else {
+      res.send(null);
+    }
+  }
+});

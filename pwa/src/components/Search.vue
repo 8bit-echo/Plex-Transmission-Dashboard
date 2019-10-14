@@ -5,7 +5,6 @@
       <input
         name="search"
         type="text"
-        autocomplete="false"
         autofocus="true"
         spellcheck="false"
         v-model="searchTerm"
@@ -24,20 +23,59 @@
     </div>
 
     <div class="search-results">
-      {{ msg }}
+      <h2 v-if="zooqle_torrents.length">
+        Zooqle
+        <span class="toggle" @click="toggleZooqle()">
+          {{ zooqleShow ? '&ndash;' : '+' }}
+        </span>
+      </h2>
+
+      <template v-if="zooqleShow">
+        <Torrent
+          v-for="torrent in zooqle_torrents"
+          :key="torrent.id"
+          :torrent="torrent"
+        />
+      </template>
+
+      <h2 v-if="one337x_torrents.length">
+        1337x
+        <span class="toggle" @click="toggle1337x()">
+          {{ one337xShow ? '&ndash;' : '+' }}
+        </span>
+      </h2>
+
+      <template v-if="one337xShow">
+        <Torrent
+          v-for="torrent in one337x_torrents"
+          :key="torrent.id"
+          :torrent="torrent"
+        />
+      </template>
+
+
     </div>
   </div>
 </template>
 
 <script>
 import { post } from '../functions';
+import Torrent from './Torrent';
 export default {
   name: 'Search',
+  components: {
+    Torrent
+  },
+
   data() {
     return {
       searchTerm: '',
       isLoading: false,
-      msg: ''
+      msg: '',
+      zooqle_torrents: [],
+      one337x_torrents: [],
+      zooqleShow: true,
+      one337xShow: true,
     };
   },
 
@@ -47,13 +85,26 @@ export default {
       console.log(`searching for ${this.searchTerm}`);
       post('/search', { search: this.searchTerm })
         .then(response => {
-          this.msg = response.key;
           this.isLoading = false;
+          if (response.error) {
+            this.msg = response.error;
+          } else {
+            this.zooqle_torrents = response.zooqle.sort((a, b) => a.seeds < b.seeds);
+            this.one337x_torrents = response._1337x;
+          }
         })
         .catch(error => {
           console.log(error);
           this.msg = error.toString();
         });
+    },
+
+    toggleZooqle() {
+      this.zooqleShow = !this.zooqleShow;
+    },
+
+    toggle1337x() {
+      this.one337xShow = !this.one337xShow;
     }
   }
 };
@@ -122,5 +173,13 @@ img.spinner {
 
 .search-results {
   margin-top: 40px;
+
+  h2 {
+    text-align: left;
+  }
+}
+
+.toggle {
+  color: rgba(white, 0.25);
 }
 </style>

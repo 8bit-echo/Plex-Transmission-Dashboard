@@ -211,5 +211,3 @@ module.exports = {
   moveToTVShows,
   makeDir
 };
-
-// folderExists(`${tvShows}/Ink Master/Season 12`);
