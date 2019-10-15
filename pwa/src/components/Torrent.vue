@@ -1,5 +1,5 @@
 <template>
-  <div class="torrent">
+  <div class="torrent" @click="handleClick()">
     <div class="inner-container">
       <p class="name">{{ torrent.name }}</p>
       <div class="meta">
@@ -21,7 +21,11 @@ export default {
     return {};
   },
 
-  computed: {},
+  computed: {
+    requiresExtraRequest() {
+      return !this.torrent.magnet && !!this.torrent.link;
+    }
+  },
 
   filters: {
     cleanup: string => {
@@ -40,7 +44,15 @@ export default {
     }
   },
 
-  methods: {}
+  methods: {
+    handleClick() {
+      this.$parent.$emit('torrentSelected', {
+        torrent: this.torrent,
+        msg: `Start download  of ${this.torrent.name}?`,
+        getMagnet: this.requiresExtraRequest
+      });
+    }
+  }
 };
 </script>
 

@@ -52,19 +52,20 @@
           :torrent="torrent"
         />
       </template>
-
-
     </div>
+    <Modal open="false" />
   </div>
 </template>
 
 <script>
 import { post } from '../functions';
 import Torrent from './Torrent';
+import Modal from './Modal';
 export default {
   name: 'Search',
   components: {
-    Torrent
+    Torrent,
+    Modal
   },
 
   data() {
@@ -75,7 +76,7 @@ export default {
       zooqle_torrents: [],
       one337x_torrents: [],
       zooqleShow: true,
-      one337xShow: true,
+      one337xShow: true
     };
   },
 
@@ -89,7 +90,9 @@ export default {
           if (response.error) {
             this.msg = response.error;
           } else {
-            this.zooqle_torrents = response.zooqle.sort((a, b) => a.seeds < b.seeds);
+            this.zooqle_torrents = response.zooqle.sort(
+              (a, b) => parseInt(a.seeds) > parseInt(b.seeds)
+            );
             this.one337x_torrents = response._1337x;
           }
         })
@@ -106,11 +109,16 @@ export default {
     toggle1337x() {
       this.one337xShow = !this.one337xShow;
     }
+  },
+
+  mounted() {
+    this.$on('torrentSelected', payload => {
+      this.$emit('openModal', payload);
+    });
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .search {
   padding-top: 30px;

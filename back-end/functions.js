@@ -126,12 +126,8 @@ function extractSeasonNumber(fileName, withPrefix = false) {
 
 async function isDir(fileName) {
   try {
-    const cd = await shell(`cd "${downloads}/${fileName}"`);
-    if (cd == '') {
-      return true;
-    } else {
-      return false;
-    }
+    const dir = await shell(`isDir ${downloads}/${fileName}`);
+    return JSON.parse(dir);
   } catch (error) {
     return false;
   }

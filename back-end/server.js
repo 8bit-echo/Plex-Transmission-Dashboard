@@ -30,7 +30,13 @@ const {
   moveToMovies,
   moveToTVShows
 } = require('./functions');
-const { getZooqleResults, zooqleMovies, zooqleTV, get1337xResults } = require('./scraper');
+const {
+  getZooqleResults,
+  zooqleMovies,
+  zooqleTV,
+  get1337xResults,
+  get1337xMagnet
+} = require('./scraper');
 const fields = [
   'id',
   'error',
@@ -87,7 +93,7 @@ app.get('/active', (req, res) => {
 });
 
 app.get('/torrents', (req, res) => {
-  console.log('got request to retrieve all torrents');
+  // console.log('got request to retrieve all torrents');
   if (useLocalData) {
     res.send({ torrents: dummyData });
   } else {
@@ -165,7 +171,7 @@ app.post('/move-movie', (req, res) => {
   isDir(name)
     .then(isDir => {
       if (isDir) {
-        removeDirtyFiles(name).then(result => {
+        removeDirtyFiles(name).then(_ => {
           moveToMovies(name).then(success => {
             res.send({ success });
           });
@@ -234,19 +240,14 @@ app.post('/search', (req, res) => {
     res.send(searchData);
   } else {
     if (search.length) {
-      Promise.all([
-        getZooqleResults(search),
-        get1337xResults(search),
-      ])
+      Promise.all([getZooqleResults(search), get1337xResults(search)])
         .then(results => {
-          fs.writeFileSync('../search-data.json',JSON.stringify({
-            zooqle: results[0],
-            _1337x: results[1]
-          }))
-          res.send(JSON.stringify({
-            zooqle: results[0],
-            _1337x: results[1]
-          }));
+          res.send(
+            JSON.stringify({
+              zooqle: results[0],
+              _1337x: results[1]
+            })
+          );
         })
         .catch(error => {
           res.send({ error });
@@ -255,4 +256,30 @@ app.post('/search', (req, res) => {
       res.send(null);
     }
   }
+});
+
+app.get('/magnet', (req, res) => {
+  console.log('getting magnet link');
+  try {
+    const { link } = req.query;
+    get1337xMagnet(link).then(magnet => {
+      tx.addUrl(magnet).then(_ => {
+        res.send(JSON.stringify({ success: true }));
+      });
+    });
+  } catch (error) {
+    console.log('error when getting or adding 1337x torrent.');
+    res.send(JSON.stringify({ success: false, msg: error }));
+  }
+});
+
+app.get('/torrent', (req, res) => {
+  console.log('adding torrent to transmission...');
+  const { magnet } = req.query;
+  console.log(magnet);
+  tx.addUrl(magnet).then(_ => {
+    res.send(JSON.stringify({ success: true }));
+  }).catch(success => {
+    res.send({success: false});
+  })
 });

@@ -91,13 +91,15 @@ async function getZooqleResults(searchTerms, cat = '') {
     if (name.length == size.length && size.length == magnet.length) {
       console.log(`found ${name.length} matches on zooqle`);
       name.map((el, i) => {
-        torrents.push({
-          id: i,
-          name: el,
-          size: size[i],
-          seeds: seeds[i],
-          magnet: magnet[i]
-        });
+        if (!isRussian(el)) {
+          torrents.push({
+            id: i,
+            name: el,
+            size: size[i],
+            seeds: transformNumber(seeds[i]),
+            magnet: magnet[i]
+          });
+        }
       });
 
       return torrents;
@@ -117,10 +119,10 @@ async function get1337xResults(searchTerms, cat = _1337xSortParams) {
     searchTerms = formatSearchTerms(searchTerms, '%20');
     const page = await getWebPage(`${_1337xBase}${searchTerms}${cat}`);
     const name = getText(page, _1337x.name);
-    let size = getText(page, _1337x.size)
-    console.log(size);
-    size = size.map(str => str.replace(/((\d){0,4}\.(\d){0,4}) ((K|M|G|T)B)((\d){0,4})/gi, '$1 $4'));
-    console.log(size);
+    let size = getText(page, _1337x.size);
+    size = size.map(str =>
+      str.replace(/((\d){0,4}\.(\d){0,4}) ((K|M|G|T)B)((\d){0,6})/gi, '$1 $4')
+    );
     const seeds = getText(page, _1337x.seeds);
     const link = getAttr(page, _1337x.single.link, 'href');
     // const magnet = getAttr(page, _1337x.magnet, 'href');
@@ -130,7 +132,7 @@ async function get1337xResults(searchTerms, cat = _1337xSortParams) {
       console.log(`found ${name.length} matches on _1337x`);
       name.map((el, i) => {
         torrents.push({
-          id: 1337 + i ,
+          id: 1337 + i,
           name: el,
           size: size[i],
           seeds: seeds[i],
@@ -146,9 +148,25 @@ async function get1337xResults(searchTerms, cat = _1337xSortParams) {
   }
 }
 
+async function get1337xMagnet(link) {
+  try {
+    console.log(`${_1337xBase}${link}`);
+    const page = await getWebPage(`https://1337x.to${link}`);
+    const magnet = await getAttr(page, _1337x.single.magnet, 'href');
+    return magnet[0];
+  } catch (error) {
+    return 'error getting 1337x magnet link...' + error;
+  }
+}
+
+function transformNumber(string) {
+  return string.replace(' K', '000');
+}
+
 module.exports = {
   zooqleMovies,
   zooqleTV,
   getZooqleResults,
-  get1337xResults
+  get1337xResults,
+  get1337xMagnet
 };
