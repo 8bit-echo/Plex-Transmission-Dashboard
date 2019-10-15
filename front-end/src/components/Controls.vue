@@ -27,6 +27,15 @@
     >
       {{ playPauseText }}
     </button>
+
+    <button
+      v-if="selectedTorrent.id"
+      @click="removeFromList(selectedTorrent)"
+      :disabled="disabled"
+      class="danger"
+    >
+      Remove
+    </button>
   </div>
 </template>
 
@@ -199,9 +208,14 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 
     &:active {
       background-color: #408fcf;
+    }
+
+    &.danger {
+      background-color: #753535;
     }
 
     &[disabled] {
