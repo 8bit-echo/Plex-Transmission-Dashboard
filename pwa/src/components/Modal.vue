@@ -1,6 +1,6 @@
 <template>
   <div :class="{ modal: true, open: isOpen }">
-    <dialog ref="dialog" :open="isOpen">
+    <div ref="dialog" :class="{ dialog: true, open: isOpen }">
       <button class="exit" @click="hideDialog()">&#215;</button>
       <div class="modal-content">
         {{ msg }}
@@ -10,7 +10,7 @@
         <button @click="hideDialog()">Cancel</button>
         <button class="primary" @click="confirmAction()">Confirm</button>
       </div>
-    </dialog>
+    </div>
   </div>
 </template>
 
@@ -42,12 +42,10 @@ export default {
   methods: {
     showDialog() {
       this.isOpen = true;
-      this.$refs.dialog.showModal();
     },
 
     hideDialog() {
       this.isOpen = false;
-      this.$refs.dialog.close();
     },
 
     confirmAction() {
@@ -79,9 +77,10 @@ export default {
     position: fixed;
     top: 0;
     left: 0;
+    background-color: rgba(0, 0, 0, 0.75);
   }
 }
-dialog {
+.dialog {
   background: #3b3b48;
   color: white;
   border: none;
@@ -91,6 +90,12 @@ dialog {
   transform: translateY(-50%);
   min-width: 66%;
   position: relative;
+  display: none;
+  margin: 0 15px;
+
+  &.open {
+    display: block;
+  }
 
   .modal-content {
     padding: 40px 2rem 2rem;
