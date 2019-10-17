@@ -6,7 +6,7 @@ const searchData = require(path.resolve('../search-data.json'));
 const express = require('express');
 const dotenv = require('dotenv').config();
 const app = express();
-const port = 3000;
+const port = 9091;
 const Transmission = require('transmission-promise');
 const tx = new Transmission({
   host: '192.168.0.29',
@@ -73,11 +73,12 @@ app.use((_, res, next) => {
   );
   next();
 });
-app.use(express.static('../front-end/dist'));
+// app.use(express.static('../front-end/dist'));
+app.use(express.static('../react-front-end/build'));
 app.use(express.json());
 
 app.listen(port, () => {
-  console.log(`app running on port ${3000}`);
+  console.log(`app running on port ${port}`);
 });
 
 app.get('/active', (req, res) => {

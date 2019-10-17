@@ -1,0 +1,54 @@
+.torrent {
+  box-shadow: 0 2px rgba(grey, 0.5);
+  margin: 15px;
+  padding: 0.25em;
+  padding-bottom: 0;
+  font-size: 14px;
+  border-radius: 7px;
+  overflow: hidden;
+  background: #2d2d38;
+
+  &.selected {
+    box-shadow: 0 0 10px rgba(white, 0.5);
+  }
+
+  &.paused {
+    filter: grayscale(1);
+  }
+
+  .inner-container {
+    padding: 0 0.5em;
+  }
+
+  p {
+    margin: 0.25em 0;
+  }
+
+  .name {
+    font-weight: bold;
+    margin: 0.5em;
+    line-height: 1.2;
+    white-space: nowrap;
+    width: 95%;
+    overflow: hidden;
+  }
+
+  .meta {
+    display: flex;
+    justify-content: space-between;
+    color: lightgrey;
+  }
+
+  .progress-bar {
+    display: block;
+    height: 3px;
+    position: relative;
+    bottom: 0;
+    left: 0;
+    background-color: rgb(62, 179, 218);
+
+    &.done {
+      background-color: #2bca2b;
+    }
+  }
+}

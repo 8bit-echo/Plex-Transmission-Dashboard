@@ -1,0 +1,63 @@
+.controls {
+  background: rgb(45, 45, 56);
+  color: white;
+
+  button {
+    width: 90%;
+    font-family: 'Avenir', sans-serif;
+    display: block;
+    background-color: #3b3b48;
+    color: white;
+    border-radius: 5px;
+    font-size: 1rem;
+    padding: 1rem;
+    margin: 1rem auto;
+    border: none;
+    outline: none;
+    box-shadow: 0 0 8px rgba(16, 10, 39, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    &:active {
+      background-color: #408fcf;
+    }
+
+    &.danger {
+      background-color: #753535;
+    }
+
+    &[disabled] {
+      opacity: 0.5;
+    }
+  }
+
+  .status-bar {
+    background: rgb(32, 32, 39);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .indicator {
+      display: flex;
+      align-items: center;
+      background: rgb(32, 32, 39);
+      padding: 5px;
+      color: lightgrey;
+    }
+    .statusLight {
+      width: 0.75rem;
+      height: 0.75rem;
+      border: solid 1px lightgrey;
+      border-radius: 50%;
+      display: inline-block;
+      margin: 0 10px;
+      background-color: #c76172;
+
+      &.active {
+        background-color: #2bca2b;
+      }
+    }
+  }
+}
