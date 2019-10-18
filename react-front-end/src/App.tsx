@@ -7,7 +7,7 @@ import Modal from './components/Modal';
 
 const initialState: AppState = {
   torrents: [],
-  selectedTorrent: -1,
+  selectedTorrent: undefined,
   vpnStatus: 'INACTIVE',
   isLoading: false
 };
@@ -27,7 +27,7 @@ function App() {
       case 'DESELECT_TORRENT':
           return {
             ...state,
-            ...{selectedTorrent: -1}
+            ...{selectedTorrent: undefined}
           }
 
       case 'GOT_TORRENTS': 

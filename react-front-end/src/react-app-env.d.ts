@@ -4,7 +4,7 @@ declare global {
 
   interface AppState {
     torrents?: TxTorrent[];
-    selectedTorrent: number;
+    selectedTorrent?: TxTorrent;
     vpnStatus: string;
     isLoading: boolean;
   }

@@ -1,30 +1,30 @@
 import React from 'react';
 import './styles/torrent.scss';
+import classNames from 'classnames';
 import { useGlobalState } from '../State';
 
 export default function Torrent(data: any) {
   const [state, dispatch] = useGlobalState();
   const torrent = data.data;
-  const torrentClasses = ['torrent', state.selectedTorrent === torrent.id ? 'selected': null].join(' ');
+  const torrentClasses = classNames('torrent', {
+    selected: (state.selectedTorrent && state.selectedTorrent.id === torrent.id)
+  });
 
-  const progressBarClasses = [
-    'progress-bar',
-    torrent.percentDone === 1 ? 'done' : ''
-  ].join(' ');
+  const progressBarClasses = classNames('progress-bar', {
+    done: torrent.percentDone === 1
+  });
 
   const downloadRate = !!torrent.rateDownload ? (
-    <span className="download-rate" v-if="torrent.rateDownload">
-      ↓ {toHuman(torrent.rateDownload)}/s
-    </span>
+    <span className="download-rate">↓ {toHuman(torrent.rateDownload)}/s</span>
   ) : null;
 
   return (
     <div
       className={torrentClasses}
-      onClick={(e) => {
+      onClick={e => {
         e.stopPropagation();
         console.log('torrent click');
-        dispatch({type: 'SELECT_TORRENT', payload: torrent.id});
+        dispatch({ type: 'SELECT_TORRENT', payload: torrent });
       }}
     >
       <div className="inner-container">

@@ -1,4 +1,4 @@
-const useLocalData = false;
+const useLocalData = true;
 const fs = require('fs');
 const path = require('path');
 const dummyData = require(path.resolve('../dummy-data.json'));

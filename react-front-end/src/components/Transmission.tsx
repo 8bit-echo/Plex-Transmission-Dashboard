@@ -12,7 +12,7 @@ export default function Transmission() {
     get('/torrents').then(response => {
       dispatch({ type: 'GOT_TORRENTS', payload: response.torrents });
     });
-  }, []);
+  }, [dispatch]);
 
   let mappedTorrents = '';
 
