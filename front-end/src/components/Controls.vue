@@ -74,7 +74,7 @@ export default {
 
       post('/vpn', { action }).then(response => {
         if (response.success) {
-          console.log(`vpn start: success`);
+          // console.log(`vpn start: success`);
           get('/vpn-status').then(result => {
             this.vpnStatus = result.status;
           });
@@ -94,11 +94,11 @@ export default {
       // const self = this;
       post('/guess-tv-show', { torrentName: this.selectedTorrent.name }).then(
         response => {
-          console.log('response from /guess-tv-show', response);
+          // console.log('response from /guess-tv-show', response);
           const { show, season, error } = response;
           const msg = `Move to ${show} - ${season} folder?`;
 
-          console.log(msg);
+          // console.log(msg);
           if (error) {
             // handle error ?
           }
@@ -118,7 +118,7 @@ export default {
     moveMovie() {
       this.isLoading = true;
       post('/move-movie', this.selectedTorrent).then(response => {
-        console.log(response);
+        // console.log(response);
 
         if (response.success) {
           this.removeFromList(this.selectedTorrent);
@@ -128,8 +128,8 @@ export default {
 
     moveTVShow(torrent, show, season) {
       this.isLoading = true;
-      console.log('Controls will move TV Show');
-      console.log(torrent, show, season);
+      // console.log('Controls will move TV Show');
+      // console.log(torrent, show, season);
       post('/move-tv-show', { torrent, show, season }).then(response => {
         if (response.success) {
           this.removeFromList(this.selectedTorrent);
@@ -139,9 +139,9 @@ export default {
 
     removeFromList(torrent) {
       this.isLoading = true;
-      _delete('/torrents', { id: torrent.id }).then(response => {
-        console.log('removing torrents from list.');
-        console.log(response);
+      _delete('/torrents', { id: torrent.id }).then(() => {
+        // console.log('removing torrents from list.');
+        // console.log(response);
 
         AppState.$emit('torrentListShouldChange');
         this.isLoading = false;
@@ -152,8 +152,8 @@ export default {
       post('/pause', {
         id: this.selectedTorrent.id,
         action: this.playPauseText.toLowerCase()
-      }).then(response => {
-        console.log(`start/stop response`, response);
+      }).then(() => {
+        // console.log(`start/stop response`, response);
         AppState.$emit('torrentListShouldChange');
       });
     }
@@ -273,4 +273,3 @@ export default {
   }
 }
 </style>
-

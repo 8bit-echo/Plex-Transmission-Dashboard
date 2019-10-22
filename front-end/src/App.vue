@@ -62,7 +62,6 @@ body {
   grid-template-columns: calc(100% / 3) auto;
   overflow: hidden;
 
-
   @media screen and (max-width: 415px) {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr auto;
