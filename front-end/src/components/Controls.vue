@@ -11,31 +11,33 @@
         <img src="../assets/spinner.svg" width="25" />
       </div>
     </div>
-    <button @click="toggleVPN()">Toggle VPN</button>
-    <button @click="getTVFolder()" :disabled="disabled">
-      Move to TV Shows
-      <img src="../assets/plextv-icon.svg" width="25" />
-    </button>
-    <button @click="moveMovie()" :disabled="disabled">
-      Move to Movies
-      <img src="../assets/plextv-icon.svg" width="25" />
-    </button>
-    <button
-      v-if="selectedTorrent.id"
-      @click="handleStartStop()"
-      :disabled="disabled"
-    >
-      {{ playPauseText }}
-    </button>
+    <div class="buttons">
+      <button v-if="false" @click="toggleVPN()">Toggle VPN</button>
+      <button @click="getTVFolder()" :disabled="disabled">
+        Move to TV Shows
+        <img src="../assets/plextv-icon.svg" width="25" />
+      </button>
+      <button @click="moveMovie()" :disabled="disabled">
+        Move to Movies
+        <img src="../assets/plextv-icon.svg" width="25" />
+      </button>
+      <button
+        v-if="selectedTorrent.id"
+        @click="handleStartStop()"
+        :disabled="disabled"
+      >
+        {{ playPauseText }}
+      </button>
 
-    <button
-      v-if="selectedTorrent.id"
-      @click="removeFromList(selectedTorrent)"
-      :disabled="disabled"
-      class="danger"
-    >
-      Remove
-    </button>
+      <button
+        v-if="selectedTorrent.id"
+        @click="removeFromList(selectedTorrent)"
+        :disabled="disabled"
+        class="danger"
+      >
+        Remove
+      </button>
+    </div>
   </div>
 </template>
 
@@ -250,5 +252,25 @@ export default {
       }
     }
   }
+
+  @media screen and (max-width: 415px) {
+    width: 100vw;
+    height: 125px;
+    overflow: hidden;
+
+    .buttons {
+      display: flex;
+      height: 90px;
+      overflow-x: scroll;
+      overflow-y: hidden;
+    }
+
+    button {
+      display: inline;
+      flex: 1 0 155px;
+      margin: 0.5rem 1rem;
+    }
+  }
 }
 </style>
+

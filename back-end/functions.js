@@ -110,7 +110,8 @@ function stringPrep(str) {
       /((megusta)|(deflate)|(crimson)|(avs)|(btw)|(spik)|(internal)|(web)|(trump)|(yts\.lt))/gi,
       ''
     )
-    .replace(/(\(\))|(\[\])/gi, '');
+    .replace(/(\(\))|(\[\])/gi, '')
+    .replace(/\./g, ' ');
 }
 
 function extractSeasonNumber(fileName, withPrefix = false) {
@@ -183,8 +184,8 @@ async function removeDirtyFiles(dir) {
 }
 
 async function makeDir(dir) {
-  console.log(`path does not exist. making directory now at ${path}`);
-  const mkdir = await shell(`mkdir ${dir}`);
+  console.log(`path does not exist. making directory now at ${dir}`);
+  const mkdir = await shell(`mkdir "${dir}"`);
   return true;
 }
 

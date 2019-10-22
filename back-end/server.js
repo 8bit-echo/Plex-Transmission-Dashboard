@@ -154,7 +154,7 @@ app.post('/guess-tv-show', (req, res) => {
   let show = '';
   getTVFolders().then(folders => {
     show = guessTVShow(torrentName, folders);
-    if (!show) {
+    if (!show || show === '') {
       res.send({ msg: `Unable to match to an existing folder`, error: true });
     } else {
       const season = extractSeasonNumber(torrentName, true);
