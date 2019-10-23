@@ -1,6 +1,6 @@
 <template>
   <div :class="{ modal: true, open: isOpen }" @openEmit="showDialog()">
-    <dialog ref="dialog">
+    <div class="dialog">
       <button class="exit" @click="hideDialog()">&#215;</button>
       <div class="modal-content">
         {{ msg }}
@@ -10,7 +10,7 @@
         <button @click="hideDialog()">Cancel</button>
         <button class="primary" @click="confirmAction()">Confirm</button>
       </div>
-    </dialog>
+    </div>
   </div>
 </template>
 
@@ -23,19 +23,17 @@ export default {
       msg: '',
       isOpen: false,
       handleConfirm: () => {
-        console.log('no confirm action taken');
+        // console.log('no confirm action taken');
       }
     };
   },
   methods: {
     showDialog() {
       this.isOpen = true;
-      this.$refs.dialog.showModal();
     },
 
     hideDialog() {
       this.isOpen = false;
-      this.$refs.dialog.close();
     },
 
     confirmAction() {
@@ -63,10 +61,14 @@ export default {
   &.open {
     position: fixed;
     top: 0;
+    width: 100%;
+    height: 100vh;
     left: 0;
+    padding: 0 1rem;
+    background-color: #000000aa;
   }
 }
-dialog {
+.dialog {
   background: #3b3b48;
   color: white;
   border: none;
