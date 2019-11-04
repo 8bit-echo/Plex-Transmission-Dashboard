@@ -1,31 +1,26 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Search</router-link> |
-      <keep-alive>
-        <router-link to="/about">Dashboard</router-link>
-      </keep-alive>
-    </div>
+    <Nav />
     <router-view />
   </div>
 </template>
 
+<script>
+  import Nav from '@/components/Nav';
+  export default {
+    components: { Nav }
+  };
+</script>
+
 <style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  // padding: 0 1rem;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #f3f3f3;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+  #app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    width: 100vw;
+    height: 100%;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch; /* enables “momentum” (smooth) scrolling */
   }
-}
 </style>

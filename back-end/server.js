@@ -1,10 +1,11 @@
-const useLocalData = false;
+
 const fs = require('fs');
 const path = require('path');
 const dummyData = require(path.resolve('../dummy-data.json'));
 const searchData = require(path.resolve('../search-data.json'));
 const express = require('express');
 const dotenv = require('dotenv').config();
+const useLocalData = process.env.LOCAL_DATA || false;
 const app = express();
 const port = 3000;
 const Transmission = require('transmission-promise');
@@ -78,6 +79,7 @@ app.use(express.json());
 
 app.listen(port, () => {
   console.log(`app running on port ${3000}`);
+  console.log(`using local data: ${useLocalData}`);
 });
 
 app.get('/active', (req, res) => {

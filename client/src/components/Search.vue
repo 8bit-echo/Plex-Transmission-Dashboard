@@ -3,6 +3,7 @@
     <h1>Search</h1>
     <div class="input-container">
       <input
+        ref="search"
         name="search"
         type="text"
         autofocus="true"
@@ -83,6 +84,7 @@ export default {
   methods: {
     doSearch() {
       this.isLoading = true;
+      this.$refs.search.blur();
       console.log(`searching for ${this.searchTerm}`);
       post('/search', { search: this.searchTerm })
         .then(response => {
@@ -121,7 +123,7 @@ export default {
 
 <style scoped lang="scss">
 .search {
-  padding: 30px 1rem 0;
+  padding: 30px 0;
 }
 
 h1 {
@@ -133,6 +135,7 @@ a {
 
 .input-container {
   position: relative;
+  padding: 0 1rem;
 }
 
 input[type='text'] {
