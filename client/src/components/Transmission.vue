@@ -43,7 +43,7 @@ export default {
 
 <style lang="scss">
 .transmission {
-  height: 100vh;
+  height: 100%;
   padding: 1em;
   overflow-y: auto;
   background-color: #3b3b48;

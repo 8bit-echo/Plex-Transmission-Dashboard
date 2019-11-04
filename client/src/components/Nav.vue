@@ -29,14 +29,12 @@
     bottom: 0;
     position: fixed;
     text-align: center;
-    background-color: #2c2c2c;
-    // background-color: red;
+    background-color: #222222;
     width: 100%;
     z-index: 3;
     display: flex;
     justify-content: space-evenly;
     padding-bottom: 25px;
-    // overflow: visible;
 
     a {
       font-weight: bold;

@@ -1,16 +1,6 @@
 <template>
   <div class="controls" @click.self="deselectTorrents()">
-    <div class="status-bar">
-      <div class="vpnStatus indicator">
-        VPN
-        <div
-          :class="{ statusLight: true, active: vpnStatus === 'ACTIVE' }"
-        ></div>
-      </div>
-      <div class="loading-indicator indicator" v-if="isLoading">
-        <img src="../assets/spinner.svg" width="25" />
-      </div>
-    </div>
+
     <div class="buttons">
       <button v-if="false" @click="toggleVPN()">Toggle VPN</button>
       <button @click="getTVFolder()" :disabled="disabled">
