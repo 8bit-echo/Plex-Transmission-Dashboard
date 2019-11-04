@@ -121,7 +121,7 @@ export default {
 
 <style scoped lang="scss">
 .search {
-  padding-top: 30px;
+  padding: 30px 1rem 0;
 }
 
 h1 {

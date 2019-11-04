@@ -1,6 +1,6 @@
 {
-  "name": "pwa",
-  "short_name": "pwa",
+  "name": "Torrent Dashboard",
+  "short_name": "Torrents",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",

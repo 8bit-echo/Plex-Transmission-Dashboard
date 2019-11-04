@@ -17,8 +17,8 @@ export default {
 <style lang="css" scoped>
 iframe {
   position: relative;
-  width: 100vw;
-  left: -1rem;
+  width: 100%;
+  /* left: -1rem; */
   height: 100%;
   border: none;
   outline: none;

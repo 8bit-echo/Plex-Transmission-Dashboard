@@ -62,7 +62,7 @@ export default {
           ''
         )
         .replace(
-          /((megusta)|(deflate)|(crimson)|(avs)|(btw)|(spik)|(internal)|(web)|(trump)|(yts\.lt)|(yts\.am)|(rarbg)|(AMZN)|(metcon)|(red dawn)|(AMRAP)|(Slashdance)|(AJP69)|(Red\.Dawn))/gi,
+          /((megusta)|(deflate)|(crimson)|(avs)|(btw)|(spik)|(internal)|(web)|(trump)|(yts\.lt)|(yts\.am)|(rarbg)|(AMZN)|(metcon)|(red dawn)|(AMRAP)|(Slashdance)|(AJP69)|(Red\.Dawn)|(qman))/gi,
           ''
         )
         .replace(/(mkv)|(avi)|(mp4)/gi, '')
