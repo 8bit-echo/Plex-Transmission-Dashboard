@@ -119,9 +119,9 @@ app.get('/vpn-status', (req, res) => {
 
     status.then(status => {
       if (status.length) {
-        status = 'ACTIVE';
+        status = true;
       } else {
-        status = 'INACTIVE';
+        status = false;
       }
       res.send(JSON.stringify({ status }));
     });

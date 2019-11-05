@@ -1,20 +1,20 @@
 <template>
-  <div v-show="showing"
-    class="notification warning"
+  <div
+    v-show="notificationVisible"
+    :class="['notification', notificationType]"
     ref="notification"
   >
     <div class="notification-container">
-      I am notification texts.
+      {{ notificationText }}
     </div>
   </div>
 </template>
 
 <script>
-  import { deviceType } from '@/functions.js';
+  import { mapMutations, mapState } from 'vuex';
   export default {
     data() {
       return {
-        showing: false,
         drag: false,
         touchStart: 0,
         touchEnd: 0
@@ -22,6 +22,11 @@
     },
 
     computed: {
+      ...mapState([
+        'notificationVisible',
+        'notificationType',
+        'notificationText'
+      ]),
       touchDirection() {
         if (this.touchStart === this.touchEnd) {
           return 'none';
@@ -35,6 +40,7 @@
     },
 
     methods: {
+      ...mapMutations(['DISPLAY_NOTIFICATION']),
       handleDown(e) {
         e.preventDefault();
         this.touchStart = e.touches['0'].screenY;
@@ -63,20 +69,14 @@
       },
 
       dismissNotification() {
-        console.log('dismissing notification');
         this.$refs.notification.style.top = '-100px';
         this.$refs.notification.style.display = 'none';
         document.documentElement.style.setProperty('--topBarColor', '#3b3b48');
-        this.showing = false;
+        this.DISPLAY_NOTIFICATION(false);
       }
     },
 
     mounted() {
-      if (deviceType() === 'iPhone X') {
-        this.$refs.notification.style.paddingTop = '40px';
-        // document.documentElement.style.setProperty('--topBarColor', '#ffe96f');
-      }
-
       this.$refs.notification.addEventListener(
         'touchstart',
         this.handleDown,
@@ -89,6 +89,15 @@
       );
       this.$refs.notification.addEventListener('touchend', this.handleUp, false);
     },
+
+    watch: {
+      notificationVisible(newVal) {
+        if (newVal) {
+          this.$refs.notification.style.top = '0';
+          this.$refs.notification.style.display = 'block';
+        }
+      }
+    }
   };
 </script>
 
@@ -100,11 +109,8 @@
     position: fixed;
     z-index: 5;
     box-shadow: 0 0 5px rgba(black, 5%);
-
-    &.offline {
-      background-color: cornflowerblue;
-      color: white;
-    }
+    background-color: cornflowerblue;
+    color: white;
 
     &.error {
       background-color: orangered;

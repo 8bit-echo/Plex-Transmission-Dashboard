@@ -54,20 +54,15 @@
         />
       </template>
     </div>
-    <Modal open="false" />
   </div>
 </template>
 
 <script>
 import { post } from '../functions';
 import Torrent from './SearchTorrent';
-import Modal from './Modal';
 export default {
   name: 'Search',
-  components: {
-    Torrent,
-    Modal
-  },
+  components: { Torrent },
 
   data() {
     return {
@@ -117,8 +112,6 @@ export default {
     this.$on('torrentSelected', payload => {
       this.$emit('openModal', payload);
     });
-
-    console.log(process.env.VUE_APP_HOST);
   }
 };
 </script>
