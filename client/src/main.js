@@ -6,6 +6,12 @@ import store from './store'
 require('./global.scss');
 Vue.config.productionTip = false;
 
+import {deviceType, isPWA } from '@/functions';
+
+if (isPWA() && deviceType() === 'iPhone X') {
+  require('./pwa.scss');
+}
+
 new Vue({
   router,
   store,

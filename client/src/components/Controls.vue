@@ -41,9 +41,7 @@ export default {
 
   data() {
     return {
-      vpnStatus: '-',
       playPauseText: 'Start',
-      isLoading: false
     };
   },
 
@@ -245,7 +243,7 @@ export default {
 
   @media screen and (max-width: 415px) {
     width: 100vw;
-    height: 125px;
+    height: 100px;
     overflow: hidden;
 
     .buttons {
@@ -256,7 +254,7 @@ export default {
     }
 
     button {
-      display: inline;
+      display: flex;
       flex: 1 0 155px;
       margin: 0.5rem 1rem;
     }

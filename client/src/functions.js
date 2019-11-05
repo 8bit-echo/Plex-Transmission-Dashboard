@@ -5,15 +5,20 @@ export async function get(endpoint) {
 }
 
 export async function post(endpoint, payload) {
-  let response = await fetch(`http://${process.env.VUE_APP_HOST}${endpoint}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(payload)
-  });
-  let json = await response.json();
-  return json;
+  try {
+    
+    let response = await fetch(`http://${process.env.VUE_APP_HOST}${endpoint}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+    let json = await response.json();
+    return json;
+  } catch (error) {
+    throw new Error(error);
+  }
 }
 
 export async function _delete(endpoint, payload) {
@@ -46,6 +51,10 @@ export function deviceType() {
   }
 
   return iOS ? 'iOS' : 'Browser';
+}
+
+export function isPWA() {
+  return (window.matchMedia('(display-mode: standalone)').matches);
 }
 
 export const txStatus = {

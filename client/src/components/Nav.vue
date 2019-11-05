@@ -34,7 +34,7 @@
     z-index: 3;
     display: flex;
     justify-content: space-evenly;
-    padding-bottom: 25px;
+    padding-bottom: 5px;
 
     a {
       font-weight: bold;

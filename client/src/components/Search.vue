@@ -117,6 +117,8 @@ export default {
     this.$on('torrentSelected', payload => {
       this.$emit('openModal', payload);
     });
+
+    console.log(process.env.VUE_APP_HOST);
   }
 };
 </script>

@@ -20,5 +20,7 @@ export default {
 .home {
   text-align: center;
   padding: 0 1rem;
+  overflow: scroll;
+  height: 100%;
 }
 </style>

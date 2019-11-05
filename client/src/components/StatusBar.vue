@@ -7,6 +7,11 @@
       VPN
       <div :class="{ statusLight: true, active: vpnStatus === 'ACTIVE' }"></div>
     </div>
+
+    <div class="finished indicator" v-show="hasFinished > 0">{{ hasFinished }} ✓</div>
+
+    <div class="download indicator" v-show="isDownloading">4 Mb/s ↓</div>
+
     <div
       class="loading-indicator indicator"
       v-if="isLoading"
@@ -20,20 +25,14 @@
 </template>
 
 <script>
-  import { deviceType } from '@/functions.js';
   export default {
     data() {
       return {
         vpnStatus: '-',
-        isLoading: false
+        isLoading: false,
+        isDownloading: false,
+        hasFinished: 0
       };
-    },
-
-    mounted() {
-      if (deviceType() === 'iPhone X') {
-        this.$refs.statusBar.style.paddingTop = '45px';
-        this.$refs.statusBar.style.top = '0';
-      }
     }
   };
 </script>
@@ -47,8 +46,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    // padding-top: 45px;
-    // top: 0;
     .indicator {
       display: flex;
       align-items: center;
@@ -68,6 +65,10 @@
       &.active {
         background-color: #2bca2b;
       }
+    }
+
+    .finished {
+      color: #2bca2b;
     }
   }
 </style>
