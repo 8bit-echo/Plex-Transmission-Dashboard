@@ -1,6 +1,13 @@
-.status-bar {
+#status {
   padding-top: 35px;
-  top: 0px;
+  top: 0;
+}
+.notification {
+  padding-top: 40px;
+
+  &.hasGlobal {
+    padding-top: 40px;
+  }
 }
 
 main {
@@ -9,8 +16,4 @@ main {
 
 nav {
   padding-bottom: 25px !important;
-}
-
-.notification {
-  padding-top: 40px;
 }

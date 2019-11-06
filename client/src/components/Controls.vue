@@ -94,14 +94,23 @@ export default {
             // handle error ?
           }
 
-          AppState.$emit('openModal', {
+          // AppState.$emit('openModal', {
+          //   msg,
+          //   show,
+          //   season,
+          //   handleConfirm: () => {
+          //     this.moveTVShow(this.selectedTorrent, show, season);
+          //   }
+          // });
+
+          this.OPEN_MODAL({
             msg,
             show,
             season,
             handleConfirm: () => {
               this.moveTVShow(this.selectedTorrent, show, season);
             }
-          });
+          })
         }
       );
     },

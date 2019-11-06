@@ -15,41 +15,19 @@
 </template>
 
 <script>
-import { get } from '../functions';
 import { mapState, mapMutations } from 'vuex';
 export default {
   name: 'Modal',
 
-  data() {
-    return {
-      msg: '',
-      isOpen: false,
-      torrent: null,
-      getMagnet: false,
-      handleConfirm: () => {
-        if (this.getMagnet) {
-          get(`/magnet?link=${this.torrent.link}`).then(success => {
-            console.log(success);
-          });
-        } else {
-          console.log('no extra request reqd. adding directly.');
-          get(`/torrent?magnet=${this.torrent.magnet}`).then(success => {
-            console.log(success);
-          });
-        }
-      }
-    };
-  },
-
   computed: {
-    ...mapState(['modalOpen', 'modalText'])
+    ...mapState(['modalOpen', 'modalText', 'modalConfirm', 'modalExtra', 'modalConfirm'])
   },
 
   methods: {
     ...mapMutations(['OPEN_MODAL', 'CLOSE_MODAL']),
 
     showDialog() {
-      this.OPEN_MODAL(true);
+      // this.OPEN_MODAL(true);
     },
 
     hideDialog() {
@@ -57,21 +35,9 @@ export default {
     },
 
     confirmAction() {
-      this.handleConfirm();
+      this.modalConfirm();
       this.hideDialog();
     }
-  },
-
-  mounted() {
-    // this.$parent.$on('openModal', payload => {
-    //   this.msg = payload.msg;
-    //   this.getMagnet = payload.getMagnet;
-    //   this.torrent = payload.torrent;
-    //   if (typeof payload.handleConfirm == 'function') {
-    //     this.handleConfirm = payload.handleConfirm;
-    //   }
-    //   this.showDialog();
-    // });
   }
 };
 </script>
@@ -105,6 +71,7 @@ export default {
   position: relative;
   display: none;
   margin: 0 15px;
+  text-align: left;
 
   &.open {
     display: block;

@@ -6,14 +6,16 @@ export async function get(endpoint) {
 
 export async function post(endpoint, payload) {
   try {
-    
-    let response = await fetch(`http://${process.env.VUE_APP_HOST}${endpoint}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
-    });
+    let response = await fetch(
+      `http://${process.env.VUE_APP_HOST}${endpoint}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      }
+    );
     let json = await response.json();
     return json;
   } catch (error) {
@@ -41,8 +43,8 @@ export function deviceType() {
 
   // Define the users device screen dimensions
   var screen = {
-    width : window.screen.width * ratio,
-    height : window.screen.height * ratio
+    width: window.screen.width * ratio,
+    height: window.screen.height * ratio
   };
 
   // iPhone X Detection
@@ -54,7 +56,7 @@ export function deviceType() {
 }
 
 export function isPWA() {
-  return (window.matchMedia('(display-mode: standalone)').matches);
+  return window.matchMedia('(display-mode: standalone)').matches;
 }
 
 export const txStatus = {

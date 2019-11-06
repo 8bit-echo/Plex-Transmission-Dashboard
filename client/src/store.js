@@ -10,10 +10,13 @@ export default new Vuex.Store({
     notificationText: 'default notification text',
     notificationType: '',
     notificationVisible: false,
+    globalNotification: false,
     selectedTorrent: null,
     vpnActive: false,
     modalOpen: false,
-    modalText: ''
+    modalText: '',
+    modalConfirm: () => {},
+    modalExtra: null
   },
 
   getters: {
@@ -31,12 +34,20 @@ export default new Vuex.Store({
   },
 
   mutations: {
-    DISPLAY_NOTIFICATION(state, value) {
-      state.notificationVisible = value;
+    DISPLAY_NOTIFICATION(state, { display, level, message }) {
+      state.notificationVisible = display;
+      state.notificationType = level;
+      state.notificationText = message;
+
+      setTimeout(() => {
+        state.notificationVisible = false;
+      }, 4500);
     },
 
     VPN_STATUS(state, payload) {
-      state.vpnActive = payload;
+      if (state.vpnActive !== payload) {
+        state.vpnActive = payload;
+      }
     },
 
     TORRENT_SELECTED(state, value) {
@@ -46,18 +57,34 @@ export default new Vuex.Store({
     OPEN_MODAL(state, payload) {
       state.modalOpen = true;
       state.modalText = payload.msg;
+      state.modalConfirm = payload.action;
+      state.modalExtra = payload.extra;
     },
 
     CLOSE_MODAL(state) {
       state.modalOpen = false;
       state.modalText = '';
+    },
+
+    LOADING_INDICATOR(state, payload) {
+      state.isLoading = payload;
     }
   },
   actions: {
-    getVPNStatus({ commit }) {
-      get('/vpn-status').then(result => {
-        commit('VPN_STATUS', result.status);
-      });
+    getVPNStatus({ commit, state }) {
+      get('/vpn-status')
+        .then(result => {
+          if (state.vpnActive !== result.status) {
+            commit('VPN_STATUS', result.status);
+          }
+        })
+        .catch(error => {
+          commit('DISPLAY_NOTIFICATION', {
+            display: true,
+            level: 'error',
+            message: `${error.message} VPN status`
+          });
+        });
     }
   }
 });

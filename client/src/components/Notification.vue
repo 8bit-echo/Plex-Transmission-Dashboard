@@ -1,7 +1,7 @@
 <template>
   <div
-    v-show="notificationVisible"
-    :class="['notification', notificationType]"
+
+    :class="['notification', notificationType, {hasGlobal: globalNotification !== false}]"
     ref="notification"
   >
     <div class="notification-container">
@@ -25,7 +25,8 @@
       ...mapState([
         'notificationVisible',
         'notificationType',
-        'notificationText'
+        'notificationText',
+        'globalNotification'
       ]),
       touchDirection() {
         if (this.touchStart === this.touchEnd) {
@@ -45,6 +46,7 @@
         e.preventDefault();
         this.touchStart = e.touches['0'].screenY;
         this.drag = true;
+        this.$refs.notification.style.transition = 'none';
       },
       handleMove(e) {
         e.preventDefault();
@@ -66,11 +68,11 @@
       handleUp(e) {
         e.preventDefault();
         this.drag = false;
+        this.$refs.notification.style.transition = 'top 250ms ease-in';
       },
 
       dismissNotification() {
         this.$refs.notification.style.top = '-100px';
-        this.$refs.notification.style.display = 'none';
         document.documentElement.style.setProperty('--topBarColor', '#3b3b48');
         this.DISPLAY_NOTIFICATION(false);
       }
@@ -94,7 +96,8 @@
       notificationVisible(newVal) {
         if (newVal) {
           this.$refs.notification.style.top = '0';
-          this.$refs.notification.style.display = 'block';
+        } else {
+          this.$refs.notification.style.top = '-100px';
         }
       }
     }
@@ -105,12 +108,19 @@
   .notification {
     width: 100%;
     padding: 1rem 0;
-    top: 0;
+    top: -100px;
     position: fixed;
     z-index: 5;
     box-shadow: 0 0 5px rgba(black, 5%);
     background-color: cornflowerblue;
     color: white;
+    transition: top 250ms ease-in;
+
+
+    &.okay {
+      background-color: #42b983;
+      color: black;
+    }
 
     &.error {
       background-color: orangered;
