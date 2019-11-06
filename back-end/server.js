@@ -1,10 +1,9 @@
 
-const fs = require('fs');
+require('dotenv').config();
 const path = require('path');
 const dummyData = require(path.resolve('../dummy-data.json'));
 const searchData = require(path.resolve('../search-data.json'));
 const express = require('express');
-const dotenv = require('dotenv').config();
 const useLocalData = process.env.LOCAL_DATA || false;
 const app = express();
 const port = 3000;
@@ -112,7 +111,7 @@ app.get('/torrents', (req, res) => {
 
 app.get('/vpn-status', (req, res) => {
   if (useLocalData) {
-    res.send({ status: 'ACTIVE' });
+    res.send({ status: true });
   } else {
     console.log('got request for vpn status');
     const status = getVPNStatus();

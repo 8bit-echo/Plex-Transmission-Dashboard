@@ -1,9 +1,9 @@
 <template>
-  <div :class="{ modal: true, open: isOpen }">
-    <div ref="dialog" :class="{ dialog: true, open: isOpen }">
+  <div :class="{ modal: true, open: modalOpen }">
+    <div ref="dialog" :class="{ dialog: true, open: modalOpen }">
       <button class="exit" @click="hideDialog()">&#215;</button>
       <div class="modal-content">
-        {{ msg }}
+        {{ modalText }}
       </div>
 
       <div class="actions">
@@ -16,6 +16,7 @@
 
 <script>
 import { get } from '../functions';
+import { mapState, mapMutations } from 'vuex';
 export default {
   name: 'Modal',
 
@@ -39,13 +40,20 @@ export default {
       }
     };
   },
+
+  computed: {
+    ...mapState(['modalOpen', 'modalText'])
+  },
+
   methods: {
+    ...mapMutations(['OPEN_MODAL', 'CLOSE_MODAL']),
+
     showDialog() {
-      this.isOpen = true;
+      this.OPEN_MODAL(true);
     },
 
     hideDialog() {
-      this.isOpen = false;
+      this.CLOSE_MODAL();
     },
 
     confirmAction() {
@@ -55,15 +63,15 @@ export default {
   },
 
   mounted() {
-    this.$parent.$on('openModal', payload => {
-      this.msg = payload.msg;
-      this.getMagnet = payload.getMagnet;
-      this.torrent = payload.torrent;
-      if (typeof payload.handleConfirm == 'function') {
-        this.handleConfirm = payload.handleConfirm;
-      }
-      this.showDialog();
-    });
+    // this.$parent.$on('openModal', payload => {
+    //   this.msg = payload.msg;
+    //   this.getMagnet = payload.getMagnet;
+    //   this.torrent = payload.torrent;
+    //   if (typeof payload.handleConfirm == 'function') {
+    //     this.handleConfirm = payload.handleConfirm;
+    //   }
+    //   this.showDialog();
+    // });
   }
 };
 </script>
@@ -73,11 +81,12 @@ export default {
   height: 100%;
   width: 100%;
   position: absolute;
-  top:0;
+  top: 0;
   left: 0;
   display: none;
 
   &.open {
+    display: block;
     position: fixed;
     top: 0;
     left: 0;

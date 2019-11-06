@@ -1,15 +1,14 @@
 <template>
   <div class="controls" @click.self="deselectTorrents()">
-
     <div class="buttons">
       <button v-if="false" @click="toggleVPN()">Toggle VPN</button>
       <button @click="getTVFolder()" :disabled="disabled">
         Move to TV Shows
-        <img src="../assets/plextv-icon.svg" width="25" />
+        <img src="@/assets/plextv-icon.svg" width="25" />
       </button>
       <button @click="moveMovie()" :disabled="disabled">
         Move to Movies
-        <img src="../assets/plextv-icon.svg" width="25" />
+        <img src="@/assets/plextv-icon.svg" width="25" />
       </button>
       <button
         v-if="selectedTorrent.id"
@@ -32,16 +31,17 @@
 </template>
 
 <script>
-import { get, post, _delete } from '../functions';
+import { get, post, _delete } from '@/functions';
+import { mapActions, mapMutations } from 'vuex';
 const AppState = {};
-import { txStatus } from '../functions';
+import { txStatus } from '@/functions';
 
 export default {
   props: ['selectedTorrent'],
 
   data() {
     return {
-      playPauseText: 'Start',
+      playPauseText: 'Start'
     };
   },
 
@@ -52,6 +52,9 @@ export default {
   },
 
   methods: {
+    ...mapActions(['getVPNStatus']),
+    ...mapMutations(['TORRENT_SELECTED', 'OPEN_MODAL']),
+
     toggleVPN() {
       let action;
       if (this.vpnStatus == 'ACTIVE') {
@@ -71,11 +74,11 @@ export default {
     },
 
     deselectTorrents() {
-      AppState.$emit('torrentSelect', { id: null });
+      this.TORRENT_SELECTED(null);
     },
 
     openModal() {
-      AppState.$emit('openModal', { msg: 'Start torrent' });
+      this.OPEN_MODAL({ msg: 'Start torrent' });
     },
 
     getTVFolder() {
@@ -161,18 +164,6 @@ export default {
         }
       }
     }
-  },
-
-  created() {
-    get('/vpn-status').then(result => {
-      this.vpnStatus = result.status;
-    });
-
-    setInterval(() => {
-      get('/vpn-status').then(result => {
-        this.vpnStatus = result.status;
-      });
-    }, 60000);
   }
 };
 </script>
