@@ -11,7 +11,7 @@ const tx = new Transmission({
   password: process.env.TX_PASS
 });
 
-app.use(express.static('../front-end/dist'));
+app.use(express.static('../client/dist'));
 app.use(express.json());
 app.use((_, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
