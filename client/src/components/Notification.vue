@@ -11,6 +11,7 @@
 
 <script>
   import { mapMutations, mapState } from 'vuex';
+  import {setStatusBarColor} from '@/functions';
   export default {
     data() {
       return {
@@ -66,16 +67,13 @@
         e.preventDefault();
         if (this.drag) {
           this.touchEnd = e.touches['0'].screenY;
-
-          if (this.touchDirection === 'up') {
-            this.$refs.notification.style.top = `${this.touchDelta}px`;
-
-            if (
-              Math.abs(this.touchDelta) >=
+          this.$refs.notification.style.top = `${this.touchDelta}px`;
+          if (
+            this.touchDirection === 'up' &&
+            Math.abs(this.touchDelta) >=
               0.55 * this.$refs.notification.scrollHeight
-            ) {
-              this.dismissNotification();
-            }
+          ) {
+            this.dismissNotification();
           }
         }
       },
@@ -90,11 +88,11 @@
       },
 
       /**
-        * a notification is dismissed if swiped upwards at least 55% of it's own height.
-        */
+       * a notification is dismissed if swiped upwards at least 55% of it's own height.
+       */
       dismissNotification() {
         this.$refs.notification.style.top = '-110px';
-        document.documentElement.style.setProperty('--topBarColor', '#3b3b48');
+        setStatusBarColor();
         this.DISPLAY_NOTIFICATION(false);
       }
     },
@@ -113,17 +111,13 @@
         false
       );
 
-      this.$refs.notification.addEventListener(
-          'touchend',
-          this.handleUp,
-          false
-      );
+      this.$refs.notification.addEventListener('touchend', this.handleUp, false);
     },
 
     watch: {
       /**
-        * I dont remember why I have to do this exactly, but I do for some edge case probably. Sorry...
-        */
+       * I dont remember why I have to do this exactly, but I do for some edge case probably. Sorry...
+       */
       notificationVisible(newVal) {
         if (newVal) {
           this.$refs.notification.style.top = '0';

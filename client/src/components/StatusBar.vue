@@ -24,7 +24,7 @@
         class="download indicator"
         v-show="totalDownloadSpeed !== ''"
       >
-        {{ totalDownloadSpeed }} ↓
+        ↓ {{ totalDownloadSpeed }}/s
       </div>
 
       <div
@@ -43,6 +43,7 @@
 
 <script>
   import { mapState, mapGetters } from 'vuex';
+  import { setStatusBarColor } from '@/functions';
   export default {
     computed: {
       ...mapState(['isLoading', 'vpnActive', 'globalNotification']),
@@ -60,11 +61,11 @@
         ) {
           switch (this.globalNotification.toLowerCase()) {
             case 'offline': {
-              document.documentElement.style.setProperty('--topBarColor', 'grey');
+              setStatusBarColor('grey');
             }
           }
         } else {
-          document.documentElement.style.setProperty('--topBarColor', '#202027');
+          setStatusBarColor();
         }
       }
     },
@@ -74,7 +75,7 @@
         this.changeStatusBarColor();
       }
     },
-    
+
     mounted() {
       this.changeStatusBarColor();
     }
