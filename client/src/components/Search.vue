@@ -107,12 +107,6 @@ export default {
       this.one337xShow = !this.one337xShow;
     }
   },
-
-  mounted() {
-    this.$on('torrentSelected', payload => {
-      this.$emit('openModal', payload);
-    });
-  }
 };
 </script>
 

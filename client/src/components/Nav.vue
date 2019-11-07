@@ -8,7 +8,7 @@
       Search
     </router-link>
 
-    <router-link to="/about">
+    <router-link to="/dashboard">
       <img
         src="@/assets/dashboard-icon.svg"
         alt="Dashboard"
@@ -63,6 +63,11 @@
           filter: grayscale(0);
         }
       }
+    }
+
+    // hide nav on the touchscreen device.
+    @media screen and (width: 800px) and (height: 480px) {
+      display: none;
     }
   }
 </style>

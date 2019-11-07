@@ -1,39 +1,41 @@
 <template>
   <div id="dashboard" class="container">
-    <Controls :selectedTorrent="selectedTorrent" />
-    <Transmission :selectedTorrent="selectedTorrent" />
+    <Controls />
+    <Transmission />
   </div>
 </template>
 
 <script>
-import Vue from 'vue';
 import Controls from '@/components/Controls';
 import Transmission from '@/components/Transmission';
+import { mapState, mapActions } from 'vuex';
 
-export default Vue.extend({
-  name: 'app',
+export default {
+  name: 'Dashboard',
   components: {
     Controls,
     Transmission,
   },
-  data() {
-    return {
-      selectedTorrent: {
-        id: null
-      }
-    };
+
+  computed: {
+    ...mapState(['torrents', 'selectedTorrent']),
   },
 
-  mounted() {
-    this.$root.$on('changeSelectedTorrent', torrent => {
-      this.selectedTorrent = torrent;
-    });
+  methods: {
+    ...mapActions(['getTorrents'])
+  },
+
+  created() {
+    this.getTorrents();
+
+    setInterval(() => {
+      this.getTorrents();
+    }, 7000);
   }
-});
+};
 </script>
 
 <style lang="scss">
-
 .container {
   width: 100%;
   height: 99.9%;
@@ -43,7 +45,7 @@ export default Vue.extend({
 
   @media screen and (max-width: 415px) {
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr auto;
+    grid-template-rows: 100px auto;
   }
 }
 </style>

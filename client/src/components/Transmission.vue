@@ -4,40 +4,30 @@
       v-for="torrent in torrents"
       :key="torrent.id"
       :torrent="torrent"
-      :selected="selectedTorrent.id === torrent.id"
+      :selected="selectedTorrent && selectedTorrent.id === torrent.id"
     />
   </div>
 </template>
 
 <script>
 import Torrent from './DashboardTorrent';
-const AppState = {};
+
+import {mapState, mapMutations} from 'vuex';
 export default {
   components: {
     Torrent
   },
-
-  props: ['selectedTorrent'],
-
-  data() {
-    return {
-      torrents: []
-    };
+  
+  computed: {
+    ...mapState(['torrents', 'selectedTorrent']),
   },
 
   methods: {
+    ...mapMutations(['TORRENT_SELECTED']),
     deselectTorrents() {
-      AppState.$emit('torrentSelect', { id: null });
+      this.TORRENT_SELECTED(null);
     }
   },
-
-  mounted() {
-    this.$root.$on('torrentsDidChange', torrents => {
-      // console.log('torrent list did change.');
-      // console.log(torrents);
-      this.torrents = torrents;
-    });
-  }
 };
 </script>
 

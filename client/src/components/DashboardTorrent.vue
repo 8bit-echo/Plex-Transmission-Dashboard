@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="{ torrent: true, selected: selected, paused: torrent.status == 0 }"
+    :class="['torrent', {selected: selected, paused: torrent.status == 0 }]"
     @click="select(torrent)"
   >
     <div class="inner-container">
@@ -22,15 +22,9 @@
 </template>
 
 <script>
-const AppState = {};
+import { mapMutations } from 'vuex';
 export default {
   props: ['torrent', 'selected'],
-
-  data() {
-    return {
-      // selected: false,
-    };
-  },
 
   computed: {
     isDone: function() {
@@ -62,7 +56,7 @@ export default {
           ''
         )
         .replace(
-          /((megusta)|(deflate)|(crimson)|(avs)|(btw)|(spik)|(internal)|(web)|(trump)|(yts\.lt)|(yts\.am)|(rarbg)|(AMZN)|(metcon)|(red dawn)|(AMRAP)|(Slashdance)|(AJP69)|(Red\.Dawn)|(qman))/gi,
+          /((megusta)|(deflate)|(crimson)|(avs)|(btw)|(spik)|(internal)|(web)|(trump)|(yts\.lt)|(yts\.am)|(rarbg)|(AMZN)|(metcon)|(red dawn)|(AMRAP)|(Slashdance)|(AJP69)|(Red\.Dawn)|(qman)|(tbs))/gi,
           ''
         )
         .replace(/(mkv)|(avi)|(mp4)/gi, '')
@@ -72,12 +66,13 @@ export default {
   },
 
   methods: {
+    ...mapMutations(['TORRENT_SELECTED']),
     percentDone: float => {
       return float * 100 + '%';
     },
 
     select(torrent) {
-      AppState.$emit('torrentSelect', torrent);
+      this.TORRENT_SELECTED(torrent);
     }
   }
 };
@@ -114,7 +109,7 @@ export default {
     font-weight: bold;
     margin: 0.5em;
     line-height: 1.2;
-    // white-space: nowrap;
+    text-align: left;
     width: 95%;
     overflow: hidden;
   }

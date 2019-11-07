@@ -28,15 +28,16 @@
     },
 
     created() {
-      this.$store.dispatch('getVPNStatus');
+      // this is on the touchscreen with no keyboard, and we only want the dashboard on that device.
+      if (window.innerWidth === 800 && window.innerHeight === 480) {
+        this.$router.push('/dashboard')
+      }
 
+      // get VPN Status and put on a 60 sec poll cycle.
+      this.$store.dispatch('getVPNStatus');
       setInterval(() => {
         this.$store.dispatch('getVPNStatus');
       }, 1000 * 60);
-
-      // if (this.globalNotification) {
-      //   this.$refs.main.style.paddingTop = '50px';
-      // }
     }
   };
 </script>

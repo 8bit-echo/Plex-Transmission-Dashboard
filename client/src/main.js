@@ -9,7 +9,8 @@ Vue.config.productionTip = false;
 
 Vue.config.errorHandler = error => {
   console.log('caught error through vue');
-  console.log(error.message);
+  console.log(error);
+  store.commit('LOADING_INDICATOR', false);
   store.commit('DISPLAY_NOTIFICATION', {
     display: true,
     level: 'error',

@@ -95,7 +95,7 @@
   };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .torrent {
     box-shadow: 0 2px rgba(grey, 0.5);
     margin: 15px 0;

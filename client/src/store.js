@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { get /* post */ } from '@/functions';
+import { get /* post */, toHuman } from '@/functions';
 
 Vue.use(Vuex);
 
@@ -11,25 +11,37 @@ export default new Vuex.Store({
     notificationType: '',
     notificationVisible: false,
     globalNotification: false,
-    selectedTorrent: null,
     vpnActive: false,
     modalOpen: false,
     modalText: '',
     modalConfirm: () => {},
-    modalExtra: null
+    modalExtra: null,
+    torrents: [],
+    selectedTorrent: null
   },
 
   getters: {
-    totalDownloadSpeed() {
+    totalDownloadSpeed(state) {
+      if (state.torrents.length >= 2) {
+        const bytes = state.torrents.reduce((a, b) => {
+          return a.rateDownload + b.rateDownload;
+        }, 0);
+        return toHuman(bytes);
+      } else if (state.torrents.length === 1) {
+        return toHuman(state.torrents[0].rateDownload);
+      }
       return '';
     },
 
-    finishedTorrents() {
-      return 0;
+    finishedTorrents(state) {
+      if (state.torrents.length) {
+        return state.torrents.filter(torrent => torrent.percentDone == 1)
+          .length;
+      }
     },
 
-    playPauseText() {
-      return 'Start';
+    torrents(state) {
+      return state.torrents;
     }
   },
 
@@ -51,7 +63,7 @@ export default new Vuex.Store({
     },
 
     TORRENT_SELECTED(state, value) {
-      state.torrentSelected = value;
+      state.selectedTorrent = value;
     },
 
     OPEN_MODAL(state, payload) {
@@ -68,8 +80,13 @@ export default new Vuex.Store({
 
     LOADING_INDICATOR(state, payload) {
       state.isLoading = payload;
+    },
+
+    TORRENTS_CHANGED(state, payload) {
+      state.torrents = payload;
     }
   },
+
   actions: {
     getVPNStatus({ commit, state }) {
       get('/vpn-status')
@@ -85,6 +102,12 @@ export default new Vuex.Store({
             message: `${error.message} VPN status`
           });
         });
+    },
+
+    getTorrents({ commit }) {
+      get('/torrents').then(({ torrents }) => {
+        commit('TORRENTS_CHANGED', torrents);
+      });
     }
   }
 });
