@@ -1,19 +1,21 @@
-#status {
-  padding-top: 35px;
-  top: 0;
-}
-.notification {
-  padding-top: 45px !important;
-
-  &.hasGlobal {
-    padding-top: 50px !important;
+@media screen and (width: 1125px) and (height: 2436px) {
+  #status {
+    padding-top: 35px;
+    top: 0;
   }
-}
+  .notification {
+    padding-top: 45px !important;
 
-main {
-  padding-top: 26px;
-}
+    &.hasGlobal {
+      padding-top: 50px !important;
+    }
+  }
 
-nav {
-  padding-bottom: 25px !important;
+  main {
+    padding-top: 26px;
+  }
+
+  nav {
+    padding-bottom: 25px !important;
+  }
 }
