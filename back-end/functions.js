@@ -2,8 +2,8 @@ const NodeSSH = require('node-ssh');
 const ssh = new NodeSSH();
 const serverRoot = '/media/mini/ServerSpace/';
 const downloads = `${serverRoot}Downloads`;
-const movies = `${serverRoot}/Media/Movies/`;
-const tvShows = `${serverRoot}/Media/TV Shows/`;
+const movies = `${serverRoot}Media/Movies/`;
+const tvShows = `${serverRoot}Media/TV Shows`;
 const sshConfig = {
   host: process.env.SSH_HOST,
   username: process.env.SSH_USER1,
@@ -136,8 +136,10 @@ async function isDir(fileName) {
 
 async function folderExists(path) {
   console.log(`checking for existing directory at: ${path}`);
-  const exists = await shell(`[ -d "${path}" ] && echo "true" || echo "false"`);
-  return JSON.parse(exists);
+  shell(`[ -d "${path}" ] && echo "true" || echo "false"`).then(exists => {
+    console.log(`exists: ${exists}`);
+    return JSON.parse(exists);
+  });
 }
 
 async function moveToMovies(fileName) {
@@ -155,19 +157,27 @@ async function moveToMovies(fileName) {
 async function moveToTVShows(fileName, seasonPath) {
   console.log(`executing move file ${fileName}`);
 
-  const exists = await folderExists(seasonPath);
-
-  if (!exists) {
-    await makeDir(seasonPath);
-  }
-
-  const mv = await shell(`mv "${downloads}/${fileName}" "${seasonPath}/"`);
-  const result = await mv;
-  if (result == '') {
-    return true;
+  if (await !folderExists(seasonPath)) {
+    makeDir(seasonPath).then(async () => {
+      const mv = await shell(`mv "${downloads}/${fileName}" "${seasonPath}/"`);
+      const result = await mv;
+      if (result == '') {
+        return true;
+      } else {
+        return false;
+      }
+    })
   } else {
-    return false;
+    console.log('doing move now...');
+    const mv = await shell(`mv "${downloads}/${fileName}" "${seasonPath}/"`);
+    const result = await mv;
+    if (result == '') {
+      return true;
+    } else {
+      return false;
+    }
   }
+
 }
 
 async function removeDirtyFiles(dir) {
@@ -185,8 +195,9 @@ async function removeDirtyFiles(dir) {
 
 async function makeDir(dir) {
   console.log(`path does not exist. making directory now at ${dir}`);
-  const mkdir = await shell(`mkdir "${dir}"`);
-  return true;
+  shell(`mkdir "${dir}"`).then(() => {
+    return true;
+  });
 }
 
 module.exports = {

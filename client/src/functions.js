@@ -34,7 +34,7 @@ export async function post(endpoint, payload) {
  */
 export async function _delete(endpoint, payload) {
   let response = await fetch(`http://${process.env.VUE_APP_HOST}${endpoint}`, {
-    method: 'DELETE',
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },

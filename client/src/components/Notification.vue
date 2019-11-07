@@ -93,7 +93,7 @@
         * a notification is dismissed if swiped upwards at least 55% of it's own height.
         */
       dismissNotification() {
-        this.$refs.notification.style.top = '-100px';
+        this.$refs.notification.style.top = '-110px';
         document.documentElement.style.setProperty('--topBarColor', '#3b3b48');
         this.DISPLAY_NOTIFICATION(false);
       }

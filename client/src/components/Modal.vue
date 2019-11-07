@@ -84,7 +84,6 @@
     position: relative;
     display: none;
     margin: 0 15px;
-    text-align: left;
 
     &.open {
       display: block;
@@ -92,6 +91,7 @@
 
     .modal-content {
       padding: 40px 2rem 2rem;
+      text-align: left;
     }
 
     .actions {
@@ -137,7 +137,7 @@
       color: indianred;
       position: absolute;
       top: 0;
-      left: 0;
+      right: calc(100% - 68px);
       font-size: 34px;
       line-height: 0.75;
       background: transparent;

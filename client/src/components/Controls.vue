@@ -75,25 +75,30 @@
 
     methods: {
       ...mapActions(['getVPNStatus', 'getTorrents']),
-      ...mapMutations(['TORRENT_SELECTED', 'OPEN_MODAL', 'LOADING INDICATOR']),
+      ...mapMutations([
+        'TORRENT_SELECTED',
+        'OPEN_MODAL',
+        'LOADING_INDICATOR',
+        'DISPLAY_NOTIFICATION'
+      ]),
 
       toggleVPN() {
         // not currently working on back-end
         /* let action;
-                if (this.vpnStatus) {
-                  action = 'stop';
-                } else {
-                  action = 'start';
-                }
-
-                post('/vpn', { action }).then(response => {
-                  if (response.success) {
-                    // console.log(`vpn start: success`);
-                    get('/vpn-status').then(result => {
-                      this.vpnStatus = result.status;
-                    });
+                  if (this.vpnStatus) {
+                    action = 'stop';
+                  } else {
+                    action = 'start';
                   }
-                }); */
+
+                  post('/vpn', { action }).then(response => {
+                    if (response.success) {
+                      // console.log(`vpn start: success`);
+                      get('/vpn-status').then(result => {
+                        this.vpnStatus = result.status;
+                      });
+                    }
+                  }); */
       },
 
       /**
@@ -121,7 +126,7 @@
               msg,
               show,
               season,
-              handleConfirm: () => {
+              action: () => {
                 this.moveTVShow(this.selectedTorrent, show, season);
               }
             });
@@ -161,6 +166,11 @@
           .then(response => {
             this.LOADING_INDICATOR(false);
             if (response.success) {
+              this.DISPLAY_NOTIFICATION({
+                display: true,
+                level: 'okay',
+                message: 'moved file successfully'
+              });
               this.removeFromList(this.selectedTorrent);
             }
           })

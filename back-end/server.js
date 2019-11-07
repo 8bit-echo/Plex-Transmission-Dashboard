@@ -223,6 +223,15 @@ app.delete('/torrents', (req, res) => {
   });
 });
 
+app.post('/torrents', (req, res) => {
+  console.log('got request to remove torrent from list.');
+  const { id } = req.body;
+  console.log(`removing torrent with ID: ${id} from list`);
+  tx.remove(id).then(response => {
+    res.send(response);
+  });
+});
+
 app.post('/pause', (req, res) => {
   const { id, action } = req.body;
   console.log(`got request to going to ${action} a torrent`);
