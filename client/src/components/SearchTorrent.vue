@@ -25,11 +25,10 @@
   export default {
     props: ['torrent'],
 
-    data() {
-      return {};
-    },
-
     computed: {
+      /**
+       * due to the nature of web-scraping torrent websites, some torrents require navigating to another page in order to see the magnet link. if that's true, the torrent requires another HTTP request.
+       */
       requiresExtraRequest() {
         return !this.torrent.magnet && !!this.torrent.link;
       }
@@ -38,6 +37,10 @@
     methods: {
       ...mapMutations(['OPEN_MODAL', 'DISPLAY_NOTIFICATION']),
 
+      /**
+       * Passes all relevant data to a confirmation modal, including the function that is run upon confimation.
+       * If a torrent requires an extra request, the server will take care of it and automatically add it to the queue from the back-end.
+       */
       handleClick() {
         this.OPEN_MODAL({
           msg: `Start download  of ${this.torrent.name}?`,
@@ -51,8 +54,11 @@
         });
       },
 
+      /**
+       * The action required to finish adding a torrent to the queue after confirming in the modal.
+       *  defining the action as a method ensures that the context stays within the scope of this component's data.
+       */
       confirmDownload() {
-        // throw new Error('Failed to add torrent to queue');
         if (this.requiresExtraRequest) {
           get(`/magnet?link=${this.torrent.link}`)
             .then(success => {
@@ -66,29 +72,30 @@
             .catch(error => {
               console.log(error);
               this.DISPLAY_NOTIFICATION({
-                display:true,
+                display: true,
                 level: 'error',
                 message: 'Failed to add torrent to queue.'
-              })
+              });
             });
         } else {
           console.log('no extra request reqd. adding directly.');
           get(`/torrent?magnet=${this.torrent.magnet}`)
             .then(success => {
-                console.log(success);
-                this.DISPLAY_NOTIFICATION({
+              console.log(success);
+              this.DISPLAY_NOTIFICATION({
                 display: true,
                 level: 'okay',
                 message: 'Torrent queued for download'
               });
-            }).catch(error => {
+            })
+            .catch(error => {
               console.log(error);
               this.DISPLAY_NOTIFICATION({
-                display:true,
+                display: true,
                 level: 'error',
                 message: 'Failed to add torrent to queue.'
-              })
-          });
+              });
+            });
         }
       }
     }

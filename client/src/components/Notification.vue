@@ -1,6 +1,5 @@
 <template>
   <div
-
     :class="['notification', notificationType, {hasGlobal: globalNotification !== false}]"
     ref="notification"
   >
@@ -23,11 +22,15 @@
 
     computed: {
       ...mapState([
-        'notificationVisible',
-        'notificationType',
-        'notificationText',
-        'globalNotification'
+        'notificationVisible', //boolean
+        'notificationType', // string<[okay, warning, error, '']>
+        'notificationText', // string
+        'globalNotification' // boolean
       ]),
+
+      /**
+       *  gesture recognizer: [up, down, none]
+       */
       touchDirection() {
         if (this.touchStart === this.touchEnd) {
           return 'none';
@@ -35,6 +38,9 @@
         return this.touchStart > this.touchEnd ? 'up' : 'down';
       },
 
+      /**
+       * number of pixels from start to end of touch gesture.
+       */
       touchDelta() {
         return this.touchEnd - this.touchStart;
       }
@@ -42,12 +48,20 @@
 
     methods: {
       ...mapMutations(['DISPLAY_NOTIFICATION']),
+
+      /**
+       * gesture recognizer for touchstart action
+       */
       handleDown(e) {
         e.preventDefault();
         this.touchStart = e.touches['0'].screenY;
         this.drag = true;
         this.$refs.notification.style.transition = 'none';
       },
+
+      /**
+       * gesture recognizer for touchmove action
+       */
       handleMove(e) {
         e.preventDefault();
         if (this.drag) {
@@ -65,12 +79,19 @@
           }
         }
       },
+
+      /**
+       * gesture recognizer for touchend action
+       */
       handleUp(e) {
         e.preventDefault();
         this.drag = false;
         this.$refs.notification.style.transition = 'top 250ms ease-in';
       },
 
+      /**
+        * a notification is dismissed if swiped upwards at least 55% of it's own height.
+        */
       dismissNotification() {
         this.$refs.notification.style.top = '-100px';
         document.documentElement.style.setProperty('--topBarColor', '#3b3b48');
@@ -79,20 +100,30 @@
     },
 
     mounted() {
+      // have to register events like this because Safari is trash, but I have an iPhone.
       this.$refs.notification.addEventListener(
         'touchstart',
         this.handleDown,
         false
       );
+
       this.$refs.notification.addEventListener(
         'touchmove',
         this.handleMove,
         false
       );
-      this.$refs.notification.addEventListener('touchend', this.handleUp, false);
+
+      this.$refs.notification.addEventListener(
+          'touchend',
+          this.handleUp,
+          false
+      );
     },
 
     watch: {
+      /**
+        * I dont remember why I have to do this exactly, but I do for some edge case probably. Sorry...
+        */
       notificationVisible(newVal) {
         if (newVal) {
           this.$refs.notification.style.top = '0';
@@ -115,7 +146,6 @@
     background-color: cornflowerblue;
     color: white;
     transition: top 250ms ease-in;
-
 
     &.okay {
       background-color: #42b983;

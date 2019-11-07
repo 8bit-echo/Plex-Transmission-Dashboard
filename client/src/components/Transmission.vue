@@ -1,5 +1,8 @@
 <template>
-  <div class="transmission" @click.self="deselectTorrents()">
+  <div
+    class="transmission"
+    @click.self="deselectTorrents()"
+  >
     <torrent
       v-for="torrent in torrents"
       :key="torrent.id"
@@ -10,33 +13,37 @@
 </template>
 
 <script>
-import Torrent from './DashboardTorrent';
+  import Torrent from './DashboardTorrent';
 
-import {mapState, mapMutations} from 'vuex';
-export default {
-  components: {
-    Torrent
-  },
-  
-  computed: {
-    ...mapState(['torrents', 'selectedTorrent']),
-  },
+  import { mapState, mapMutations } from 'vuex';
+  export default {
+    components: {
+      Torrent
+    },
 
-  methods: {
-    ...mapMutations(['TORRENT_SELECTED']),
-    deselectTorrents() {
-      this.TORRENT_SELECTED(null);
+    computed: {
+      ...mapState(['torrents', 'selectedTorrent'])
+    },
+
+    methods: {
+      ...mapMutations(['TORRENT_SELECTED']),
+
+      /**
+       * Deselect a torrent by tapping in dead space
+       */
+      deselectTorrents() {
+        this.TORRENT_SELECTED(null);
+      }
     }
-  },
-};
+  };
 </script>
 
 <style lang="scss">
-.transmission {
-  height: 100%;
-  padding: 1em;
-  overflow-y: auto;
-  background-color: #3b3b48;
-  color: white;
-}
+  .transmission {
+    height: 100%;
+    padding: 1em;
+    overflow-y: auto;
+    background-color: #3b3b48;
+    color: white;
+  }
 </style>

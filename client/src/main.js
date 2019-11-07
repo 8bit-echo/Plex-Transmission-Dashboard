@@ -7,6 +7,8 @@ import { deviceType, isPWA } from '@/functions';
 require('./global.scss');
 Vue.config.productionTip = false;
 
+
+/* Custom Error handler */
 Vue.config.errorHandler = error => {
   console.log('caught error through vue');
   console.log(error);
@@ -18,6 +20,7 @@ Vue.config.errorHandler = error => {
   });
 };
 
+/* fallback error handler */
 window.onerror = (error) => {
   console.log('window caught an error');
   store.commit('DISPLAY_NOTIFICATION', {
@@ -27,10 +30,11 @@ window.onerror = (error) => {
   });
 }
 
-
+/* PWA specific styles for notched iPhones */
 if (isPWA() && deviceType() === 'iPhone X') {
   require('./pwa.scss');
 }
+
 
 new Vue({
   router,

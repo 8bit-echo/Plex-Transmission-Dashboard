@@ -4,14 +4,29 @@
     @click.self="deselectTorrents()"
   >
     <div class="buttons">
-      <button v-if="false" @click="toggleVPN()">Toggle VPN</button>
-      <button @click="getTVFolder()" :disabled="disabled">
+      <button
+        v-if="false"
+        @click="toggleVPN()"
+      >Toggle VPN</button>
+      <button
+        @click="getTVFolder()"
+        :disabled="disabled"
+      >
         Move to TV Shows
-        <img src="@/assets/plextv-icon.svg" width="25" />
+        <img
+          src="@/assets/plextv-icon.svg"
+          width="25"
+        />
       </button>
-      <button @click="moveMovie()" :disabled="disabled">
+      <button
+        @click="moveMovie()"
+        :disabled="disabled"
+      >
         Move to Movies
-        <img src="@/assets/plextv-icon.svg" width="25" />
+        <img
+          src="@/assets/plextv-icon.svg"
+          width="25"
+        />
       </button>
       <button
         v-if="selectedTorrent"
@@ -63,35 +78,38 @@
       ...mapMutations(['TORRENT_SELECTED', 'OPEN_MODAL', 'LOADING INDICATOR']),
 
       toggleVPN() {
-        let action;
-        if (this.vpnStatus) {
-          action = 'stop';
-        } else {
-          action = 'start';
-        }
+        // not currently working on back-end
+        /* let action;
+                if (this.vpnStatus) {
+                  action = 'stop';
+                } else {
+                  action = 'start';
+                }
 
-        post('/vpn', { action }).then(response => {
-          if (response.success) {
-            // console.log(`vpn start: success`);
-            get('/vpn-status').then(result => {
-              this.vpnStatus = result.status;
-            });
-          }
-        });
+                post('/vpn', { action }).then(response => {
+                  if (response.success) {
+                    // console.log(`vpn start: success`);
+                    get('/vpn-status').then(result => {
+                      this.vpnStatus = result.status;
+                    });
+                  }
+                }); */
       },
 
+      /**
+       * Deselect a torrent by tapping in dead space
+       */
       deselectTorrents() {
         this.TORRENT_SELECTED(null);
       },
 
-      openModal() {
-        this.OPEN_MODAL({ msg: 'Start torrent' });
-      },
-
+      /**
+       * gets the closest guess it can to matching a TV show folder against the name of the selected torrent
+       **/
       getTVFolder() {
         this.LOADING_INDICATOR(true);
-        post('/guess-tv-show', { torrentName: this.selectedTorrent.name }).then(
-          response => {
+        post('/guess-tv-show', { torrentName: this.selectedTorrent.name })
+          .then(response => {
             const { show, season, error } = response;
             const msg = `Move to ${show} - ${season} folder?`;
 
@@ -109,80 +127,84 @@
             });
 
             this.LOADING_INDICATOR(false);
-          }
-        ).catch(error => {
-          this.LOADING_INDICATOR(false);
-          console.log(error);
-        })
+          })
+          .catch(error => {
+            this.LOADING_INDICATOR(false);
+            console.log(error);
+          });
       },
 
+      /**
+       *  Moves the selected file to the Movies Library in Plex.
+       */
       moveMovie() {
         this.LOADING_INDICATOR(true);
-        post('/move-movie', this.selectedTorrent).then(response => {
-          this.LOADING_INDICATOR(false);
-          if (response.success) {
-            this.removeFromList(this.selectedTorrent);
-          }
-        }).catch(error => {
-          this.LOADING_INDICATOR(false);
-          console.log(error);
-        });
+        post('/move-movie', this.selectedTorrent)
+          .then(response => {
+            this.LOADING_INDICATOR(false);
+            if (response.success) {
+              this.removeFromList(this.selectedTorrent);
+            }
+          })
+          .catch(error => {
+            this.LOADING_INDICATOR(false);
+            console.log(error);
+          });
       },
 
+      /**
+       * Moves the TV Show file/folder to the TV Shows library in Plex.
+       */
       moveTVShow(torrent, show, season) {
         this.LOADING_INDICATOR(true);
-        post('/move-tv-show', { torrent, show, season }).then(response => {
-          this.LOADING_INDICATOR(false);
-          if (response.success) {
-            this.removeFromList(this.selectedTorrent);
-          }
-        }).catch(error => {
-          this.LOADING_INDICATOR(false);
-          console.log(error);
-        });
+        post('/move-tv-show', { torrent, show, season })
+          .then(response => {
+            this.LOADING_INDICATOR(false);
+            if (response.success) {
+              this.removeFromList(this.selectedTorrent);
+            }
+          })
+          .catch(error => {
+            this.LOADING_INDICATOR(false);
+            console.log(error);
+          });
       },
 
+      /**
+       * Removes a torrent from the queue / list. leaves file in place.
+       */
       removeFromList(torrent) {
         this.LOADING_INDICATOR(true);
-        _delete('/torrents', { id: torrent.id }).then(() => {
-          this.LOADING_INDICATOR(false);
-          this.getTorrents();
-        }).catch(error => {
-          this.LOADING_INDICATOR(false);
-          console.log(error);
-        });
+        _delete('/torrents', { id: torrent.id })
+          .then(() => {
+            this.LOADING_INDICATOR(false);
+            this.getTorrents();
+          })
+          .catch(error => {
+            this.LOADING_INDICATOR(false);
+            console.log(error);
+          });
       },
 
+      /**
+       * Pause / Resume download of a torrent file.
+       */
       handleStartStop() {
         this.LOADING_INDICATOR(true);
         post('/pause', {
           id: this.selectedTorrent.id,
           action: this.playPauseText.toLowerCase()
-        }).then(() => {
-          this.LOADING_INDICATOR(false);
-          this.getTorrents();
-        }).catch(error => {
-          this.LOADING_INDICATOR(false);
-          console.log(error);
-        });
+        })
+          .then(() => {
+            this.LOADING_INDICATOR(false);
+            this.getTorrents();
+          })
+          .catch(error => {
+            this.LOADING_INDICATOR(false);
+            console.log(error);
+          });
       }
-    },
-
-    // watch: {
-    //   selectedTorrent: {
-    //     handler(newVal) {
-    //       if (
-    //         newVal.status === txStatus.DOWNLOAD ||
-    //         newVal.status === txStatus.SEED
-    //       ) {
-    //         this.playPauseText = 'Stop';
-    //       } else {
-    //         this.playPauseText = 'Start';
-    //       }
-    //     },
-    //     deep: true
-    //   }
-    // }
+    }
   };
 </script>
 
@@ -191,7 +213,8 @@
     background: rgb(45, 45, 56);
     color: white;
 
-    button, input[type="button"] {
+    button,
+    input[type='button'] {
       width: 90%;
       font-family: 'Avenir', sans-serif;
       display: block;

@@ -50,8 +50,14 @@
     },
 
     methods: {
+      /**
+       * this is really only used for the PWA on iPhones with a notch to make the notification feel more native.
+       */
       changeStatusBarColor() {
-        if (this.globalNotification && typeof this.globalNotification === 'string') {
+        if (
+          this.globalNotification &&
+          typeof this.globalNotification === 'string'
+        ) {
           switch (this.globalNotification.toLowerCase()) {
             case 'offline': {
               document.documentElement.style.setProperty('--topBarColor', 'grey');
@@ -68,6 +74,7 @@
         this.changeStatusBarColor();
       }
     },
+    
     mounted() {
       this.changeStatusBarColor();
     }

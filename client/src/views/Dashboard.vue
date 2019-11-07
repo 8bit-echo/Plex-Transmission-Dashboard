@@ -26,8 +26,8 @@ export default {
   },
 
   created() {
+    // get torrents and put it on a 7 second polling.
     this.getTorrents();
-
     setInterval(() => {
       this.getTorrents();
     }, 7000);
