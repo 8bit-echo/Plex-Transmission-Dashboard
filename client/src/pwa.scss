@@ -1,3 +1,4 @@
+//iPhone X,XR,XS,11
 @media screen and (width: 1125px) and (height: 2436px) {
   #status {
     padding-top: 35px;
@@ -17,5 +18,54 @@
 
   nav {
     padding-bottom: 25px !important;
+  }
+}
+
+// iPhone 6,7,8
+@media screen and (width: 750px) /* and (height: 1334px) */ {
+  #status {
+    padding-top: 16px !important;
+  }
+  main {
+    padding-top: 26px !important;
+  }
+}
+
+@media screen and (width: 375px) /* and (height: 667px) */ {
+  #status {
+    padding-top: 16px !important;
+  }
+  main {
+    padding-top: 26px !important;
+  }
+}
+
+// iPhone 6+,7+,8+
+@media only screen and (width: 414px) /* and (height: 736px) */ {
+  #status {
+    padding-top: 16px !important;
+  }
+  main {
+    padding-top: 26px !important;
+  }
+}
+
+// iPad mini
+@media only screen and (width: 2048px) /* and (height: 1536px) */ {
+  #status {
+    padding-top: 16px !important;
+  }
+  main {
+    padding-top: 26px !important;
+  }
+}
+
+// iPad Pro 12.9"
+@media only screen and (width: 2732px) /* and (height: 2048px) */ {
+  #status {
+    padding-top: 16px !important;
+  }
+  main {
+    padding-top: 26px !important;
   }
 }

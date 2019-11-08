@@ -88,6 +88,7 @@
     top: 0;
     width: 100%;
     z-index: 3;
+    background: #202027;
   }
   .global-notification {
     background-color: grey;
@@ -111,7 +112,6 @@
   .status-bar {
     position: relative;
     z-index: 3;
-    background: rgb(32, 32, 39);
     width: 100%;
     display: flex;
     justify-content: space-between;

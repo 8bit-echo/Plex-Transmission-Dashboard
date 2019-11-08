@@ -31,9 +31,9 @@ window.onerror = (error) => {
 }
 
 /* PWA specific styles for notched iPhones */
-if (isPWA() && deviceType() === 'iPhone X') {
+// if (isPWA() && deviceType() === 'iPhone X') {
   require('./pwa.scss');
-}
+// }
 
 
 new Vue({
