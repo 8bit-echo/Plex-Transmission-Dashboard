@@ -12,11 +12,7 @@
         @keyup.enter="doSearch()"
       />
 
-      <button
-        v-if="searchTerm"
-        class="clear"
-        @click.prevent="searchTerm = ''"
-      >
+      <button v-if="searchTerm" class="clear" @click.prevent="searchTerm = ''">
         &#10006;
       </button>
       <img
@@ -27,13 +23,12 @@
       />
     </div>
 
+    {{ dimensions }}
+
     <div class="search-results">
       <h2 v-if="zooqle_torrents.length">
         Zooqle
-        <span
-          class="toggle"
-          @click="toggleZooqle()"
-        >
+        <span class="toggle" @click="toggleZooqle()">
           {{ zooqleShow ? '&ndash;' : '+' }}
         </span>
       </h2>
@@ -48,10 +43,7 @@
 
       <h2 v-if="one337x_torrents.length">
         1337x
-        <span
-          class="toggle"
-          @click="toggle1337x()"
-        >
+        <span class="toggle" @click="toggle1337x()">
           {{ one337xShow ? '&ndash;' : '+' }}
         </span>
       </h2>
@@ -87,6 +79,11 @@
         zooqleShow: true,
         one337xShow: true
       };
+    },
+    computed: {
+      dimensions() {
+        return `${window.innerWidth} x ${window.innerHeight}`;
+      }
     },
 
     methods: {
@@ -126,6 +123,7 @@
 <style scoped lang="scss">
   .search {
     padding: 30px 0;
+    padding-top: 45px;
   }
 
   h1 {

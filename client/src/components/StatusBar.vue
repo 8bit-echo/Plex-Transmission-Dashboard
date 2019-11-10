@@ -3,9 +3,11 @@
     <div
       v-if="globalNotification"
       :class="['global-notification', globalNotification]"
-    >{{ globalNotification }}</div>
+    >
+      {{ globalNotification }}
+    </div>
     <div
-      :class="['status-bar', {hasGlobal: globalNotification !== false}]"
+      :class="['status-bar', { hasGlobal: globalNotification !== false }]"
       ref="statusBar"
     >
       <div class="vpnStatus indicator">
@@ -13,32 +15,19 @@
         <div :class="{ statusLight: true, active: vpnActive }"></div>
       </div>
 
-      <div
-        class="finished indicator"
-        v-show="finishedTorrents > 0"
-      >
+      <div class="finished indicator" v-show="finishedTorrents > 0">
         {{ finishedTorrents }} ✓
       </div>
 
-      <div
-        class="download indicator"
-        v-show="totalDownloadSpeed !== ''"
-      >
+      <div class="download indicator" v-show="totalDownloadSpeed !== ''">
         ↓ {{ totalDownloadSpeed }}/s
       </div>
 
-      <div
-        class="loading-indicator indicator"
-        v-if="isLoading"
-      >
-        <img
-          src="@/assets/spinner.svg"
-          width="25"
-        />
+      <div class="loading-indicator indicator" v-if="isLoading">
+        <img src="@/assets/spinner.svg" width="25" />
       </div>
     </div>
   </section>
-
 </template>
 
 <script>
@@ -90,6 +79,7 @@
     z-index: 3;
     background: #202027;
   }
+
   .global-notification {
     background-color: grey;
 
@@ -107,6 +97,9 @@
         background-repeat: no-repeat;
       }
     }
+      // @media screen and (width: 375px) and (height: 812px) {
+      //   padding-top: 24px !important;
+      // }
   }
 
   .status-bar {
@@ -139,6 +132,18 @@
 
     .finished {
       color: #2bca2b;
+    }
+  }
+
+  @media screen and (width: 375px) and (height: 768px) {
+    #status {
+      padding-top: 36px !important;
+    }
+  }
+
+  @media screen and (width: 375px) and (height: 647px) {
+    #status {
+      padding-top: 16px !important;
     }
   }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :class="{hasGlobal:globalNotification != false}">
     <Notification />
     <StatusBar />
     <main ref="main">

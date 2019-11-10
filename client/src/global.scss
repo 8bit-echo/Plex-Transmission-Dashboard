@@ -29,6 +29,12 @@ body {
     env(safe-area-inset-left);
 }
 
+main {
+  padding-top: 32px;
+  height: 100vh;
+  overflow: hidden;
+}
+
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -39,9 +45,16 @@ body {
   // overflow-y: scroll;
   -webkit-overflow-scrolling: touch; /* enables “momentum” (smooth) scrolling */
   background: #3b3b48;
+
+  &.hasGlobal {
+    main {
+      padding-top: 55px;
+    }
+  }
 }
-main {
-  padding-top: 23px !important;
-  height: 100vh;
-  overflow: hidden;
+
+@media screen and (width: 375px) and (height: 768px) {
+  main {
+    padding-top: 24px;
+  }
 }

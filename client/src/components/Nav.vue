@@ -65,5 +65,9 @@
     @media screen and (width: 800px) and (height: 480px) {
       display: none;
     }
+
+    @media screen and (width: 375px) and (height:768px) {
+        padding-bottom: 35px !important;
+    }
   }
 </style>
