@@ -25,9 +25,11 @@ app.use((_, res, next) => {
 app.listen(port, () => {
   console.log(`app running on port ${port}`);
   console.log(`using local data: ${useLocalData}`);
+  // console.log('please work')
 });
 
 app.get('/ping', (_, res) => {
+  console.log('PING');
   res.send({ success: true });
 });
 
@@ -141,6 +143,19 @@ app.post('/guess-tv-show', (req, res) => {
   });
 });
 
+app.post('/new-show', (req, res) => {
+  console.log('new show incoming...');
+  const { makeDir, tvShows, extractSeasonNumber } = require('./functions');
+  const { show, torrent } = req.body;
+  if (show) {
+    //make directory for show name
+    makeDir(`${tvShows}/${show}`).then(success => {
+      const season = extractSeasonNumber(torrent, true);
+      res.send({ success: true, season });
+    })
+  }
+})
+
 app.post('/move-movie', (req, res) => {
   const { isDir, removeDirtyFiles, moveToMovies } = require('./functions');
   console.log('got request to move movie file.');
@@ -178,14 +193,12 @@ app.post('/move-tv-show', (req, res) => {
   isDir(torrent.name)
     .then(isDir => {
       if (isDir) {
-        console.log('is a directory');
         removeDirtyFiles(torrent.name).then(result => {
           moveToTVShows(torrent.name, seasonPath).then(success => {
             res.send({ success });
           });
         });
       } else {
-        console.log('is a file');
         moveToTVShows(torrent.name, seasonPath).then(success => {
           res.send({ success });
         });
@@ -283,3 +296,7 @@ app.get('/torrent', (req, res) => {
       res.send({ success: false });
     });
 });
+
+app.all('*', (req, res) => {
+  res.redirect('/');
+})

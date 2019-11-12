@@ -36,7 +36,7 @@ window.onerror = (error) => {
 // }
 
 
-new Vue({
+window.app = new Vue({
   router,
   store,
   render: h => h(App)

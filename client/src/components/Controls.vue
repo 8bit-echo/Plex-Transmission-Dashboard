@@ -84,21 +84,21 @@
 
       toggleVPN() {
         // not currently working on back-end
-        /* let action;
-                  if (this.vpnStatus) {
-                    action = 'stop';
-                  } else {
-                    action = 'start';
-                  }
+        // let action;
+        // if (this.vpnStatus) {
+        //   action = 'stop';
+        // } else {
+        //   action = 'start';
+        // }
 
-                  post('/vpn', { action }).then(response => {
-                    if (response.success) {
-                      // console.log(`vpn start: success`);
-                      get('/vpn-status').then(result => {
-                        this.vpnStatus = result.status;
-                      });
-                    }
-                  }); */
+        // post('/vpn', { action }).then(response => {
+        //   if (response.success) {
+        //     // console.log(`vpn start: success`);
+        //     get('/vpn-status').then(result => {
+        //       this.vpnStatus = result.status;
+        //     });
+        //   }
+        // });
       },
 
       /**
@@ -119,23 +119,44 @@
             const msg = `Move to ${show} - ${season} folder?`;
 
             if (error) {
-              // handle error ?
+              // show doesn't exist probably. Create new name for the directroy.
+              const newShow = prompt(
+                `Couldn't find an existing match. Enter the name of the show.`
+              );
+
+              post('/new-show', {
+                show: newShow,
+                torrent: this.selectedTorrent.name
+              }).then(response => {
+                const newSeason = response.season;
+                console.log(newShow, newSeason, this.selectedTorrent);
+                this.OPEN_MODAL({
+                  msg: `Move to ${newShow} - ${newSeason} folder?`,
+                  show: newShow,
+                  season: newSeason,
+                  action: () => {
+                    this.moveTVShow(this.selectedTorrent, newShow, newSeason);
+                    this.deselectTorrents();
+                  }
+                });
+              });
+            } else {
+              this.OPEN_MODAL({
+                msg,
+                show,
+                season,
+                action: () => {
+                  this.moveTVShow(this.selectedTorrent, show, season);
+                  this.deselectTorrents();
+                }
+              });
             }
-
-            this.OPEN_MODAL({
-              msg,
-              show,
-              season,
-              action: () => {
-                this.moveTVShow(this.selectedTorrent, show, season);
-              }
-            });
-
             this.LOADING_INDICATOR(false);
           })
           .catch(error => {
             this.LOADING_INDICATOR(false);
             console.log(error);
+            this.deselectTorrents();
           });
       },
 

@@ -14,7 +14,7 @@ export default new Vuex.Store({
     vpnActive: false,
     modalOpen: false,
     modalText: '',
-    modalConfirm: () => {},
+    modalConfirm: () => { },
     modalExtra: null,
     torrents: [],
     selectedTorrent: null
@@ -56,6 +56,10 @@ export default new Vuex.Store({
       }, 4500);
     },
 
+    GLOBAL_NOTIFICATION(state, msg) {
+      state.globalNotification = msg;
+    },
+
     VPN_STATUS(state, payload) {
       if (state.vpnActive !== payload) {
         state.vpnActive = payload;
@@ -91,7 +95,7 @@ export default new Vuex.Store({
     getVPNStatus({ commit, state }) {
       get('/vpn-status')
         .then(result => {
-          if (state.vpnActive !== result.status) {
+          if (result && result.status && state.vpnActive !== result.status) {
             commit('VPN_STATUS', result.status);
           }
         })
@@ -107,6 +111,8 @@ export default new Vuex.Store({
     getTorrents({ commit }) {
       get('/torrents').then(({ torrents }) => {
         commit('TORRENTS_CHANGED', torrents);
+      }).catch(error => {
+        throw new Error('Unable to get list of torrents');
       });
     }
   }

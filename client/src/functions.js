@@ -2,9 +2,20 @@
  * convenience method via fetch API for GET requests.
  */
 export async function get(endpoint) {
-  let response = await fetch(`http://${process.env.VUE_APP_HOST}${endpoint}`);
-  let json = await response.json();
-  return json;
+  try {
+    let response = await fetch(`http://${process.env.VUE_APP_HOST}${endpoint}`);
+    let json = await response.json();
+    return json;
+  } catch (error) {
+    if (error.message === 'Failed to fetch') {
+      fetch(`http://${process.env.VUE_APP_HOST}/ping`)
+        .then(res => res.json())
+        .then(json => console.log(`ping recieved JSON: ${json}`))
+        .catch(() => {
+          offlineHandler();
+        })
+    }
+  }
 }
 
 /**
@@ -91,6 +102,59 @@ export function toHuman(bytes) {
 export function setStatusBarColor(color = '#202027') {
   document.documentElement.style.setProperty('--topBarColor', color);
 }
+
+
+export async function offlineHandler() {
+  window.app.$store.commit('GLOBAL_NOTIFICATION', 'Offline');
+  window.app.$store.commit('VPN_STATUS', false);
+  clearInterval(window.vpnTimer);
+  clearInterval(window.torrentTimer);
+
+  window.onlineCheck = setInterval(() => {
+    fetch(`http://${process.env.VUE_APP_HOST}/ping`)
+      .then(res => res.json())
+      .then(json => {
+        if (json && json.success) {
+          console.log('back online with server...');
+          window.app.$store.commit('GLOBAL_NOTIFICATION', false);
+          window.app.$store.dispatch('getVPNStatus');
+          setGlobalTimers();
+          clearInterval(window.onlineCheck);
+        }
+      }).catch(() => {
+        console.log('still offline');
+      })
+  }, 1000 * 10);
+}
+
+export function setGlobalTimers(timerName = undefined) {
+
+  switch (timerName) {
+    case 'torrents':
+      window.torrentTimer = setInterval(() => {
+        window.app.$store.dispatch('getTorrents');
+      }, 1000 * 7);
+      break;
+
+    case 'vpn':
+      window.vpnTimer = setInterval(() => {
+        window.app.$store.dispatch('getVPNStatus');
+      }, 1000 * 60);
+      break;
+
+    default:
+      window.torrentTimer = setInterval(() => {
+        window.app.$store.dispatch('getTorrents');
+      }, 1000 * 7);
+
+      window.vpnTimer = setInterval(() => {
+        window.app.$store.dispatch('getVPNStatus');
+      }, 1000 * 60);
+      break;
+  }
+}
+
+export function freshTorrentsList() { }
 
 /* These are constants used by Transmission RPC for status. */
 export const txStatus = {
