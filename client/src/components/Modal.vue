@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ modal: true, open: modalOpen }">
+  <div :class="{ modal: true, open: modalOpen, prompt: isPrompt }">
     <div
       ref="dialog"
       :class="{ dialog: true, open: modalOpen }"
@@ -11,6 +11,16 @@
       <div class="modal-content">
         {{ modalText }}
       </div>
+
+      <template v-if="isPrompt">
+        <input
+          type="text"
+          v-model="prompt"
+          class="prompt"
+          autofocus="true"
+          placeholder="Name of TV Show"
+        />
+      </template>
 
       <div class="actions">
         <button @click="hideDialog()">Cancel</button>
@@ -28,13 +38,23 @@
   export default {
     name: 'Modal',
 
+    data() {
+      return {
+        prompt: ''
+      };
+    },
+
     computed: {
       ...mapState([
         'modalOpen', // boolean
         'modalText', // string
         'modalConfirm', // function
         'modalExtra' // any
-      ])
+      ]),
+
+      isPrompt() {
+        return this.modalExtra && this.modalExtra.isPrompt;
+      }
     },
 
     methods: {
@@ -48,7 +68,9 @@
        * The modal is passed an action to perform on Confirm which is called before closing the dialog.
        */
       confirmAction() {
-        this.modalConfirm();
+        this.isPrompt 
+        ? this.modalConfirm(this.prompt)
+        : this.modalConfirm();
         this.hideDialog();
       }
     }
@@ -94,6 +116,14 @@
       text-align: left;
     }
 
+    .prompt {
+      width: 95%;
+      margin: 1rem auto;
+      font-size: 1rem;
+      padding: .5rem;
+      text-align: center;
+    }
+
     .actions {
       background: #2d2d38;
       display: flex;
@@ -137,7 +167,7 @@
       color: indianred;
       position: absolute;
       top: 0;
-      right: calc(100% - 68px);
+      left: 0;
       font-size: 34px;
       line-height: 0.75;
       background: transparent;

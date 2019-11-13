@@ -43,14 +43,7 @@ async function shell(cmd) {
 }
 
 async function sudo(cmd) {
-  try {
-    const connection = await ssh.connect(sshConfigRoot);
-    const result = await connection.exec(cmd);
-    // connection.dispose();
-    return result;
-  } catch (err) {
-    console.log(err);
-  }
+
 }
 
 async function getVPNStatus() {
@@ -173,14 +166,13 @@ async function moveToTVShows(fileName, seasonPath) {
   if (seasonPathExists) {
     const mv = await shell(`mv "${downloads}/${fileName}" "${seasonPath}/"`);
     const result = await mv;
-    if (result) res.send({ sucess: true });
-    shell(`tree "${tvShows}"`);
+    if (result || !result)  return true;
   } else {
     const mkdir = await makeDir(seasonPath);
     if (await folderExists(seasonPath)) {
       const mv = await shell(`mv "${downloads}/${fileName}" "${seasonPath}/"`);
       const result = await mv;
-      if (result) res.send({ sucess: true });
+      if (result || !result)  return true;
     }
   }
 }

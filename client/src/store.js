@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import { get /* post */, toHuman } from '@/functions';
+import AppError from '@/AppError';
 
 Vue.use(Vuex);
 
@@ -100,19 +101,15 @@ export default new Vuex.Store({
           }
         })
         .catch(error => {
-          commit('DISPLAY_NOTIFICATION', {
-            display: true,
-            level: 'error',
-            message: `${error.message} VPN status`
-          });
+          new AppError(error);
         });
     },
 
     getTorrents({ commit }) {
       get('/torrents').then(({ torrents }) => {
         commit('TORRENTS_CHANGED', torrents);
-      }).catch(error => {
-        throw new Error('Unable to get list of torrents');
+      }).catch(() => {
+        new AppError('Unable to get list of torrents');
       });
     }
   }

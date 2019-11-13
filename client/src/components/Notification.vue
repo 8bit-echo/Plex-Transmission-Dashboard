@@ -11,7 +11,7 @@
 
 <script>
   import { mapMutations, mapState } from 'vuex';
-  import {setStatusBarColor} from '@/functions';
+  import { setStatusBarColor } from '@/functions';
   export default {
     data() {
       return {
