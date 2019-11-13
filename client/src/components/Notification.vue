@@ -159,5 +159,11 @@
     .notification-container {
       padding: 0.75rem 1rem 0.25rem;
     }
+
+    // iPhone X
+    // apparently the notch height is 100vh - 44px
+    @media screen and (width: 375px) and (height: 768px) {
+      padding-top: 40px;
+    }
   }
 </style>

@@ -160,6 +160,11 @@
     #status {
       padding-top: 36px !important;
     }
+
+    .global-notification {
+      padding-top: 44px;
+      margin-top: -44px;
+    }
   }
 
   @media screen and (width: 375px) and (height: 647px) {

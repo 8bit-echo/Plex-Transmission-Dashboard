@@ -27,6 +27,8 @@
       />
     </div>
 
+    {{dimensions}}
+
     <div class="search-results">
       <h2 v-if="zooqle_torrents.length">
         Zooqle
