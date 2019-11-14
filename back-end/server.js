@@ -8,17 +8,14 @@ const tx = new Transmission({
   host: process.env.TX_HOST,
   port: 9091,
   username: process.env.TX_USER,
-  password: process.env.TX_PASS
+  password: process.env.TX_PASS,
 });
 
 app.use(express.static('../client/dist'));
 app.use(express.json());
 app.use((_, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept'
-  );
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
 });
 
@@ -82,19 +79,14 @@ app.get('/vpn-status', (_, res) => {
     res.send({ status: true });
   } else {
     console.log('got request for vpn status');
-    const status = getVPNStatus();
-
-    status.then(status => {
-      if (status && status.length) {
-        status = true;
-      } else {
+    getVPNStatus()
+      .then(status => {
+        res.send({ status });
+      })
+      .catch(error => {
         status = false;
-      }
-      res.send(JSON.stringify({ status }));
-    }).catch(error => {
-      status = false;
-      res.send(JSON.stringify({ status }));
-    });
+        res.send(JSON.stringify({ status }));
+      });
   }
 });
 
@@ -122,11 +114,7 @@ app.post('/vpn', (req, res) => {
 });
 
 app.post('/guess-tv-show', (req, res) => {
-  const {
-    getTVFolders,
-    guessTVShow,
-    extractSeasonNumber
-  } = require('./functions');
+  const { getTVFolders, guessTVShow, extractSeasonNumber } = require('./functions');
   const { torrentName } = req.body;
   console.log(`got request to guess TV Show for file: ${torrentName}`);
   let show = '';
@@ -151,9 +139,9 @@ app.post('/new-show', (req, res) => {
     makeDir(`${tvShows}/${show}`).then(success => {
       const season = extractSeasonNumber(torrent, true);
       res.send({ success: true, season });
-    })
+    });
   }
-})
+});
 
 app.post('/move-movie', (req, res) => {
   const { isDir, removeDirtyFiles, moveToMovies } = require('./functions');
@@ -180,12 +168,7 @@ app.post('/move-movie', (req, res) => {
 });
 
 app.post('/move-tv-show', (req, res) => {
-  const {
-    tvShows,
-    isDir,
-    removeDirtyFiles,
-    moveToTVShows
-  } = require('./functions');
+  const { tvShows, isDir, removeDirtyFiles, moveToTVShows } = require('./functions');
   const { torrent, season, show } = req.body;
   const seasonPath = `${tvShows}/${show}/${season}`;
 
@@ -216,15 +199,16 @@ app.delete('/torrents', (req, res) => {
   if (useLocalData) {
     res.send({ success: true });
   } else {
-    tx.remove(id).then(() => {
-      res.send({ success: true });
-    }).catch(error => {
-      console.log('failed to remove torrent from Transmission');
-      console.log(error);
-      res.send({ success: false, error: 'Failed to remove torrent from Transmission' });
-    });
+    tx.remove(id)
+      .then(() => {
+        res.send({ success: true });
+      })
+      .catch(error => {
+        console.log('failed to remove torrent from Transmission');
+        console.log(error);
+        res.send({ success: false, error: 'Failed to remove torrent from Transmission' });
+      });
   }
-
 });
 
 app.post('/torrents', (req, res) => {
@@ -233,13 +217,15 @@ app.post('/torrents', (req, res) => {
   } else {
     const { id } = req.body;
     console.log(`removing torrent with ID: ${id} from list`);
-    tx.remove(id).then(() => {
-      res.send({ success: true });
-    }).catch(error => {
-      console.log('failed to remove torrent from Transmission');
-      console.log(error);
-      res.send({ success: false, error: 'Failed to remove torrent from Transmission' });
-    });
+    tx.remove(id)
+      .then(() => {
+        res.send({ success: true });
+      })
+      .catch(error => {
+        console.log('failed to remove torrent from Transmission');
+        console.log(error);
+        res.send({ success: false, error: 'Failed to remove torrent from Transmission' });
+      });
   }
 });
 
@@ -269,8 +255,8 @@ app.post('/search', (req, res) => {
           res.send(
             JSON.stringify({
               zooqle: results[0],
-              _1337x: results[1]
-            })
+              _1337x: results[1],
+            }),
           );
         })
         .catch(error => {
@@ -314,4 +300,4 @@ app.get('/torrent', (req, res) => {
 
 app.get('/dashboard', (req, res) => {
   res.redirect('/');
-})
+});
