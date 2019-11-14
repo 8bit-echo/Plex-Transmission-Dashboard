@@ -85,7 +85,7 @@ app.get('/vpn-status', (_, res) => {
       })
       .catch(error => {
         status = false;
-        res.send(JSON.stringify({ status }));
+        res.send({ status });
       });
   }
 });

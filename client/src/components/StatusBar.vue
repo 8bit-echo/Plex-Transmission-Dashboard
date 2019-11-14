@@ -17,31 +17,18 @@
         </div>
       </div>
       <div class="right">
-        <div
-          class="finished indicator"
-          v-show="finishedTorrents > 0"
-        >
+        <div class="finished indicator" v-show="finishedTorrents > 0">
           {{ finishedTorrents }} ✓
         </div>
 
-        <div
-          class="download indicator"
-          v-show="totalDownloadSpeed !== ''"
-        >
+        <div class="download indicator" v-show="totalDownloadSpeed !== ''">
           ↓ {{ totalDownloadSpeed }}/s
         </div>
 
-        <div
-          class="loading-indicator indicator"
-          v-if="isLoading"
-        >
-          <img
-            src="@/assets/spinner.svg"
-            width="25"
-          />
+        <div class="loading-indicator indicator" v-if="isLoading">
+          <img src="@/assets/spinner.svg" width="25" />
         </div>
       </div>
-
     </div>
   </section>
 </template>

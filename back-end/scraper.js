@@ -109,6 +109,7 @@ async function getZooqleResults(searchTerms, cat = '') {
       );
     }
   } catch (error) {
+    return [];
     console.log('error getting or parsing zooqle page');
   }
 }
