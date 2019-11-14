@@ -39,8 +39,8 @@ async function sudo(cmd) {
 
 async function getVPNStatus() {
   try {
-    let output = await shell('pgrep vpn');
-    return output;
+    let output = await shell(`pgrep -x openvpn >/dev/null && echo "true" || echo "false"`);
+    return JSON.parse(output);
   } catch (error) {
     console.log(error);
   }
