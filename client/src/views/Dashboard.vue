@@ -9,6 +9,7 @@
 import Controls from '@/components/Controls';
 import Transmission from '@/components/Transmission';
 import { mapState, mapActions } from 'vuex';
+import { setGlobalTimers } from '@/functions';
 
 export default {
   name: 'Dashboard',
@@ -28,9 +29,11 @@ export default {
   created() {
     // get torrents and put it on a 7 second polling.
     this.getTorrents();
-    setInterval(() => {
-      this.getTorrents();
-    }, 7000);
+    setGlobalTimers('torrents');
+  },
+
+  destroyed() {
+    clearInterval(window.torrentTimer);
   }
 };
 </script>

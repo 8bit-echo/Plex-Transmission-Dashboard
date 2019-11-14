@@ -22,6 +22,7 @@
 <script>
   import { get } from '../functions';
   import { mapMutations } from 'vuex';
+  import AppError from '@/AppError';
   export default {
     props: ['torrent'],
 
@@ -71,11 +72,7 @@
             })
             .catch(error => {
               console.log(error);
-              this.DISPLAY_NOTIFICATION({
-                display: true,
-                level: 'error',
-                message: 'Failed to add torrent to queue.'
-              });
+              new AppError('Failed to add torrent to queue.');
             });
         } else {
           console.log('no extra request reqd. adding directly.');
@@ -90,11 +87,7 @@
             })
             .catch(error => {
               console.log(error);
-              this.DISPLAY_NOTIFICATION({
-                display: true,
-                level: 'error',
-                message: 'Failed to add torrent to queue.'
-              });
+              new AppError('Failed to add torrent to queue.');
             });
         }
       }

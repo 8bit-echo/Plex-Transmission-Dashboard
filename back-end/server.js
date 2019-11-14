@@ -28,6 +28,7 @@ app.listen(port, () => {
 });
 
 app.get('/ping', (_, res) => {
+  console.log('PING');
   res.send({ success: true });
 });
 
@@ -43,11 +44,11 @@ app.get('/torrents', (_, res) => {
     'isStalled',
     'leftUntilDone',
     'metadataPercentComplete',
-    'peersConnected',
+    // 'peersConnected',
     // 'peersGettingFromUs',
-    'peersSendingToUs',
+    // 'peersSendingToUs',
     'percentDone',
-    'queuePosition',
+    // 'queuePosition',
     'rateDownload',
     // 'rateUpload',
     // 'recheckProgress',
@@ -56,10 +57,10 @@ app.get('/torrents', (_, res) => {
     'sizeWhenDone',
     'status',
     // 'trackers',
-    'downloadDir',
+    // 'downloadDir',
     // 'uploadedEver',
     // 'uploadRatio',
-    'webseedsSendingToUs'
+    // 'webseedsSendingToUs'
   ];
   if (useLocalData) {
     res.send({ torrents: dummyData });
@@ -132,7 +133,7 @@ app.post('/guess-tv-show', (req, res) => {
   getTVFolders().then(folders => {
     show = guessTVShow(torrentName, folders);
     if (!show || show === '') {
-      res.send({ msg: `Unable to match to an existing folder`, error: true });
+      res.send({ msg: `Unable to match to an existing folder`, error: true, show: null, season: null });
     } else {
       const season = extractSeasonNumber(torrentName, true);
 
@@ -140,6 +141,19 @@ app.post('/guess-tv-show', (req, res) => {
     }
   });
 });
+
+app.post('/new-show', (req, res) => {
+  console.log('new show incoming...');
+  const { makeDir, tvShows, extractSeasonNumber } = require('./functions');
+  const { show, torrent } = req.body;
+  if (show) {
+    //make directory for show name
+    makeDir(`${tvShows}/${show}`).then(success => {
+      const season = extractSeasonNumber(torrent, true);
+      res.send({ success: true, season });
+    })
+  }
+})
 
 app.post('/move-movie', (req, res) => {
   const { isDir, removeDirtyFiles, moveToMovies } = require('./functions');
@@ -178,14 +192,12 @@ app.post('/move-tv-show', (req, res) => {
   isDir(torrent.name)
     .then(isDir => {
       if (isDir) {
-        console.log('is a directory');
         removeDirtyFiles(torrent.name).then(result => {
           moveToTVShows(torrent.name, seasonPath).then(success => {
             res.send({ success });
           });
         });
       } else {
-        console.log('is a file');
         moveToTVShows(torrent.name, seasonPath).then(success => {
           res.send({ success });
         });
@@ -198,21 +210,37 @@ app.post('/move-tv-show', (req, res) => {
 });
 
 app.delete('/torrents', (req, res) => {
-  console.log('got request to remove torrent from list.');
-  const { id } = req.body;
   console.log(`removing torrent with ID: ${id} from list`);
-  tx.remove(id).then(response => {
-    res.send(response);
-  });
+  const { id } = req.body;
+
+  if (useLocalData) {
+    res.send({ success: true });
+  } else {
+    tx.remove(id).then(() => {
+      res.send({ success: true });
+    }).catch(error => {
+      console.log('failed to remove torrent from Transmission');
+      console.log(error);
+      res.send({ success: false, error: 'Failed to remove torrent from Transmission' });
+    });
+  }
+
 });
 
 app.post('/torrents', (req, res) => {
-  console.log('got request to remove torrent from list.');
-  const { id } = req.body;
-  console.log(`removing torrent with ID: ${id} from list`);
-  tx.remove(id).then(response => {
-    res.send(response);
-  });
+  if (useLocalData) {
+    res.send({ success: true });
+  } else {
+    const { id } = req.body;
+    console.log(`removing torrent with ID: ${id} from list`);
+    tx.remove(id).then(() => {
+      res.send({ success: true });
+    }).catch(error => {
+      console.log('failed to remove torrent from Transmission');
+      console.log(error);
+      res.send({ success: false, error: 'Failed to remove torrent from Transmission' });
+    });
+  }
 });
 
 app.post('/pause', (req, res) => {
@@ -283,3 +311,7 @@ app.get('/torrent', (req, res) => {
       res.send({ success: false });
     });
 });
+
+app.get('/dashboard', (req, res) => {
+  res.redirect('/');
+})

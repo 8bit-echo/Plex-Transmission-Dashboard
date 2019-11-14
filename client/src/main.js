@@ -3,7 +3,7 @@ import App from './App.vue';
 import router from './router';
 import './registerServiceWorker';
 import store from './store';
-import { deviceType, isPWA } from '@/functions';
+import AppError from '@/AppError';
 require('./global.scss');
 Vue.config.productionTip = false;
 
@@ -13,30 +13,16 @@ Vue.config.errorHandler = error => {
   console.log('caught error through vue');
   console.log(error);
   store.commit('LOADING_INDICATOR', false);
-  store.commit('DISPLAY_NOTIFICATION', {
-    display: true,
-    level: 'error',
-    message: error.message
-  });
+  new AppError(error);
 };
 
 /* fallback error handler */
 window.onerror = (error) => {
   console.log('window caught an error');
-  store.commit('DISPLAY_NOTIFICATION', {
-    display: true,
-    level: 'error',
-    message: error.message
-  });
+  new AppError(error);
 }
 
-/* PWA specific styles for notched iPhones */
-// if (isPWA() && deviceType() === 'iPhone X') {
-  require('./pwa.scss');
-// }
-
-
-new Vue({
+window.app = new Vue({
   router,
   store,
   render: h => h(App)

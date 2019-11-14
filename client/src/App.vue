@@ -16,6 +16,7 @@
   import StatusBar from '@/components/StatusBar.vue';
   import Modal from '@/components/Modal.vue';
   import { mapState, mapMutations } from 'vuex';
+  import { setGlobalTimers } from '@/functions';
 
   export default {
     components: { Nav, Notification, StatusBar, Modal },
@@ -35,9 +36,7 @@
 
       // get VPN Status and put on a 60 sec poll cycle.
       this.$store.dispatch('getVPNStatus');
-      setInterval(() => {
-        this.$store.dispatch('getVPNStatus');
-      }, 1000 * 60);
+      setGlobalTimers('vpn');
     }
   };
 </script>

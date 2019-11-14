@@ -12,7 +12,6 @@ function forceSWupdate() {
   }
 }
 
-forceSWupdate();
 
 if (process.env.NODE_ENV === 'production') {
   register(`${process.env.BASE_URL}service-worker.js`, {
@@ -30,6 +29,7 @@ if (process.env.NODE_ENV === 'production') {
     },
     updatefound() {
       console.log('New content is downloading.');
+      forceSWupdate();
     },
     updated() {
       console.log('New content is available; please refresh.');

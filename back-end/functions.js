@@ -1,5 +1,7 @@
 const NodeSSH = require('node-ssh');
 const ssh = new NodeSSH();
+const { promisify } = require('util');
+const exec = promisify(require('child_process').exec);
 const serverRoot = '/media/mini/ServerSpace/';
 const downloads = `${serverRoot}Downloads`;
 const movies = `${serverRoot}Media/Movies/`;
@@ -9,13 +11,14 @@ const sshConfig = {
   username: process.env.SSH_USER1,
   privateKey: process.env.SSH_KEY_PATH
 };
+
 const sshConfigRoot = {
   host: process.env.SSH_HOST,
   username: process.env.SSH_USER2,
   privateKey: process.env.SSH_KEY_PATH
 };
 
-async function shell(cmd) {
+/* async function shell(cmd) {
   try {
     const connection = await ssh.connect(sshConfig);
     const result = await connection.exec(cmd);
@@ -24,17 +27,23 @@ async function shell(cmd) {
   } catch (err) {
     console.log(err);
   }
+} */
+async function shell(cmd) {
+  console.log(`$ ${cmd}`);
+  return new Promise((resolve, reject) => {
+    exec(cmd, (error, stdout, stderr) => {
+      if (error) {
+        console.error(error);
+        reject(error);
+      };
+      console.log(`> ${stdout}`);
+      resolve(stdout);
+    })
+  })
 }
 
 async function sudo(cmd) {
-  try {
-    const connection = await ssh.connect(sshConfigRoot);
-    const result = await connection.exec(cmd);
-    // connection.dispose();
-    return result;
-  } catch (err) {
-    console.log(err);
-  }
+
 }
 
 async function getVPNStatus() {
@@ -77,7 +86,7 @@ async function enableVPN() {
 
 async function getTVFolders() {
   try {
-    const folders = await shell(`ls "${serverRoot}/Media/TV Shows"`);
+    const folders = await shell(`ls "${serverRoot}Media/TV Shows"`);
     const asArray = JSON.parse(`["${folders.replace(/\n/g, `","`)}"]`);
     return asArray;
   } catch (error) {
@@ -127,7 +136,7 @@ function extractSeasonNumber(fileName, withPrefix = false) {
 
 async function isDir(fileName) {
   try {
-    const dir = await shell(`isDir ${downloads}/${fileName}`);
+    const dir = await shell(`isDir "${downloads}/${fileName}"`);
     return JSON.parse(dir);
   } catch (error) {
     return false;
@@ -135,18 +144,16 @@ async function isDir(fileName) {
 }
 
 async function folderExists(path) {
-  console.log(`checking for existing directory at: ${path}`);
-  shell(`[ -d "${path}" ] && echo "true" || echo "false"`).then(exists => {
-    console.log(`exists: ${exists}`);
-    return JSON.parse(exists);
-  });
+  const exists = await shell(`[ -d "${path}" ] && echo "true" || echo "false"`);
+  return JSON.parse(exists);
 }
 
 async function moveToMovies(fileName) {
-  console.log(`executing move file ${fileName}`);
+  console.log(`moving file to Movies...`);
   const mv = await shell(`mv "${downloads}/${fileName}" "${movies}"`);
   const result = await mv;
   console.log(result);
+  shell(`tree ${movies}`);
   if (result == '') {
     return true;
   } else {
@@ -155,29 +162,19 @@ async function moveToMovies(fileName) {
 }
 
 async function moveToTVShows(fileName, seasonPath) {
-  console.log(`executing move file ${fileName}`);
-
-  if (await !folderExists(seasonPath)) {
-    makeDir(seasonPath).then(async () => {
-      const mv = await shell(`mv "${downloads}/${fileName}" "${seasonPath}/"`);
-      const result = await mv;
-      if (result == '') {
-        return true;
-      } else {
-        return false;
-      }
-    })
-  } else {
-    console.log('doing move now...');
+  const seasonPathExists = await folderExists(seasonPath);
+  if (seasonPathExists) {
     const mv = await shell(`mv "${downloads}/${fileName}" "${seasonPath}/"`);
     const result = await mv;
-    if (result == '') {
-      return true;
-    } else {
-      return false;
+    if (result || !result)  return true;
+  } else {
+    const mkdir = await makeDir(seasonPath);
+    if (await folderExists(seasonPath)) {
+      const mv = await shell(`mv "${downloads}/${fileName}" "${seasonPath}/"`);
+      const result = await mv;
+      if (result || !result)  return true;
     }
   }
-
 }
 
 async function removeDirtyFiles(dir) {
@@ -194,7 +191,7 @@ async function removeDirtyFiles(dir) {
 }
 
 async function makeDir(dir) {
-  console.log(`path does not exist. making directory now at ${dir}`);
+  console.log(`path does not exist. making directory now...`);
   shell(`mkdir "${dir}"`).then(() => {
     return true;
   });

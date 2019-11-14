@@ -1,10 +1,23 @@
+import AppError from '@/AppError';
+
 /**
  * convenience method via fetch API for GET requests.
  */
 export async function get(endpoint) {
-  let response = await fetch(`http://${process.env.VUE_APP_HOST}${endpoint}`);
-  let json = await response.json();
-  return json;
+  try {
+    let response = await fetch(`http://${process.env.VUE_APP_HOST}${endpoint}`);
+    let json = await response.json();
+    return json;
+  } catch (error) {
+    if (error.message === 'Failed to fetch') {
+      fetch(`http://${process.env.VUE_APP_HOST}/ping`)
+        .then(res => res.json())
+        .then(json => console.log(`ping recieved JSON: ${json}`))
+        .catch(() => {
+          offlineHandler();
+        })
+    }
+  }
 }
 
 /**
@@ -25,7 +38,7 @@ export async function post(endpoint, payload) {
     let json = await response.json();
     return json;
   } catch (error) {
-    throw new Error(error);
+    new AppError(error);
   }
 }
 
@@ -90,6 +103,69 @@ export function toHuman(bytes) {
  */
 export function setStatusBarColor(color = '#202027') {
   document.documentElement.style.setProperty('--topBarColor', color);
+}
+
+/**
+* sets global offline notification as well as establishing heartbeat for when we're reconnected to the server. Tears down fetch requests.
+*/
+export async function offlineHandler() {
+  //display offline global statusbar notification.
+  window.app.$store.commit('GLOBAL_NOTIFICATION', 'Offline');
+  // set vpn off.
+  window.app.$store.commit('VPN_STATUS', false);
+
+  // clear all timers on fetching new resources.
+  clearInterval(window.vpnTimer);
+  clearInterval(window.torrentTimer);
+
+  // check heartbeat every 10 sec.
+  window.onlineCheck = setInterval(() => {
+    fetch(`http://${process.env.VUE_APP_HOST}/ping`)
+      .then(res => res.json())
+      .then(json => {
+        if (json && json.success) {
+          // received heartbeat from server. 
+          console.log('back online with server...');
+          window.app.$store.commit('GLOBAL_NOTIFICATION', false);
+          window.app.$store.dispatch('getVPNStatus');
+
+          // clear the heartbeat timer and reinstate the other timers.
+          clearInterval(window.onlineCheck);
+          setGlobalTimers();
+        }
+      }).catch(() => {
+        console.log('still offline');
+      })
+  }, 1000 * 10);
+}
+
+/**
+* sets all timers if no arguments are passed, or sets a single timer if it's string name is passed.
+*/
+export function setGlobalTimers(timerName = undefined) {
+  switch (timerName) {
+    case 'torrents':
+      window.torrentTimer = setInterval(() => {
+        window.app.$store.dispatch('getTorrents');
+      }, 1000 * 7);
+      break;
+
+    case 'vpn':
+      window.vpnTimer = setInterval(() => {
+        window.app.$store.dispatch('getVPNStatus');
+      }, 1000 * 60);
+      break;
+
+    default:
+      window.torrentTimer = setInterval(() => {
+        window.app.$store.dispatch('getTorrents');
+      }, 1000 * 7);
+
+      window.vpnTimer = setInterval(() => {
+        window.app.$store.dispatch('getVPNStatus');
+      }, 1000 * 60);
+      break;
+  }
 }
 
 /* These are constants used by Transmission RPC for status. */

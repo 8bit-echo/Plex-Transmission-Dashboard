@@ -10,22 +10,38 @@
       :class="['status-bar', { hasGlobal: globalNotification !== false }]"
       ref="statusBar"
     >
-      <div class="vpnStatus indicator">
-        VPN
-        <div :class="{ statusLight: true, active: vpnActive }"></div>
+      <div class="left">
+        <div class="vpnStatus indicator">
+          VPN
+          <div :class="{ statusLight: true, active: vpnActive }"></div>
+        </div>
+      </div>
+      <div class="right">
+        <div
+          class="finished indicator"
+          v-show="finishedTorrents > 0"
+        >
+          {{ finishedTorrents }} ✓
+        </div>
+
+        <div
+          class="download indicator"
+          v-show="totalDownloadSpeed !== ''"
+        >
+          ↓ {{ totalDownloadSpeed }}/s
+        </div>
+
+        <div
+          class="loading-indicator indicator"
+          v-if="isLoading"
+        >
+          <img
+            src="@/assets/spinner.svg"
+            width="25"
+          />
+        </div>
       </div>
 
-      <div class="finished indicator" v-show="finishedTorrents > 0">
-        {{ finishedTorrents }} ✓
-      </div>
-
-      <div class="download indicator" v-show="totalDownloadSpeed !== ''">
-        ↓ {{ totalDownloadSpeed }}/s
-      </div>
-
-      <div class="loading-indicator indicator" v-if="isLoading">
-        <img src="@/assets/spinner.svg" width="25" />
-      </div>
     </div>
   </section>
 </template>
@@ -50,7 +66,7 @@
         ) {
           switch (this.globalNotification.toLowerCase()) {
             case 'offline': {
-              setStatusBarColor('grey');
+              setStatusBarColor('#605f73');
             }
           }
         } else {
@@ -81,7 +97,7 @@
   }
 
   .global-notification {
-    background-color: grey;
+    background-color: #605f73;
 
     &.Offline {
       &::before {
@@ -97,9 +113,9 @@
         background-repeat: no-repeat;
       }
     }
-      // @media screen and (width: 375px) and (height: 812px) {
-      //   padding-top: 24px !important;
-      // }
+    // @media screen and (width: 375px) and (height: 812px) {
+    //   padding-top: 24px !important;
+    // }
   }
 
   .status-bar {
@@ -133,11 +149,21 @@
     .finished {
       color: #2bca2b;
     }
+
+    & > div {
+      display: flex;
+      justify-content: space-around;
+    }
   }
 
   @media screen and (width: 375px) and (height: 768px) {
     #status {
       padding-top: 36px !important;
+    }
+
+    .global-notification {
+      padding-top: 44px;
+      margin-top: -44px;
     }
   }
 

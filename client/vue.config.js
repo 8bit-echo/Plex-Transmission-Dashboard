@@ -3,6 +3,6 @@ module.exports = {
     name: 'Torrents',
     appleMobileWebAppCapable: 'yes',
     appleMobileWebAppStatusBarStyle: 'black-translucent',
-    themeColor: '#4DBA87'
+    themeColor: '#202027'
   }
 };
