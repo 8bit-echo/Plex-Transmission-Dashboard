@@ -96,7 +96,7 @@ export default new Vuex.Store({
     getVPNStatus({ commit, state }) {
       get('/vpn-status')
         .then(result => {
-          if (result && result.status && state.vpnActive !== result.status) {
+          if (state.vpnActive !== result.status) {
             commit('VPN_STATUS', result.status);
           }
         })

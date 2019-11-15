@@ -120,6 +120,7 @@ export async function offlineHandler() {
 
   // check heartbeat every 10 sec.
   window.onlineCheck = setInterval(() => {
+    console.log('checking for connection with server...');
     fetch(`http://${process.env.VUE_APP_HOST}/ping`)
       .then(res => res.json())
       .then(json => {
@@ -129,8 +130,11 @@ export async function offlineHandler() {
           window.app.$store.commit('GLOBAL_NOTIFICATION', false);
           window.app.$store.dispatch('getVPNStatus');
 
+          console.log('clearing all timers');
           // clear the heartbeat timer and reinstate the other timers.
           clearInterval(window.onlineCheck);
+          clearInterval(window.vpnTimer);
+          clearInterval(window.torrentTimer);
           setGlobalTimers();
         }
       }).catch(() => {
@@ -145,18 +149,21 @@ export async function offlineHandler() {
 export function setGlobalTimers(timerName = undefined) {
   switch (timerName) {
     case 'torrents':
+      console.log('setting torrentTimer');
       window.torrentTimer = setInterval(() => {
         window.app.$store.dispatch('getTorrents');
       }, 1000 * 7);
       break;
 
     case 'vpn':
+        console.log('setting vpnTimer');
       window.vpnTimer = setInterval(() => {
         window.app.$store.dispatch('getVPNStatus');
       }, 1000 * 60);
       break;
 
     default:
+      console.log('setting all timers');
       window.torrentTimer = setInterval(() => {
         window.app.$store.dispatch('getTorrents');
       }, 1000 * 7);
