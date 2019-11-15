@@ -5,12 +5,12 @@ import AppError from '@/AppError';
  */
 export async function get(endpoint) {
   try {
-    let response = await fetch(`http://${process.env.VUE_APP_HOST}${endpoint}`);
+    let response = await fetch(`https://${process.env.VUE_APP_HOST}${endpoint}`);
     let json = await response.json();
     return json;
   } catch (error) {
     if (error.message === 'Failed to fetch') {
-      fetch(`http://${process.env.VUE_APP_HOST}/ping`)
+      fetch(`https://${process.env.VUE_APP_HOST}/ping`)
         .then(res => res.json())
         .then(json => console.log(`ping recieved JSON: ${json}`))
         .catch(() => {
@@ -26,7 +26,7 @@ export async function get(endpoint) {
 export async function post(endpoint, payload) {
   try {
     let response = await fetch(
-      `http://${process.env.VUE_APP_HOST}${endpoint}`,
+      `https://${process.env.VUE_APP_HOST}${endpoint}`,
       {
         method: 'POST',
         headers: {
@@ -46,7 +46,7 @@ export async function post(endpoint, payload) {
  * convenience method via fetch API for DELETE requests.
  */
 export async function _delete(endpoint, payload) {
-  let response = await fetch(`http://${process.env.VUE_APP_HOST}${endpoint}`, {
+  let response = await fetch(`https://${process.env.VUE_APP_HOST}${endpoint}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -120,7 +120,7 @@ export async function offlineHandler() {
 
   // check heartbeat every 10 sec.
   window.onlineCheck = setInterval(() => {
-    fetch(`http://${process.env.VUE_APP_HOST}/ping`)
+    fetch(`https://${process.env.VUE_APP_HOST}/ping`)
       .then(res => res.json())
       .then(json => {
         if (json && json.success) {
