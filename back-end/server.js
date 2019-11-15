@@ -11,6 +11,7 @@ const tx = new Transmission({
   password: process.env.TX_PASS,
 });
 
+
 app.use(express.static('../client/dist'));
 app.use(express.json());
 app.use((_, res, next) => {
@@ -91,26 +92,24 @@ app.get('/vpn-status', (_, res) => {
 });
 
 app.post('/vpn', (req, res) => {
-  const { enableVPN } = require('./functions');
   console.log('request to modify vpn');
-  console.log(req.body);
-  const response = {};
+  const { enableVPN, disableVPN } = require('./functions');
+  const { toggle } = req.body;
 
-  if (req.body.action == 'stop') {
-    const { disableVPN } = require('./functions');
-    const result = disableVPN();
-    if (!result.error) {
-      response.success = true;
-      response.status = 'INACTIVE';
-    }
-  } else if (req.body.action == 'start') {
-    const result = enableVPN();
-    response.success = true;
-    response.status = 'ACTIVE';
+  console.log('set VPN to: ', toggle);
+
+  if (toggle) {
+    enableVPN();
+    setTimeout(() => {
+      res.send({ success : true});
+    }, 2000);
   } else {
-    res.status(400).send();
+    disableVPN()
+    setTimeout(() => {
+      res.send({ success : true});
+    }, 1000);
   }
-  res.send(response);
+
 });
 
 app.post('/guess-tv-show', (req, res) => {

@@ -1,33 +1,10 @@
-const NodeSSH = require('node-ssh');
-const ssh = new NodeSSH();
 const { promisify } = require('util');
 const exec = promisify(require('child_process').exec);
 const serverRoot = '/media/mini/ServerSpace/';
 const downloads = `${serverRoot}Downloads`;
 const movies = `${serverRoot}Media/Movies/`;
 const tvShows = `${serverRoot}Media/TV Shows`;
-const sshConfig = {
-  host: process.env.SSH_HOST,
-  username: process.env.SSH_USER1,
-  privateKey: process.env.SSH_KEY_PATH
-};
 
-const sshConfigRoot = {
-  host: process.env.SSH_HOST,
-  username: process.env.SSH_USER2,
-  privateKey: process.env.SSH_KEY_PATH
-};
-
-/* async function shell(cmd) {
-  try {
-    const connection = await ssh.connect(sshConfig);
-    const result = await connection.exec(cmd);
-    connection.dispose();
-    return result;
-  } catch (err) {
-    console.log(err);
-  }
-} */
 async function shell(cmd) {
   console.log(`$ ${cmd}`);
   return new Promise((resolve, reject) => {
@@ -42,10 +19,6 @@ async function shell(cmd) {
   })
 }
 
-async function sudo(cmd) {
-
-}
-
 async function getVPNStatus() {
   try {
     let output = await shell(`pgrep -x openvpn >/dev/null && echo "true" || echo "false"`);
@@ -56,32 +29,51 @@ async function getVPNStatus() {
 }
 
 async function disableVPN() {
-  try {
-    let output = await sudo('kill $(pgrep vpn)');
-    console.log(`output of sudo cmd: ${typeof output}`);
-    console.log(output);
-    if (output.length >= 1) {
-      return { error: null };
+  console.log('disabling vpn');
+  const psTree = require('ps-tree');
+
+  const kill = (pid) => {
+    const killTree = true;
+    if (killTree) {
+      psTree(pid, (err, children) => {
+        [pid].concat(
+          children.map((p) => {
+            return p.PID;
+          })
+        ).forEach((tpid) => {
+          try { process.kill(tpid, 'SIGKILL') }
+          catch (ex) { }
+        });
+
+        return true;
+      });
+    } else {
+      try { process.kill(pid, 'SIGKILL') }
+      catch (ex) { }
     }
-  } catch (error) {
-    console.error('disable VPN Error');
-    return 'disable VPN Error';
-  }
+  };
+
+  const pid = await shell('pgrep openvpn');
+  return kill(pid);
 }
 
 async function enableVPN() {
-  try {
-    let output = await sudo(
-      'openvpn --config /home/mini/Templates/minivultr.ovpn --mute-replay-warnings'
-    );
-    // if (output.length >= 1) {
-    //   return { error: null };
-    // }
-    console.log(output);
-    return { error: null };
-  } catch (error) {
-    return { error };
-  }
+  console.log('enabling vpn');
+  const sh = require('child_process').exec;
+  ovpnProcess = sh('openvpn /home/mini/Templates/minivultr.ovpn');
+  ovpnProcess.stdout.on('data', function (data) {
+    console.log('stdout: ' + data);
+  });
+  ovpnProcess.stderr.on('data', function (data) {
+    console.log('stdout: ' + data);
+  });
+  ovpnProcess.on('close', function (code) {
+    console.log('closing code: ' + code);
+  });
+
+  return setTimeout(() => {
+    return true;
+  }, 2000);
 }
 
 async function getTVFolders() {
@@ -166,13 +158,13 @@ async function moveToTVShows(fileName, seasonPath) {
   if (seasonPathExists) {
     const mv = await shell(`mv "${downloads}/${fileName}" "${seasonPath}/"`);
     const result = await mv;
-    if (result || !result)  return true;
+    if (result || !result) return true;
   } else {
     const mkdir = await makeDir(seasonPath);
     if (await folderExists(seasonPath)) {
       const mv = await shell(`mv "${downloads}/${fileName}" "${seasonPath}/"`);
       const result = await mv;
-      if (result || !result)  return true;
+      if (result || !result) return true;
     }
   }
 }

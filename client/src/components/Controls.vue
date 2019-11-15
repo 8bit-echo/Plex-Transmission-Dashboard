@@ -5,7 +5,6 @@
   >
     <div class="buttons">
       <button
-        v-if="false"
         @click="toggleVPN()"
       >Toggle VPN</button>
       <button
@@ -56,7 +55,7 @@
 
   export default {
     computed: {
-      ...mapState(['selectedTorrent', 'isLoading']),
+      ...mapState(['selectedTorrent', 'isLoading', 'vpnActive']),
 
       disabled() {
         return !this.selectedTorrent || this.isLoading;
@@ -83,22 +82,16 @@
         'DISPLAY_NOTIFICATION'
       ]),
 
-      toggleVPN() {
-        // not currently working on back-end
-        // let action;
-        // if (this.vpnStatus) {
-        //   action = 'stop';
-        // } else {
-        //   action = 'start';
-        // }
-        // post('/vpn', { action }).then(response => {
-        //   if (response.success) {
-        //     // console.log(`vpn start: success`);
-        //     get('/vpn-status').then(result => {
-        //       this.vpnStatus = result.status;
-        //     });
-        //   }
-        // });
+      async toggleVPN() {
+        this.LOADING_INDICATOR(true);
+        const vpn = await post('/vpn', {toggle: !this.vpnActive});
+
+        if (vpn.success) {
+          this.getVPNStatus();
+        } else {
+          new AppError('failed to toggle VPN');
+        }
+        this.LOADING_INDICATOR(false);
       },
 
       /**

@@ -15,7 +15,7 @@ export async function get(endpoint) {
         .then(json => console.log(`ping recieved JSON: ${json}`))
         .catch(() => {
           offlineHandler();
-        })
+        });
     }
   }
 }
@@ -25,16 +25,13 @@ export async function get(endpoint) {
  */
 export async function post(endpoint, payload) {
   try {
-    let response = await fetch(
-      `https://${process.env.VUE_APP_HOST}${endpoint}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      }
-    );
+    let response = await fetch(`https://${process.env.VUE_APP_HOST}${endpoint}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
     let json = await response.json();
     return json;
   } catch (error) {
@@ -49,9 +46,9 @@ export async function _delete(endpoint, payload) {
   let response = await fetch(`https://${process.env.VUE_APP_HOST}${endpoint}`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify(payload)
+    body: JSON.stringify(payload),
   });
   let json = await response.json();
   return json;
@@ -65,7 +62,7 @@ export function deviceType() {
   const ratio = window.devicePixelRatio || 1;
   const screen = {
     width: window.screen.width * ratio,
-    height: window.screen.height * ratio
+    height: window.screen.height * ratio,
   };
 
   // iPhone X Detection
@@ -91,11 +88,7 @@ export function toHuman(bytes) {
     return '';
   }
   const i = Math.floor(Math.log(bytes) / Math.log(1024));
-  return (
-    (bytes / Math.pow(1024, i)).toFixed(1) * 1 +
-    ' ' +
-    ['B', 'kB', 'MB', 'GB', 'TB'][i]
-  );
+  return (bytes / Math.pow(1024, i)).toFixed(1) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
 }
 
 /**
@@ -106,8 +99,8 @@ export function setStatusBarColor(color = '#202027') {
 }
 
 /**
-* sets global offline notification as well as establishing heartbeat for when we're reconnected to the server. Tears down fetch requests.
-*/
+ * sets global offline notification as well as establishing heartbeat for when we're reconnected to the server. Tears down fetch requests.
+ */
 export async function offlineHandler() {
   //display offline global statusbar notification.
   window.app.$store.commit('GLOBAL_NOTIFICATION', 'Offline');
@@ -120,43 +113,51 @@ export async function offlineHandler() {
 
   // check heartbeat every 10 sec.
   window.onlineCheck = setInterval(() => {
+    console.log('checking for connection with server...');
     fetch(`https://${process.env.VUE_APP_HOST}/ping`)
       .then(res => res.json())
       .then(json => {
         if (json && json.success) {
-          // received heartbeat from server. 
+          // received heartbeat from server.
           console.log('back online with server...');
           window.app.$store.commit('GLOBAL_NOTIFICATION', false);
           window.app.$store.dispatch('getVPNStatus');
 
+          console.log('clearing all timers');
           // clear the heartbeat timer and reinstate the other timers.
           clearInterval(window.onlineCheck);
+          clearInterval(window.vpnTimer);
+          clearInterval(window.torrentTimer);
           setGlobalTimers();
         }
-      }).catch(() => {
-        console.log('still offline');
       })
+      .catch(() => {
+        console.log('still offline');
+      });
   }, 1000 * 10);
 }
 
 /**
-* sets all timers if no arguments are passed, or sets a single timer if it's string name is passed.
-*/
+ * sets all timers if no arguments are passed, or sets a single timer if it's string name is passed.
+ */
 export function setGlobalTimers(timerName = undefined) {
   switch (timerName) {
     case 'torrents':
+      console.log('setting torrentTimer');
       window.torrentTimer = setInterval(() => {
         window.app.$store.dispatch('getTorrents');
       }, 1000 * 7);
       break;
 
     case 'vpn':
+      console.log('setting vpnTimer');
       window.vpnTimer = setInterval(() => {
         window.app.$store.dispatch('getVPNStatus');
       }, 1000 * 60);
       break;
 
     default:
+      console.log('setting all timers');
       window.torrentTimer = setInterval(() => {
         window.app.$store.dispatch('getTorrents');
       }, 1000 * 7);
@@ -177,5 +178,5 @@ export const txStatus = {
   DOWNLOAD: 4, // Downloading
   SEED_WAIT: 5, // Queued to seed
   SEED: 6, // Seeding
-  ISOLATED: 7 // Torrent can't find peers
+  ISOLATED: 7, // Torrent can't find peers
 };
