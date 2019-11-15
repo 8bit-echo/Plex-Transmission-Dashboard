@@ -1,5 +1,7 @@
 require('dotenv').config();
 const express = require('express');
+const https = require('https');
+const fs = require('fs');
 const useLocalData = process.env.LOCAL_DATA || false;
 const app = express();
 const port = 2113;
@@ -20,7 +22,10 @@ app.use((_, res, next) => {
   next();
 });
 
-app.listen(port, () => {
+https.createServer({
+  key: fs.readFileSync(process.env.SSL_KEY_PATH),
+  cert: fs.readFileSync(process.env.SSL_CRT_PATH)
+},app).listen(port, () => {
   console.log(`app running on port ${port}`);
   console.log(`using local data: ${useLocalData}`);
 });
