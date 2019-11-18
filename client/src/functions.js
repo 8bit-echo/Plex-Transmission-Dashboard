@@ -112,28 +112,27 @@ export async function offlineHandler() {
   clearInterval(window.torrentTimer);
 
   // check heartbeat every 10 sec.
-  window.onlineCheck = setInterval(() => {
+  window.onlineCheck = setInterval(async () => {
     console.log('checking for connection with server...');
-    fetch(`https://${process.env.VUE_APP_HOST}/ping`)
-      .then(res => res.json())
-      .then(json => {
-        if (json && json.success) {
-          // received heartbeat from server.
-          console.log('back online with server...');
-          window.app.$store.commit('GLOBAL_NOTIFICATION', false);
-          window.app.$store.dispatch('getVPNStatus');
 
-          console.log('clearing all timers');
-          // clear the heartbeat timer and reinstate the other timers.
-          clearInterval(window.onlineCheck);
-          clearInterval(window.vpnTimer);
-          clearInterval(window.torrentTimer);
-          setGlobalTimers();
-        }
-      })
-      .catch(() => {
-        console.log('still offline');
-      });
+    try {
+      const json = await (await fetch(`https://${process.env.VUE_APP_HOST}/ping`)).json();      
+      if (json && json.success) {
+        // received heartbeat from server.
+        console.log('back online with server...');
+        window.app.$store.commit('GLOBAL_NOTIFICATION', false);
+        window.app.$store.dispatch('getVPNStatus');
+
+        console.log('clearing all timers');
+        // clear the heartbeat timer and reinstate the other timers.
+        clearInterval(window.onlineCheck);
+        clearInterval(window.vpnTimer);
+        clearInterval(window.torrentTimer);
+        setGlobalTimers();
+      }
+    } catch (error) {
+      console.log('still offline');
+    }
   }, 1000 * 10);
 }
 

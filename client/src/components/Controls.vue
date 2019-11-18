@@ -4,9 +4,7 @@
     @click.self="deselectTorrents()"
   >
     <div class="buttons">
-      <button
-        @click="toggleVPN()"
-      >Toggle VPN</button>
+      <button @click="toggleVPN()">Toggle VPN</button>
       <button
         @click="getTVFolder()"
         :disabled="disabled"
@@ -84,7 +82,7 @@
 
       async toggleVPN() {
         this.LOADING_INDICATOR(true);
-        const vpn = await post('/vpn', {toggle: !this.vpnActive});
+        const vpn = await post('/vpn', { toggle: !this.vpnActive });
 
         if (vpn.success) {
           this.getVPNStatus();
@@ -138,28 +136,28 @@
         let show;
         try {
           // show doesn't exist probably. Create new name for the directroy.
-            this.OPEN_MODAL({
-              msg: 'Could not match to existing show. Enter name of show.',
-              action: async (show) => {
-                // create a new directory for the given name entered.
-                const { season } = await post('/new-show', {
-                  show,
-                  torrent: this.selectedTorrent.name
-                });
+          this.OPEN_MODAL({
+            msg: 'Could not match to existing show. Enter name of show.',
+            action: async show => {
+              // create a new directory for the given name entered.
+              const { season } = await post('/new-show', {
+                show,
+                torrent: this.selectedTorrent.name
+              });
 
-                this.OPEN_MODAL({
-                  msg: `Move to ${show} - ${season} folder?`,
-                  show,
-                  season,
-                  action: () => {
-                    this.moveTVShow(this.selectedTorrent, show, season);
-                  }
-                });
-              },
-              extra: {
-                isPrompt: true
-              }
-            });
+              this.OPEN_MODAL({
+                msg: `Move to ${show} - ${season} folder?`,
+                show,
+                season,
+                action: () => {
+                  this.moveTVShow(this.selectedTorrent, show, season);
+                }
+              });
+            },
+            extra: {
+              isPrompt: true
+            }
+          });
         } catch (error) {
           new AppError('Failed to create directory for this show.');
         }
@@ -211,22 +209,21 @@
       /**
        * Removes a torrent from the queue / list. leaves file in place.
        */
-      removeFromList(torrent) {
+      async removeFromList(torrent) {
         this.LOADING_INDICATOR(true);
-        _delete('/torrents', { id: torrent.id })
-          .then(response => {
-            if (response.success) {
-              this.deselectTorrents();
-              this.getTorrents();
-            } else {
-              new AppError(response.error);
-            }
-            this.LOADING_INDICATOR(false);
-          })
-          .catch(error => {
-            this.LOADING_INDICATOR(false);
-            new AppError(error);
-          });
+        try {
+          const response = await _delete('/torrents', { id: torrent.id });
+          if (response.success) {
+            this.deselectTorrents();
+            this.getTorrents();
+          } else {
+            new AppError(response.error);
+          }
+          this.LOADING_INDICATOR(false);
+        } catch (error) {
+          this.LOADING_INDICATOR(false);
+          new AppError(error);
+        }
       },
 
       /**
@@ -249,9 +246,6 @@
       }
     },
 
-    mounted() {
-
-    }
   };
 </script>
 

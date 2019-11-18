@@ -5,21 +5,21 @@
 </template>
 
 <script>
-import Search from '@/components/Search.vue';
+  import Search from '@/components/Search.vue';
 
-export default {
-  name: 'home',
-  components: {
-    Search
-  }
-};
+  export default {
+    name: 'home',
+    components: {
+      Search
+    }
+  };
 </script>
 
 <style>
-.home {
-  text-align: center;
-  padding: 0 1rem;
-  overflow: scroll;
-  height: 100%;
-}
+  .home {
+    text-align: center;
+    padding: 0 1rem;
+    overflow: scroll;
+    height: 100%;
+  }
 </style>

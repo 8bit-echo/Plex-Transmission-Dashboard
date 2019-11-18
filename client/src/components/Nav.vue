@@ -66,8 +66,8 @@
       display: none;
     }
 
-    @media screen and (width: 375px) and (height:768px) {
-        padding-bottom: 35px !important;
+    @media screen and (width: 375px) and (height: 768px) {
+      padding-bottom: 35px !important;
     }
   }
 </style>

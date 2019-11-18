@@ -68,9 +68,7 @@
        * The modal is passed an action to perform on Confirm which is called before closing the dialog.
        */
       confirmAction() {
-        this.isPrompt 
-        ? this.modalConfirm(this.prompt)
-        : this.modalConfirm();
+        this.isPrompt ? this.modalConfirm(this.prompt) : this.modalConfirm();
         this.hideDialog();
       }
     }
@@ -120,7 +118,7 @@
       width: 95%;
       margin: 1rem auto;
       font-size: 1rem;
-      padding: .5rem;
+      padding: 0.5rem;
       text-align: center;
     }
 

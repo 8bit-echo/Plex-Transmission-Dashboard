@@ -1,5 +1,8 @@
 <template>
-  <div id="app" :class="{hasGlobal:globalNotification != false}">
+  <div
+    id="app"
+    :class="{hasGlobal:globalNotification != false}"
+  >
     <Notification />
     <StatusBar />
     <main ref="main">
@@ -31,7 +34,7 @@
     created() {
       // this is on the touchscreen with no keyboard, and we only want the dashboard on that device.
       if (window.innerWidth === 800 && window.innerHeight === 480) {
-        this.$router.push('/dashboard')
+        this.$router.push('/dashboard');
       }
 
       // get VPN Status and put on a 60 sec poll cycle.

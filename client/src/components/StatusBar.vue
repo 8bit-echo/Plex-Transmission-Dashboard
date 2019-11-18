@@ -100,9 +100,6 @@
         background-repeat: no-repeat;
       }
     }
-    // @media screen and (width: 375px) and (height: 812px) {
-    //   padding-top: 24px !important;
-    // }
   }
 
   .status-bar {

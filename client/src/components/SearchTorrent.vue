@@ -59,36 +59,37 @@
        * The action required to finish adding a torrent to the queue after confirming in the modal.
        *  defining the action as a method ensures that the context stays within the scope of this component's data.
        */
-      confirmDownload() {
+      async confirmDownload() {
         if (this.requiresExtraRequest) {
-          get(`/magnet?link=${this.torrent.link}`)
-            .then(success => {
-              console.log(success);
-              this.DISPLAY_NOTIFICATION({
-                display: true,
-                level: 'okay',
-                message: 'Torrent queued for download'
-              });
-            })
-            .catch(error => {
-              console.log(error);
-              new AppError('Failed to add torrent to queue.');
+          try {
+            const { success } = await get(`/magnet?link=${this.torrent.link}`);
+            console.log(success);
+            this.DISPLAY_NOTIFICATION({
+              display: true,
+              level: 'okay',
+              message: 'Torrent queued for download'
             });
+          } catch (error) {
+            console.log(error);
+            new AppError('Failed to add torrent to queue.');
+          }
         } else {
           console.log('no extra request reqd. adding directly.');
-          get(`/torrent?magnet=${this.torrent.magnet}`)
-            .then(success => {
+          try {
+            const { success } = await get(
+              `/torrent?magnet=${this.torrent.magnet}`
+            ).then(success => {
               console.log(success);
               this.DISPLAY_NOTIFICATION({
                 display: true,
                 level: 'okay',
                 message: 'Torrent queued for download'
               });
-            })
-            .catch(error => {
-              console.log(error);
-              new AppError('Failed to add torrent to queue.');
             });
+          } catch (error) {
+            console.log(error);
+            new AppError('Failed to add torrent to queue.');
+          }
         }
       }
     }

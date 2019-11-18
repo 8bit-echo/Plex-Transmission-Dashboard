@@ -96,7 +96,7 @@ export default new Vuex.Store({
     getVPNStatus({ commit, state }) {
       get('/vpn-status')
         .then(result => {
-          if (state.vpnActive !== result.status) {
+          if (result.status && state.vpnActive !== result.status) {
             commit('VPN_STATUS', result.status);
           }
         })
@@ -107,7 +107,9 @@ export default new Vuex.Store({
 
     getTorrents({ commit }) {
       get('/torrents').then(({ torrents }) => {
-        commit('TORRENTS_CHANGED', torrents);
+        if (torrents) {
+          commit('TORRENTS_CHANGED', torrents);
+        }
       }).catch(() => {
         new AppError('Unable to get list of torrents');
       });
