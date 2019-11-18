@@ -186,7 +186,10 @@ async function makeDir(dir) {
   console.log(`path does not exist. making directory now...`);
   shell(`mkdir "${dir}"`).then(() => {
     return true;
-  });
+  }).catch(error => {
+    console.log(error);
+    return false;
+  })
 }
 
 module.exports = {

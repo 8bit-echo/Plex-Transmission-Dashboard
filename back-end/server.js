@@ -13,7 +13,6 @@ const tx = new Transmission({
   password: process.env.TX_PASS,
 });
 
-
 app.use(express.static('../client/dist'));
 app.use(express.json());
 app.use((_, res, next) => {
@@ -22,10 +21,16 @@ app.use((_, res, next) => {
   next();
 });
 
-https.createServer({
-  key: fs.readFileSync(process.env.SSL_KEY_PATH),
-  cert: fs.readFileSync(process.env.SSL_CRT_PATH)
-},app).listen(port, () => {
+// https
+//   .createServer(
+//     {
+//       key: fs.readFileSync(process.env.SSL_KEY_PATH),
+//       cert: fs.readFileSync(process.env.SSL_CRT_PATH),
+//     },
+//     app,
+//   ).listen(port, () => {
+
+app.listen(port, () => {
   console.log(`app running on port ${port}`);
   console.log(`using local data: ${useLocalData}`);
 });
@@ -79,20 +84,18 @@ app.get('/torrents', (_, res) => {
   }
 });
 
-app.get('/vpn-status', (_, res) => {
+app.get('/vpn-status', async (_, res) => {
   const { getVPNStatus } = require('./functions');
   if (useLocalData) {
     res.send({ status: true });
   } else {
     console.log('got request for vpn status');
-    getVPNStatus()
-      .then(status => {
-        res.send({ status });
-      })
-      .catch(error => {
-        status = false;
-        res.send({ status });
-      });
+    try {
+      const { status } = await getVPNStatus();
+      res.send({ status });
+    } catch (error) {
+      res.send({ status: false });
+    }
   }
 });
 
@@ -106,112 +109,95 @@ app.post('/vpn', (req, res) => {
   if (toggle) {
     enableVPN();
     setTimeout(() => {
-      res.send({ success : true});
+      res.send({ success: true });
     }, 2000);
   } else {
-    disableVPN()
+    disableVPN();
     setTimeout(() => {
-      res.send({ success : true});
+      res.send({ success: true });
     }, 1000);
   }
-
 });
 
-app.post('/guess-tv-show', (req, res) => {
+app.post('/guess-tv-show', async (req, res) => {
   const { getTVFolders, guessTVShow, extractSeasonNumber } = require('./functions');
   const { torrentName } = req.body;
   console.log(`got request to guess TV Show for file: ${torrentName}`);
   let show = '';
-  getTVFolders().then(folders => {
+  try {
+    const { folders } = await getTVFolders();
     show = guessTVShow(torrentName, folders);
     if (!show || show === '') {
       res.send({ msg: `Unable to match to an existing folder`, error: true, show: null, season: null });
     } else {
       const season = extractSeasonNumber(torrentName, true);
-
       res.send({ show, season });
     }
-  });
+  } catch (error) {
+    console.log(error);
+    res.send({ msg: `Something went wrong trying to get current TV Shows`, error: true, show: null, season: null });
+  }
 });
 
-app.post('/new-show', (req, res) => {
+app.post('/new-show', async (req, res) => {
   console.log('new show incoming...');
   const { makeDir, tvShows, extractSeasonNumber } = require('./functions');
   const { show, torrent } = req.body;
   if (show) {
+    const season = extractSeasonNumber(torrent, true);
+
     //make directory for show name
-    makeDir(`${tvShows}/${show}`).then(success => {
-      const season = extractSeasonNumber(torrent, true);
-      res.send({ success: true, season });
-    });
+    try {
+      const success = await makeDir(`${tvShows}/${show}`);
+      res.send({ success, season });
+    } catch (error) {
+      res.send({ success: false, season: null });
+    }
   }
 });
 
-app.post('/move-movie', (req, res) => {
+app.post('/move-movie', async (req, res) => {
   const { isDir, removeDirtyFiles, moveToMovies } = require('./functions');
   console.log('got request to move movie file.');
   const { name } = req.body;
 
-  isDir(name)
-    .then(isDir => {
-      if (isDir) {
-        removeDirtyFiles(name).then(_ => {
-          moveToMovies(name).then(success => {
-            res.send({ success });
-          });
-        });
-      } else {
-        moveToMovies(name).then(success => {
-          res.send({ success });
-        });
+  try {
+    const isDirectory = await isDir(name);
+    if (isDirectory) {
+      const cleaned = await removeDirtyFiles(name);
+      if (cleaned) {
+        const success = moveToMovies(name);
+        res.send({ success });
       }
-    })
-    .catch(err => {
-      console.log(`caught error determining if torrent was a folder ${err}`);
-    });
+    } else {
+      const success = await moveToMovies(name);
+      res.send({ success });
+    }
+  } catch (error) {
+    console.log(`caught error determining if torrent was a folder ${err}`);
+  }
 });
 
-app.post('/move-tv-show', (req, res) => {
+app.post('/move-tv-show', async (req, res) => {
   const { tvShows, isDir, removeDirtyFiles, moveToTVShows } = require('./functions');
   const { torrent, season, show } = req.body;
   const seasonPath = `${tvShows}/${show}/${season}`;
 
-  isDir(torrent.name)
-    .then(isDir => {
-      if (isDir) {
-        removeDirtyFiles(torrent.name).then(result => {
-          moveToTVShows(torrent.name, seasonPath).then(success => {
-            res.send({ success });
-          });
-        });
-      } else {
-        moveToTVShows(torrent.name, seasonPath).then(success => {
-          res.send({ success });
-        });
+  try {
+    const isDirectory = await isDir(torrent.name);
+    if (isDirectory) {
+      const cleaned = await removeDirtyFiles(torrent.name);
+      if (cleaned) {
+        const success = await moveToTVShows(torrent.name, seasonPath);
+        res.send({ success });
       }
-    })
-    .catch(err => {
-      console.log(`caught error trying to move TV show. ${err}`);
-      res.send({ success: false, err });
-    });
-});
-
-app.delete('/torrents', (req, res) => {
-  console.log(`removing torrent with ID: ${id} from list`);
-  const { id } = req.body;
-
-  if (useLocalData) {
-    res.send({ success: true });
-  } else {
-    tx.remove(id)
-      .then(() => {
-        res.send({ success: true });
-      })
-      .catch(error => {
-        console.log('failed to remove torrent from Transmission');
-        console.log(error);
-        res.send({ success: false, error: 'Failed to remove torrent from Transmission' });
-      });
+    } else {
+      const success = await moveToTVShows(torrent.name, seasonPath);
+      res.send({ success });
+    }
+  } catch (error) {
+    console.log(`caught error trying to move TV show. ${err}`);
+    res.send({ success: false, err });
   }
 });
 
@@ -245,7 +231,7 @@ app.post('/pause', (req, res) => {
 app.post('/search', (req, res) => {
   console.log('got request to search for torrents');
   const path = require('path');
-  const { getZooqleResults, get1337xResults } = require('./scraper');
+  const { allEngines } = require('./TorrentProvider');
   const searchData = require(path.resolve('../search-data.json'));
   const { search } = req.body;
   console.log(req.body);
@@ -254,31 +240,28 @@ app.post('/search', (req, res) => {
     res.send(searchData);
   } else {
     if (search.length) {
-      Promise.all([getZooqleResults(search), get1337xResults(search)])
-        .then(results => {
-          res.send(
-            JSON.stringify({
-              zooqle: results[0],
-              _1337x: results[1],
-            }),
-          );
-        })
-        .catch(error => {
-          res.send({ error });
-        });
+      Promise.all(
+        allEngines
+          .map(Engine => {
+            return new Engine().getResults(search);
+          })
+          .then(results => {
+            res.send(Object.fromEntries(allEngines.map((Engine, i) => [new Engine().name, results[i]])));
+          }),
+      );
     } else {
-      res.send(null);
+      res.send({ success: false });
     }
   }
 });
 
 app.get('/magnet', (req, res) => {
   console.log('getting magnet link');
-  const { get1337xMagnet } = require('./scraper');
+  const { _1137x } = require('./TorrentProvider');
 
   try {
     const { link } = req.query;
-    get1337xMagnet(link).then(magnet => {
+    new _1137x().getMagnetFromSingle(link).then(magnet => {
       tx.addUrl(magnet).then(_ => {
         res.send(JSON.stringify({ success: true }));
       });
