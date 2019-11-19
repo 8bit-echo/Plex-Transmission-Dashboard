@@ -2,9 +2,8 @@ const cheerio = require('cheerio');
 const cloudscraper = require('cloudscraper');
 const request = require('request-promise-native');
 
-export default class TorrentProvider {
+class TorrentProvider {
   constructor(...args) {
-    console.log('Im a class');
     this.options = {
       name: 'Generic Torrent Provider',
       baseURL: 'https://example.com',
@@ -27,11 +26,14 @@ export default class TorrentProvider {
     this.options = { ...this.options, ...args };
   }
 
-  async getResults(searchTerms, cat = null) {
+  async getResults(searchTerms, cat = '') {
     try {
       searchTerms = this.formatSearchTerms(searchTerms);
-      console.log(`starting scrape on ${this.name}`);
-      const page = await cloudscraper.get(`${this.baseURL}${this.searchURL}${searchTerms}${cat}`);
+      console.log(`starting scrape on ${this.options.name}`);
+      console.log(`${this.options.baseURL}${this.options.searchURL}${searchTerms}${cat}${this.options.sortParams}`);
+      const page = await cloudscraper.get(
+        `${this.options.baseURL}${this.options.searchURL}${searchTerms}${cat}${this.options.sortParams}`,
+      );
       const name = this.getText(page, this.options.selectors.name);
       const size = this.filterSize(this.getText(page, this.options.selectors.size));
       const seeds = this.filterSeeds(this.getText(page, this.options.selectors.seeds));
@@ -133,7 +135,7 @@ export default class TorrentProvider {
   }
 }
 
-export class Zooqle extends TorrentProvider {
+class Zooqle extends TorrentProvider {
   constructor(...args) {
     super(...args);
     this.options = {
@@ -142,6 +144,7 @@ export class Zooqle extends TorrentProvider {
       searchURL: '/search?q=',
       TVCategory: '+category%3ATV',
       stringSeparator: '+',
+      sortParams: '',
       MoviesCategory: '+category%3AMovies',
       selectors: {
         container: '.table-torrents tbody tr',
@@ -155,7 +158,7 @@ export class Zooqle extends TorrentProvider {
   }
 }
 
-export class _1337x extends TorrentProvider {
+class _1337x extends TorrentProvider {
   constructor(...args) {
     super(...args);
     this.options = {
@@ -185,8 +188,11 @@ export class _1337x extends TorrentProvider {
   }
 }
 
+const allEngines = [Zooqle, _1337x];
 
-export const allEngines = [
+module.exports = {
+  TorrentProvider,
   Zooqle,
-  _1337x
-]
+  _1337x,
+  allEngines,
+};

@@ -232,6 +232,7 @@ app.post('/search', (req, res) => {
   console.log('got request to search for torrents');
   const path = require('path');
   const { allEngines } = require('./TorrentProvider');
+  console.log(allEngines);
   const searchData = require(path.resolve('../search-data.json'));
   const { search } = req.body;
   console.log(req.body);
@@ -245,10 +246,9 @@ app.post('/search', (req, res) => {
           .map(Engine => {
             return new Engine().getResults(search);
           })
-          .then(results => {
-            res.send(Object.fromEntries(allEngines.map((Engine, i) => [new Engine().name, results[i]])));
-          }),
-      );
+          ).then(results => {
+              res.send(Object.fromEntries(allEngines.map((Engine, i) => [new Engine().name, results[i]])));
+          });
     } else {
       res.send({ success: false });
     }
