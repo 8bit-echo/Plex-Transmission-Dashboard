@@ -18,6 +18,7 @@
 ![screenshot](https://github.com/8bit-echo/Torrent-Dashboard/raw/master/screenshot-search.png "screenshot")
 ![screenshot](https://github.com/8bit-echo/Torrent-Dashboard/raw/master/screenshot-modal.png "screenshot")
 ![screenshot](https://github.com/8bit-echo/Torrent-Dashboard/raw/master/screenshot-dashboard-iphone.png "screenshot")
+![screenshot](https://github.com/8bit-echo/Torrent-Dashboard/raw/master/screenshot-notification-iphone.png "screenshot")
 
 </div>
 
