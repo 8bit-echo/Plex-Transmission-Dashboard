@@ -36,7 +36,9 @@
         <h2
           :key="name"
           @click="toggle(name)"
-        >{{name}} {{visibleSections.includes(name) ? '-' : '+'}}</h2>
+        >
+          {{name | capitalize() }} {{visibleSections.includes(name) ? '–' : '+'}}
+        </h2>
 
         <template v-if="visibleSections.includes(name)">
           <Torrent
@@ -73,6 +75,13 @@
     computed: {
       dimensions() {
         return `${window.innerWidth} x ${window.innerHeight}`;
+      }
+    },
+
+    filters: {
+      capitalize(string) {
+        string = string[0].toUpperCase() + string.slice(1);
+        return string.replace(/_/g, '');
       }
     },
 

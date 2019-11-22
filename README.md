@@ -12,7 +12,10 @@
 - Raspberry Pi 7" Touch Screen support (Chrome in Kiosk Mode).
 - PWA companion for mobile devices.
 
-![screenshot](https://github.com/8bit-echo/Torrent-Dashboard/raw/master/screenshot.png "screenshot")
+![screenshot](https://github.com/8bit-echo/Torrent-Dashboard/raw/master/screenshot-rpi-dashboard.png "screenshot")
+![screenshot](https://github.com/8bit-echo/Torrent-Dashboard/raw/master/screenshot-search.png "screenshot")
+![screenshot](https://github.com/8bit-echo/Torrent-Dashboard/raw/master/screenshot-modal.png "screenshot")
+![screenshot](https://github.com/8bit-echo/Torrent-Dashboard/raw/master/screenshot-dashboard-iphone.png "screenshot")
 
 
 ## Getting Started
