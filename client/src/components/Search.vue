@@ -28,40 +28,23 @@
     </div>
 
     <div class="search-results">
-      <h2 v-if="zooqle_torrents.length">
-        Zooqle
-        <span
-          class="toggle"
-          @click="toggleZooqle()"
-        >
-          {{ zooqleShow ? '&ndash;' : '+' }}
-        </span>
-      </h2>
 
-      <template v-if="zooqleShow">
-        <Torrent
-          v-for="torrent in zooqle_torrents"
-          :key="torrent.id"
-          :torrent="torrent"
-        />
-      </template>
+      <template
+        class="section"
+        v-for="(result, name) in results"
+      >
+        <h2
+          :key="name"
+          @click="toggle(name)"
+        >{{name}} {{visibleSections.includes(name) ? '-' : '+'}}</h2>
 
-      <h2 v-if="one337x_torrents.length">
-        1337x
-        <span
-          class="toggle"
-          @click="toggle1337x()"
-        >
-          {{ one337xShow ? '&ndash;' : '+' }}
-        </span>
-      </h2>
-
-      <template v-if="one337xShow">
-        <Torrent
-          v-for="torrent in one337x_torrents"
-          :key="torrent.id"
-          :torrent="torrent"
-        />
+        <template v-if="visibleSections.includes(name)">
+          <Torrent
+            v-for="torrent in result"
+            :key="torrent.id"
+            :torrent="torrent"
+          />
+        </template>
       </template>
     </div>
   </div>
@@ -83,10 +66,8 @@
         searchTerm: '',
         isLoading: false,
         msg: '',
-        zooqle_torrents: [],
-        one337x_torrents: [],
-        zooqleShow: true,
-        one337xShow: true
+        results: null,
+        visibleSections: []
       };
     },
     computed: {
@@ -96,36 +77,35 @@
     },
 
     methods: {
-      doSearch() {
+      async doSearch() {
         this.isLoading = true;
         this.$refs.search.blur();
         console.log(`searching for ${this.searchTerm}`);
-        post('/search', { search: this.searchTerm })
-          .then(response => {
-            this.isLoading = false;
-            if (response.error) {
-              this.msg = response.error;
-              new AppError(response.error);
-            } else {
-              this.zooqle_torrents = response.zooqle.sort(
-                (a, b) => parseInt(a.seeds) > parseInt(b.seeds)
-              );
-              this.one337x_torrents = response._1337x;
-            }
-          })
-          .catch(error => {
-            console.log(error);
-            new AppError(error);
-            this.msg = error.toString();
-          });
+        try {
+          const response = await post('/search', { search: this.searchTerm });
+          if (response.error) {
+            this.msg = response.error;
+            new AppError(response.error);
+          } else {
+            this.results = response;
+            this.visibleSections = Object.keys(response);
+          }
+          this.isLoading = false;
+        } catch (error) {
+          new AppError(error);
+          this.msg = error.toString();
+        }
       },
 
-      toggleZooqle() {
-        this.zooqleShow = !this.zooqleShow;
-      },
-
-      toggle1337x() {
-        this.one337xShow = !this.one337xShow;
+      toggle(key) {
+        if (this.visibleSections.includes(key)) {
+          this.visibleSections.splice(
+            this.visibleSections.findIndex(el => el === key),
+            1
+          );
+        } else {
+          this.visibleSections.push(key);
+        }
       }
     }
   };

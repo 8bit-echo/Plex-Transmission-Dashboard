@@ -29,6 +29,7 @@ class TorrentProvider {
   async getResults(searchTerms, cat = '') {
     try {
       searchTerms = this.formatSearchTerms(searchTerms);
+      const torrents = [];
       console.log(`starting scrape on ${this.options.name}`);
       console.log(`${this.options.baseURL}${this.options.searchURL}${searchTerms}${cat}${this.options.sortParams}`);
       const page = await cloudscraper.get(
@@ -38,7 +39,7 @@ class TorrentProvider {
       const size = this.filterSize(this.getText(page, this.options.selectors.size));
       const seeds = this.filterSeeds(this.getText(page, this.options.selectors.seeds));
 
-      if (this.options.magnet) {
+      if (this.options.selectors.magnet) {
         const magnet = this.getAttr(page, this.options.selectors.magnet, 'href');
         if (name.length == size.length && size.length == magnet.length) {
           console.log(`found ${name.length} matches on ${this.options.name}`);
@@ -57,7 +58,7 @@ class TorrentProvider {
           );
         }
       } else {
-        const link = getAttr(page, _1337x.single.link, 'href');
+        const link = this.getAttr(page, this.options.selectors.single.link, 'href');
         if (name.length == size.length && size.length == link.length) {
           console.log(`found ${name.length} matches on _1337x`);
           name.map((el, i) => {
@@ -74,6 +75,7 @@ class TorrentProvider {
       return torrents;
     } catch (error) {
       console.log(`error getting or parsing ${this.options.name} page`);
+      console.log(error);
       return [];
     }
   }
@@ -117,7 +119,7 @@ class TorrentProvider {
 
   async getMagnetFromSingle(link) {
     try {
-      console.log(`${this.options.baseURL}${link}`);
+      console.log(`${this.options.baseURL}/${link}`);
       const page = await getWebPage(`${this.options.baseURL}/${link}`);
       const magnet = await getAttr(page, this.options.selectors.single.link, 'href');
       return magnet[0];
@@ -184,7 +186,7 @@ class _1337x extends TorrentProvider {
   }
 
   filterSize(size) {
-    return size.replace(/((\d){0,4}\.(\d){0,4}) ((K|M|G|T)B)((\d){0,6})/gi, '$1 $4');
+    return size.map(size => size.replace(/((\d){0,4}\.(\d){0,4}) ((K|M|G|T)B)((\d){0,6})/gi, '$1 $4'));
   }
 }
 

@@ -242,13 +242,12 @@ app.post('/search', (req, res) => {
   } else {
     if (search.length) {
       Promise.all(
-        allEngines
-          .map(Engine => {
-            return new Engine().getResults(search);
-          })
-          ).then(results => {
-              res.send(Object.fromEntries(allEngines.map((Engine, i) => [new Engine().name, results[i]])));
-          });
+        allEngines.map(Engine => {
+          return new Engine().getResults(search);
+        }),
+      ).then(results => {
+        res.send(Object.fromEntries(allEngines.map((Engine, i) => [new Engine().options.name, results[i]])));
+      });
     } else {
       res.send({ success: false });
     }
