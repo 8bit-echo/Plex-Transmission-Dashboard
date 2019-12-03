@@ -60,7 +60,7 @@ async function disableVPN() {
 async function enableVPN() {
   console.log('enabling vpn');
   const sh = require('child_process').exec;
-  ovpnProcess = sh('openvpn /home/mini/Templates/minivultr.ovpn --mute-replay-warnings');
+  ovpnProcess = sh('openvpn /home/mini/Templates/minivultr.ovpn');
   ovpnProcess.stdout.on('data', function (data) {
     console.log('stdout: ' + data);
   });
