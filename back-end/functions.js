@@ -22,7 +22,7 @@ async function shell(cmd) {
 async function getVPNStatus() {
   try {
     let output = await shell(`pgrep -x openvpn >/dev/null && echo "true" || echo "false"`);
-    return JSON.parse(output);
+    return {status: JSON.parse(output)};
   } catch (error) {
     console.log(error);
   }
@@ -60,7 +60,7 @@ async function disableVPN() {
 async function enableVPN() {
   console.log('enabling vpn');
   const sh = require('child_process').exec;
-  ovpnProcess = sh('openvpn /home/mini/Templates/minivultr.ovpn');
+  ovpnProcess = sh('openvpn /home/mini/Templates/minivultr.ovpn --mute-replay-warnings');
   ovpnProcess.stdout.on('data', function (data) {
     console.log('stdout: ' + data);
   });

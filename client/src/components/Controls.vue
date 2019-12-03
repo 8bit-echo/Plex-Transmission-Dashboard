@@ -7,7 +7,7 @@
       <button @click="toggleVPN()">Toggle VPN</button>
       <button
         @click="getTVFolder()"
-        :disabled="disabled"
+        :disabled="disableMove"
       >
         Move to TV Shows
         <img
@@ -17,7 +17,7 @@
       </button>
       <button
         @click="moveMovie()"
-        :disabled="disabled"
+        :disabled="disableMove"
       >
         Move to Movies
         <img
@@ -57,6 +57,10 @@
 
       disabled() {
         return !this.selectedTorrent || this.isLoading;
+      },
+
+      disableMove() {
+        return this.disabled || this.selectedTorrent.percentDone !== 1;
       },
 
       playPauseText() {

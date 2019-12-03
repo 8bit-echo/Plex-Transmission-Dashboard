@@ -115,7 +115,7 @@ app.post('/vpn', (req, res) => {
     disableVPN();
     setTimeout(() => {
       res.send({ success: true });
-    }, 1000);
+    }, 2500);
   }
 });
 
@@ -125,7 +125,7 @@ app.post('/guess-tv-show', async (req, res) => {
   console.log(`got request to guess TV Show for file: ${torrentName}`);
   let show = '';
   try {
-    const { folders } = await getTVFolders();
+    const folders  = await getTVFolders();
     show = guessTVShow(torrentName, folders);
     if (!show || show === '') {
       res.send({ msg: `Unable to match to an existing folder`, error: true, show: null, season: null });

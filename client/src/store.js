@@ -24,8 +24,8 @@ export default new Vuex.Store({
   getters: {
     totalDownloadSpeed(state) {
       if (state.torrents.length >= 2) {
-        const bytes = state.torrents.reduce((a, b) => {
-          return a.rateDownload + b.rateDownload;
+        const bytes = state.torrents.reduce((a, {rateDownload}) => {
+          return a + rateDownload;
         }, 0);
         return toHuman(bytes);
       } else if (state.torrents.length === 1) {
@@ -96,7 +96,8 @@ export default new Vuex.Store({
     getVPNStatus({ commit, state }) {
       get('/vpn-status')
         .then(result => {
-          if (result.status && state.vpnActive !== result.status) {
+          console.log(result);
+          if (result.hasOwnProperty('status') && state.vpnActive !== result.status) {
             commit('VPN_STATUS', result.status);
           }
         })
