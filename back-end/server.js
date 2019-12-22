@@ -125,7 +125,7 @@ app.post('/guess-tv-show', async (req, res) => {
   console.log(`got request to guess TV Show for file: ${torrentName}`);
   let show = '';
   try {
-    const folders  = await getTVFolders();
+    const folders = await getTVFolders();
     show = guessTVShow(torrentName, folders);
     if (!show || show === '') {
       res.send({ msg: `Unable to match to an existing folder`, error: true, show: null, season: null });
@@ -256,19 +256,26 @@ app.post('/search', (req, res) => {
 
 app.get('/magnet', (req, res) => {
   console.log('getting magnet link');
-  const { _1137x } = require('./TorrentProvider');
+  const _1337x = require('./TorrentProvider')._1337x;
+  const { link } = req.query;
+  
+  new _1337x()
+    .getMagnetFromSingle(link)
+    .then(magnet => {
+      tx.addUrl(magnet)
+        .then(_ => {
+          res.send(JSON.stringify({ success: true }));
+        })
+        .catch(e => {
+          console.log('error adding to Transmission', e);
+          res.send({ success: false, msg: e.msg })
+        })
+    })
+    .catch(e => {
+      console.log('error getting single', e);
+      res.send({ success: false, msg: e.msg })
+    })
 
-  try {
-    const { link } = req.query;
-    new _1137x().getMagnetFromSingle(link).then(magnet => {
-      tx.addUrl(magnet).then(_ => {
-        res.send(JSON.stringify({ success: true }));
-      });
-    });
-  } catch (error) {
-    console.log('error when getting or adding 1337x torrent.');
-    res.send(JSON.stringify({ success: false, msg: error }));
-  }
 });
 
 app.get('/torrent', (req, res) => {

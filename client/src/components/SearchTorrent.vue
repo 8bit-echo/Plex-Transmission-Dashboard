@@ -64,11 +64,15 @@
           try {
             const { success } = await get(`/magnet?link=${this.torrent.link}`);
             console.log(success);
-            this.DISPLAY_NOTIFICATION({
-              display: true,
-              level: 'okay',
-              message: 'Torrent queued for download'
-            });
+            if (success) {
+              this.DISPLAY_NOTIFICATION({
+                display: true,
+                level: 'okay',
+                message: 'Torrent queued for download'
+              });
+            } else {
+              new AppError('Failed to add torrent to queue.'); 
+            }
           } catch (error) {
             console.log(error);
             new AppError('Failed to add torrent to queue.');

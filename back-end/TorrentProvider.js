@@ -118,13 +118,13 @@ class TorrentProvider {
   }
 
   async getMagnetFromSingle(link) {
+    console.log('getting magnet from single page.');
     try {
-      console.log(`${this.options.baseURL}/${link}`);
-      const page = await getWebPage(`${this.options.baseURL}/${link}`);
-      const magnet = await getAttr(page, this.options.selectors.single.link, 'href');
+      const page = await this.getWebPage(`${this.options.baseURL}${link}`);
+      const magnet = this.getAttr(page, this.options.selectors.single.magnet, 'href');
       return magnet[0];
     } catch (error) {
-      return `error getting ${this.name} magnet link... ${error}`;
+      return `error getting ${this.options.name} magnet link... ${error}`;
     }
   }
 
