@@ -81,6 +81,7 @@
     width: 100%;
     z-index: 3;
     background: #202027;
+    padding-top: 20px;
   }
 
   .global-notification {

@@ -220,7 +220,11 @@ app.post('/torrents', (req, res) => {
 });
 
 app.post('/pause', (req, res) => {
-  const { id, action } = req.body;
+  let { id, action } = req.body;
+  if (action === 'pause') {
+    action = 'stop';
+  }
+
   console.log(`got request to ${action} a torrent`);
 
   tx[action](id).then(response => {

@@ -52,6 +52,7 @@
     @media screen and (max-width: 415px) {
       grid-template-columns: 1fr;
       grid-template-rows: 100px auto;
+      overflow: hidden;
     }
   }
 </style>

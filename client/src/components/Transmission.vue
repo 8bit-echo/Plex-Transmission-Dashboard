@@ -40,10 +40,10 @@
 
 <style lang="scss">
   .transmission {
-    height: 100%;
     padding: 1em;
-    overflow-y: auto;
+    overflow-y: scroll;
     background-color: #3b3b48;
     color: white;
+    padding-bottom: 165px;
   }
 </style>

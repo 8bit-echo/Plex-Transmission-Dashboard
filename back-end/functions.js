@@ -117,11 +117,14 @@ function stringPrep(str) {
 
 function extractSeasonNumber(fileName, withPrefix = false) {
   const match = fileName.match(/s(\d\d?)/i);
+  const fullSeason = fileName.match(/season ?(\d\d?)/i)
   if (match) {
     // remove leading 0 in season nums < 10
     match[1] =
       match[1].toString().charAt(0) === '0' ? match[1].slice(1, 2) : match[1];
     return `${withPrefix ? 'Season ' : ''}${match[1]}`;
+  } else if (fullSeason) {
+    return `${withPrefix ? 'Season ' : ''}${fullSeason[1]}`
   }
   return `. Couldn't determine `;
 }

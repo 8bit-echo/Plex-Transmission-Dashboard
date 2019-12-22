@@ -1,29 +1,15 @@
 <template>
-  <div
-    class="controls"
-    @click.self="deselectTorrents()"
-  >
+  <div class="controls" @click.self="deselectTorrents()">
     <div class="buttons">
       <button @click="toggleVPN()">Toggle VPN</button>
-      <button
-        @click="getTVFolder()"
-        :disabled="disableMove"
-      >
+      <button @click="getTVFolder()" disabled>
         Move to TV Shows
-        <img
-          src="@/assets/plextv-icon.svg"
-          width="25"
-        />
+        <img src="@/assets/plextv-icon.svg" width="25" />
       </button>
-      <button
-        @click="moveMovie()"
-        :disabled="disableMove"
-      >
+
+      <button @click="moveMovie()" :disabled="!!disableMove">
         Move to Movies
-        <img
-          src="@/assets/plextv-icon.svg"
-          width="25"
-        />
+        <img src="@/assets/plextv-icon.svg" width="25" />
       </button>
       <button
         v-if="selectedTorrent"
@@ -39,7 +25,7 @@
         :disabled="disabled"
         class="danger"
       >
-        Remove
+        Remove from Queue
       </button>
     </div>
   </div>
@@ -68,7 +54,7 @@
           this.selectedTorrent.status === txStatus.DOWNLOAD ||
           this.selectedTorrent.status === txStatus.SEED
         ) {
-          return 'Stop';
+          return 'Pause';
         } else {
           return 'Start';
         }
@@ -108,6 +94,7 @@
        **/
       async getTVFolder() {
         this.LOADING_INDICATOR(true);
+        if (this.disableMove) return;
 
         try {
           // take a guess at the show this torrent belongs to.
@@ -171,6 +158,7 @@
        *  Moves the selected file to the Movies Library in Plex.
        */
       async moveMovie() {
+        if (this.disableMove) return;
         this.LOADING_INDICATOR(true);
         try {
           const { success } = await post('/move-movie', this.selectedTorrent);
@@ -248,8 +236,7 @@
             new AppError(error);
           });
       }
-    },
-
+    }
   };
 </script>
 
@@ -287,6 +274,10 @@
 
       &[disabled] {
         opacity: 0.5;
+
+        &:active {
+          background-color: #3b3b48;
+        }
       }
     }
 
