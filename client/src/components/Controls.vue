@@ -2,7 +2,7 @@
   <div class="controls" @click.self="deselectTorrents()">
     <div class="buttons">
       <button @click="toggleVPN()">Toggle VPN</button>
-      <button @click="getTVFolder()" disabled>
+      <button @click="getTVFolder()" :disabled="!!disableMove">
         Move to TV Shows
         <img src="@/assets/plextv-icon.svg" width="25" />
       </button>
