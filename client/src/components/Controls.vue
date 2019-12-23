@@ -93,8 +93,8 @@
        * gets the closest guess it can to matching a TV show folder against the name of the selected torrent
        **/
       async getTVFolder() {
-        this.LOADING_INDICATOR(true);
         if (this.disableMove) return;
+        this.LOADING_INDICATOR(true);
 
         try {
           // take a guess at the show this torrent belongs to.
