@@ -3,8 +3,11 @@
     :class="['torrent', { selected: selected, paused: torrent.status == 0 }]"
     @click="select(torrent)"
   >
+
     <div class="inner-container">
+
       <p class="name">{{ torrent.name | cleanup }}</p>
+
       <div class="meta">
         {{ torrent.percentDone | toPercentage }} of
         {{ torrent.sizeWhenDone | toHuman }}
@@ -15,12 +18,16 @@
           ↓ {{ torrent.rateDownload | toHuman }}/s
         </span>
       </div>
+
+      <button class="info">i</button>
     </div>
+
     <div
       class="progress-bar"
       :style="{ width: percentDone(torrent.percentDone) }"
       :class="isDone ? 'done' : ''"
     ></div>
+
   </div>
 </template>
 

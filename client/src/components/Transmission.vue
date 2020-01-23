@@ -9,16 +9,21 @@
       :torrent="torrent"
       :selected="selectedTorrent && selectedTorrent.id === torrent.id"
     />
+
+    <TorrentInfo />
   </div>
 </template>
 
 <script>
   import Torrent from './DashboardTorrent';
+  import TorrentInfo from './TorrentInfo';
 
   import { mapState, mapMutations } from 'vuex';
+
   export default {
     components: {
-      Torrent
+      Torrent,
+      TorrentInfo
     },
 
     computed: {
