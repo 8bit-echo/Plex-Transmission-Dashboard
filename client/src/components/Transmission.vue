@@ -41,8 +41,8 @@
 <style lang="scss">
   .transmission {
     padding: 1em;
+    padding-bottom: 40px;
     overflow-y: scroll;
-    background-color: #3b3b48;
     color: white;
     padding-bottom: 165px;
   }

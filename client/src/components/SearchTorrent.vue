@@ -103,13 +103,19 @@
 <style lang="scss" scoped>
   .torrent {
     box-shadow: 0 2px rgba(grey, 0.5);
-    margin: 15px 0;
-    padding: 0.25em;
+    padding: 1.25em 0.25em;
     padding-bottom: 0;
     font-size: 14px;
-    border-radius: 7px;
     overflow: hidden;
-    background: #2d2d38;
+    background: transparent;
+
+    &:nth-child(odd){
+      background-color: rgba(white, 0.05);
+    }
+
+    &:hover {
+      background-color: rgba(white, 0.1);
+    }
 
     &.selected {
       box-shadow: 0 0 10px rgba(white, 0.5);

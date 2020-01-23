@@ -25,7 +25,7 @@
     bottom: 0;
     position: fixed;
     text-align: center;
-    background-color: #222222;
+    background-color: darken(#1f2326, 5%);
     width: 100%;
     z-index: 3;
     display: flex;
@@ -53,7 +53,7 @@
       }
 
       &.router-link-exact-active {
-        color: #42b983;
+        color: #e5a00d;
 
         img {
           filter: grayscale(0);

@@ -242,7 +242,7 @@
 
 <style lang="scss">
   .controls {
-    background: rgb(45, 45, 56);
+    background: #1f2326;
     color: white;
 
     button,
@@ -250,7 +250,7 @@
       width: 90%;
       font-family: 'Avenir', sans-serif;
       display: block;
-      background-color: #3b3b48;
+      background-color: lighten(#1f2326, 5%);
       color: white;
       border-radius: 5px;
       font-size: 1rem;

@@ -80,7 +80,7 @@
     top: 0;
     width: 100%;
     z-index: 3;
-    background: #202027;
+    background-color: darken(#1f2326, 2.5%);
     padding-top: 20px;
   }
 
@@ -113,7 +113,6 @@
     .indicator {
       display: flex;
       align-items: center;
-      background: rgb(32, 32, 39);
       padding: 5px;
       color: lightgrey;
     }
@@ -132,7 +131,7 @@
     }
 
     .finished {
-      color: #2bca2b;
+      color: #cc7b19;
     }
 
     & > div {

@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="['torrent', {selected: selected, paused: torrent.status == 0 }]"
+    :class="['torrent', { selected: selected, paused: torrent.status == 0 }]"
     @click="select(torrent)"
   >
     <div class="inner-container">
@@ -8,10 +8,7 @@
       <div class="meta">
         {{ torrent.percentDone | toPercentage }} of
         {{ torrent.sizeWhenDone | toHuman }}
-        <span
-          class="download-rate"
-          v-if="torrent.rateDownload"
-        >
+        <span class="download-rate" v-if="torrent.rateDownload">
           ↓ {{ torrent.rateDownload | toHuman }}/s
         </span>
       </div>
@@ -94,19 +91,26 @@
   };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .torrent {
-    box-shadow: 0 2px rgba(grey, 0.5);
+    box-shadow: 0 0 2px rgba(white, 0.25);
     margin: 15px;
-    padding: 0.25em;
     padding-bottom: 0;
     font-size: 14px;
-    border-radius: 7px;
     overflow: hidden;
-    background: #2d2d38;
+    position: relative;
+    border: solid 1px transparent;
+
+    &:nth-child(odd) {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    &:hover {
+      background-color: rgba(white, 0.1);
+    }
 
     &.selected {
-      box-shadow: 0 0 10px rgba(white, 0.5);
+      border: solid 1px #cc7b19;
     }
 
     &.paused {
@@ -142,10 +146,19 @@
       position: relative;
       bottom: 0;
       left: 0;
-      background-color: rgb(62, 179, 218);
+      background-color: #cc7b19;
 
       &.done {
-        background-color: #2bca2b;
+        $flag-size: 25px;
+        $offset: $flag-size / 2;
+        justify-self: flex-end;
+        position: absolute;
+        background-color: #cc7b19;
+        height: $flag-size;
+        width: $flag-size !important;
+        top: -1 * $offset;
+        left: calc(100% - #{$offset});
+        transform: rotate(45deg);
       }
     }
   }

@@ -130,7 +130,7 @@
     margin: 0 auto;
   }
   a {
-    color: #42b983;
+    color: #e5a00d;
   }
 
   .input-container {
@@ -151,7 +151,7 @@
     transition: 0.3s cubic-bezier(0.6, 0.04, 0.98, 0.335);
 
     &:focus {
-      border-color: #42b983;
+      border-color: #e5a00d;
       transition: 0.3s cubic-bezier(0.6, 0.04, 0.98, 0.335);
     }
   }

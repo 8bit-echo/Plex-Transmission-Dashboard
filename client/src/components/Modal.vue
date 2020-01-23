@@ -93,7 +93,8 @@
     }
   }
   .dialog {
-    background: #3b3b48;
+    // background: #3b3b48;
+    background: #1f2326;
     color: white;
     border: none;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.75);
@@ -120,10 +121,14 @@
       font-size: 1rem;
       padding: 0.5rem;
       text-align: center;
+      background-color:darken(#1f2326, 5%);
+      color: white;
+      border: none;
+      outline: none;
     }
 
     .actions {
-      background: #2d2d38;
+      background: darken(#1f2326, 2.5%);
       display: flex;
       justify-content: space-around;
 
@@ -131,7 +136,7 @@
         width: 40%;
         font-family: 'Avenir', sans-serif;
         display: block;
-        background-color: #3b3b48;
+        background-color: lighten(#1f2326, 5%);
         color: white;
         border-radius: 5px;
         font-size: 1rem;
@@ -145,13 +150,13 @@
         align-items: center;
 
         &:active {
-          background-color: #408fcf;
+          background-color: #cc7b19;
         }
 
         &.primary {
-          background-color: #408fcf;
+          background-color: #cc7b19;
           &:active {
-            background-color: darken(#408fcf, 10%);
+            background-color: darken(#cc7b19, 10%);
           }
         }
       }
