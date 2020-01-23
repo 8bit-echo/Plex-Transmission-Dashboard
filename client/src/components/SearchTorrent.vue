@@ -9,8 +9,8 @@
         <span class="size">{{ torrent.size }}</span>
         <span class="seeds">
           <img
-            src="../assets/seed.svg"
-            width="10"
+            src="../assets/seed-icon-alt.svg"
+            width="15"
           />
           {{ torrent.seeds }}
         </span>

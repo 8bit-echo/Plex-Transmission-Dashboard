@@ -115,6 +115,7 @@
 
     &.paused {
       filter: grayscale(1);
+      opacity: 0.5;
     }
 
     .inner-container {

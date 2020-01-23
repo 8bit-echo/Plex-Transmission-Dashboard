@@ -2,6 +2,7 @@
   <div
     id="dashboard"
     class="container"
+    ref="container"
   >
     <Controls />
     <Transmission />
@@ -12,7 +13,7 @@
   import Controls from '@/components/Controls';
   import Transmission from '@/components/Transmission';
   import { mapState, mapActions } from 'vuex';
-  import { setGlobalTimers } from '@/functions';
+  import { setGlobalTimers, deviceType, isPWA } from '@/functions';
 
   export default {
     name: 'Dashboard',
@@ -35,6 +36,12 @@
       setGlobalTimers('torrents');
     },
 
+    mounted() {
+      if (!isPWA()) {
+        this.$refs.container.style.paddingTop = '16px';
+      }
+    },
+
     destroyed() {
       clearInterval(window.torrentTimer);
     }
@@ -48,7 +55,6 @@
     display: grid;
     grid-template-columns: calc(100% / 3) auto;
     overflow: hidden;
-    padding-top: 16px;
 
     @media screen and (max-width: 415px) {
       grid-template-columns: 1fr;
