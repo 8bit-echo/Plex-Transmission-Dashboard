@@ -15,16 +15,17 @@ export default new Vuex.Store({
     vpnActive: false,
     modalOpen: false,
     modalText: '',
-    modalConfirm: () => { },
+    modalConfirm: () => {},
     modalExtra: null,
     torrents: [],
-    selectedTorrent: null
+    selectedTorrent: null,
+    activeUsers: false
   },
 
   getters: {
     totalDownloadSpeed(state) {
       if (state.torrents.length >= 2) {
-        const bytes = state.torrents.reduce((a, {rateDownload}) => {
+        const bytes = state.torrents.reduce((a, { rateDownload }) => {
           return a + rateDownload;
         }, 0);
         return toHuman(bytes);
@@ -89,6 +90,10 @@ export default new Vuex.Store({
 
     TORRENTS_CHANGED(state, payload) {
       state.torrents = payload;
+    },
+
+    ACTIVE_USERS(state, payload) {
+      state.activeUsers = payload;
     }
   },
 
@@ -96,7 +101,10 @@ export default new Vuex.Store({
     getVPNStatus({ commit, state }) {
       get('/vpn-status')
         .then(result => {
-          if (result.hasOwnProperty('status') && state.vpnActive !== result.status) {
+          if (
+            result.hasOwnProperty('status') &&
+            state.vpnActive !== result.status
+          ) {
             commit('VPN_STATUS', result.status);
           }
         })
@@ -106,12 +114,24 @@ export default new Vuex.Store({
     },
 
     getTorrents({ commit }) {
-      get('/torrents').then(({ torrents }) => {
-        if (torrents) {
-          commit('TORRENTS_CHANGED', torrents);
+      get('/torrents')
+        .then(({ torrents }) => {
+          if (torrents) {
+            commit('TORRENTS_CHANGED', torrents);
+          }
+        })
+        .catch(() => {
+          new AppError('Unable to get list of torrents');
+        });
+    },
+
+    getActiveUsers({ commit, state }) {
+      get('/sessions').then(({ users }) => {
+        if (users !== state.activeUsers) {
+          commit('ACTIVE_USERS', users);
         }
       }).catch(() => {
-        new AppError('Unable to get list of torrents');
+        new AppError('Unable to get active users');
       });
     }
   }

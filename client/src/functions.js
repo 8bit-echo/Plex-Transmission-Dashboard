@@ -106,10 +106,13 @@ export async function offlineHandler() {
   window.app.$store.commit('GLOBAL_NOTIFICATION', 'Offline');
   // set vpn off.
   window.app.$store.commit('VPN_STATUS', false);
+  // set Active users to 0.
+  window.app.$store.commit('ACTIVE_USERS', false);
 
   // clear all timers on fetching new resources.
   clearInterval(window.vpnTimer);
   clearInterval(window.torrentTimer);
+  clearInterval(window.sessionTimer);
 
   // check heartbeat every 10 sec.
   window.onlineCheck = setInterval(async () => {
@@ -128,6 +131,7 @@ export async function offlineHandler() {
         clearInterval(window.onlineCheck);
         clearInterval(window.vpnTimer);
         clearInterval(window.torrentTimer);
+        clearInterval(window.sessionTimer);
         setGlobalTimers();
       }
     } catch (error) {
@@ -155,6 +159,13 @@ export function setGlobalTimers(timerName = undefined) {
       }, 1000 * 60);
       break;
 
+      case 'sessions':
+        console.log('setting active users timer');
+        window.sessionTimer = setInterval(() => {
+          window.app.$store.dispatch('getActiveUsers');
+        }, 1000 * 20);
+        break;
+
     default:
       console.log('setting all timers');
       window.torrentTimer = setInterval(() => {
@@ -164,6 +175,10 @@ export function setGlobalTimers(timerName = undefined) {
       window.vpnTimer = setInterval(() => {
         window.app.$store.dispatch('getVPNStatus');
       }, 1000 * 60);
+
+      window.vpnTimer = setInterval(() => {
+        window.app.$store.dispatch('getActiveUsers');
+      }, 1000 * 20);
       break;
   }
 }

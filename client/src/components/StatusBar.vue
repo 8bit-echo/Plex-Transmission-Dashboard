@@ -17,16 +17,38 @@
         </div>
       </div>
       <div class="right">
-        <div class="finished indicator" v-show="finishedTorrents > 0">
+        <div class="activity-indicator indicator" v-if="activeUsers">
+          <span class="user-count">{{ activeUsers }}</span>
+          <div class="icon">
+            <img
+              src="@/assets/activity-icon.svg"
+              width="25"
+            />
+          </div>
+        </div>
+
+        <div
+          class="finished indicator"
+          v-show="finishedTorrents > 0"
+        >
           {{ finishedTorrents }} ✓
         </div>
 
-        <div class="download indicator" v-show="totalDownloadSpeed !== ''">
+        <div
+          class="download indicator"
+          v-show="totalDownloadSpeed !== ''"
+        >
           ↓ {{ totalDownloadSpeed }}/s
         </div>
 
-        <div class="loading-indicator indicator" v-if="isLoading">
-          <img src="@/assets/spinner.svg" width="25" />
+        <div
+          class="loading-indicator indicator"
+          v-if="isLoading"
+        >
+          <img
+            src="@/assets/spinner.svg"
+            width="25"
+          />
         </div>
       </div>
     </div>
@@ -38,7 +60,12 @@
   import { setStatusBarColor } from '@/functions';
   export default {
     computed: {
-      ...mapState(['isLoading', 'vpnActive', 'globalNotification']),
+      ...mapState([
+        'isLoading',
+        'vpnActive',
+        'globalNotification',
+        'activeUsers'
+      ]),
       ...mapGetters(['totalDownloadSpeed', 'finishedTorrents'])
     },
 
@@ -110,6 +137,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     .indicator {
       display: flex;
       align-items: center;
@@ -127,6 +155,31 @@
 
       &.active {
         background-color: #2bca2b;
+      }
+    }
+
+    .activity-indicator {
+      margin: 0 10px;
+      .user-count {
+        display: block;
+        position: relative;
+        font-size: 11px;
+        bottom: -3px;
+        left: 0;
+        color: #e5a00d;
+        align-self: flex-end;
+        padding-right:5px;
+      }
+      .icon {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: #e5a00d;
+
+        img {
+          max-width: 20px;
+
+        }
       }
     }
 

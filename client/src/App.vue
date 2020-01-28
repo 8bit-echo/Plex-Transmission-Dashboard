@@ -40,6 +40,10 @@
       // get VPN Status and put on a 60 sec poll cycle.
       this.$store.dispatch('getVPNStatus');
       setGlobalTimers('vpn');
+      
+      // get active Users.
+      this.$store.dispatch('getActiveUsers');
+      setGlobalTimers('sessions');
     }
   };
 </script>

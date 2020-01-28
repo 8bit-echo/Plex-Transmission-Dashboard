@@ -1,9 +1,9 @@
 const { promisify } = require('util');
 const exec = promisify(require('child_process').exec);
-const serverRoot = '/media/mini/ServerSpace/';
-const downloads = `${serverRoot}Downloads`;
-const movies = `${serverRoot}Media/Movies/`;
-const tvShows = `${serverRoot}Media/TV Shows`;
+const serverRoot = process.env.SERVER_ROOT;
+const downloads = `${serverRoot}/${process.env.DOWNLOADS_DIR}`;
+const movies = `${serverRoot}/${process.env.MOVIES_LIB_DIR}`;
+const tvShows = `${serverRoot}/${process.env.TV_SHOWS_LIB_DIR}`;
 
 async function shell(cmd) {
   console.log(`$ ${cmd}`);
@@ -78,7 +78,7 @@ async function enableVPN() {
 
 async function getTVFolders() {
   try {
-    const folders = await shell(`ls "${serverRoot}Media/TV Shows"`);
+    const folders = await shell(`ls "${serverRoot}/${tvShows}"`);
     const asArray = JSON.parse(`["${folders.replace(/\n/g, `","`)}"]`);
     return asArray;
   } catch (error) {
@@ -145,7 +145,7 @@ async function folderExists(path) {
 
 async function moveToMovies(fileName) {
   console.log(`moving file to Movies...`);
-  const mv = await shell(`mv "${downloads}/${fileName}" "${movies}"`);
+  const mv = await shell(`mv "${downloads}/${fileName}" "${movies}/"`);
   const result = await mv;
   console.log(result);
   shell(`tree ${movies}`);

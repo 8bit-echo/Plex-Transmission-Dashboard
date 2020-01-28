@@ -10,14 +10,17 @@ const tx = new Transmission({
   host: process.env.TX_HOST,
   port: 9091,
   username: process.env.TX_USER,
-  password: process.env.TX_PASS,
+  password: process.env.TX_PASS
 });
 
 app.use(express.static('../client/dist'));
 app.use(express.json());
 app.use((_, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  );
   next();
 });
 
@@ -63,7 +66,7 @@ app.get('/torrents', (_, res) => {
     // 'seedRatioMode',
     // 'seedRatioLimit',
     'sizeWhenDone',
-    'status',
+    'status'
     // 'trackers',
     // 'downloadDir',
     // 'uploadedEver',
@@ -120,7 +123,11 @@ app.post('/vpn', (req, res) => {
 });
 
 app.post('/guess-tv-show', async (req, res) => {
-  const { getTVFolders, guessTVShow, extractSeasonNumber } = require('./functions');
+  const {
+    getTVFolders,
+    guessTVShow,
+    extractSeasonNumber
+  } = require('./functions');
   const { torrentName } = req.body;
   console.log(`got request to guess TV Show for file: ${torrentName}`);
   let show = '';
@@ -128,14 +135,24 @@ app.post('/guess-tv-show', async (req, res) => {
     const folders = await getTVFolders();
     show = guessTVShow(torrentName, folders);
     if (!show || show === '') {
-      res.send({ msg: `Unable to match to an existing folder`, error: true, show: null, season: null });
+      res.send({
+        msg: `Unable to match to an existing folder`,
+        error: true,
+        show: null,
+        season: null
+      });
     } else {
       const season = extractSeasonNumber(torrentName, true);
       res.send({ show, season });
     }
   } catch (error) {
     console.log(error);
-    res.send({ msg: `Something went wrong trying to get current TV Shows`, error: true, show: null, season: null });
+    res.send({
+      msg: `Something went wrong trying to get current TV Shows`,
+      error: true,
+      show: null,
+      season: null
+    });
   }
 });
 
@@ -179,7 +196,12 @@ app.post('/move-movie', async (req, res) => {
 });
 
 app.post('/move-tv-show', async (req, res) => {
-  const { tvShows, isDir, removeDirtyFiles, moveToTVShows } = require('./functions');
+  const {
+    tvShows,
+    isDir,
+    removeDirtyFiles,
+    moveToTVShows
+  } = require('./functions');
   const { torrent, season, show } = req.body;
   const seasonPath = `${tvShows}/${show}/${season}`;
 
@@ -214,7 +236,10 @@ app.post('/torrents', (req, res) => {
       .catch(error => {
         console.log('failed to remove torrent from Transmission');
         console.log(error);
-        res.send({ success: false, error: 'Failed to remove torrent from Transmission' });
+        res.send({
+          success: false,
+          error: 'Failed to remove torrent from Transmission'
+        });
       });
   }
 });
@@ -248,9 +273,16 @@ app.post('/search', (req, res) => {
       Promise.all(
         allEngines.map(Engine => {
           return new Engine().getResults(search);
-        }),
+        })
       ).then(results => {
-        res.send(Object.fromEntries(allEngines.map((Engine, i) => [new Engine().options.name, results[i]])));
+        res.send(
+          Object.fromEntries(
+            allEngines.map((Engine, i) => [
+              new Engine().options.name,
+              results[i]
+            ])
+          )
+        );
       });
     } else {
       res.send({ success: false });
@@ -262,7 +294,7 @@ app.get('/magnet', (req, res) => {
   console.log('getting magnet link');
   const _1337x = require('./TorrentProvider')._1337x;
   const { link } = req.query;
-  
+
   new _1337x()
     .getMagnetFromSingle(link)
     .then(magnet => {
@@ -272,14 +304,13 @@ app.get('/magnet', (req, res) => {
         })
         .catch(e => {
           console.log('error adding to Transmission', e);
-          res.send({ success: false, msg: e.msg })
-        })
+          res.send({ success: false, msg: e.msg });
+        });
     })
     .catch(e => {
       console.log('error getting single', e);
-      res.send({ success: false, msg: e.msg })
-    })
-
+      res.send({ success: false, msg: e.msg });
+    });
 });
 
 app.get('/torrent', (req, res) => {
@@ -295,6 +326,35 @@ app.get('/torrent', (req, res) => {
     });
 });
 
-app.get('/dashboard', (req, res) => {
+app.get('/sessions', async (_, res) => {
+  // console.log('getting active user sessions...');
+  const request = require('request-promise-native');
+  if (!process.env.PLEX_SERVER_URL || !process.env.PLEX_TOKEN) {
+    res.send({ users: 0 });
+    return;
+  }
+
+  const headers = {
+    Accept: 'application/json',
+    'X-Plex-Token': process.env.PLEX_TOKEN
+  };
+  try {
+    const plexResponse = await request({
+      uri: `${process.env.PLEX_SERVER_URL}/status/sessions`,
+      headers,
+      json: true
+    });
+
+    if (plexResponse.MediaContainer) {
+      res.send({ users: plexResponse.MediaContainer.size });
+      return;
+    }
+  } catch (error) {
+    res.send({ users: false });
+  }
+  res.send({ users: false });
+});
+
+app.get('/dashboard', (_, res) => {
   res.redirect('/');
 });
