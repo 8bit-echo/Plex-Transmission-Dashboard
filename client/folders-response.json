@@ -1,0 +1,1496 @@
+{
+  "torrents": [
+    {
+      "activityDate": 1577657558,
+      "addedDate": 1575181181,
+      "bandwidthPriority": 0,
+      "comment": "",
+      "corruptEver": 0,
+      "creator": "",
+      "dateCreated": 0,
+      "desiredAvailable": 0,
+      "doneDate": 0,
+      "downloadDir": "/media/mini/ServerSpace/Downloads",
+      "downloadLimit": 100,
+      "downloadLimited": false,
+      "downloadedEver": 1985814528,
+      "error": 0,
+      "errorString": "",
+      "eta": -1,
+      "fileStats": [
+        {
+          "bytesCompleted": 367138816,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 232914944,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 165806080,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 5892096,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 6948864,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 207745024,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 190957568,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 182568960,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 123848704,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 6227968,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 182083584,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 114950144,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 198731776,
+          "priority": 0,
+          "wanted": true
+        }
+      ],
+      "files": [
+        {
+          "bytesCompleted": 367138816,
+          "length": 367138816,
+          "name": "Road.to.Avonlea.S05.FS.DVDRip.XviD-aAF/aaf-rta-s05e01.avi"
+        },
+        {
+          "bytesCompleted": 232914944,
+          "length": 367132672,
+          "name": "Road.to.Avonlea.S05.FS.DVDRip.XviD-aAF/aaf-rta-s05e08.avi"
+        },
+        {
+          "bytesCompleted": 165806080,
+          "length": 367132672,
+          "name": "Road.to.Avonlea.S05.FS.DVDRip.XviD-aAF/aaf-rta-s05e09.avi"
+        },
+        {
+          "bytesCompleted": 5892096,
+          "length": 367130624,
+          "name": "Road.to.Avonlea.S05.FS.DVDRip.XviD-aAF/aaf-rta-s05e12.avi"
+        },
+        {
+          "bytesCompleted": 6948864,
+          "length": 367130624,
+          "name": "Road.to.Avonlea.S05.FS.DVDRip.XviD-aAF/aaf-rta-s05e11.avi"
+        },
+        {
+          "bytesCompleted": 207745024,
+          "length": 367128576,
+          "name": "Road.to.Avonlea.S05.FS.DVDRip.XviD-aAF/aaf-rta-s05e10.avi"
+        },
+        {
+          "bytesCompleted": 190957568,
+          "length": 367118336,
+          "name": "Road.to.Avonlea.S05.FS.DVDRip.XviD-aAF/aaf-rta-s05e03.avi"
+        },
+        {
+          "bytesCompleted": 182568960,
+          "length": 367118336,
+          "name": "Road.to.Avonlea.S05.FS.DVDRip.XviD-aAF/aaf-rta-s05e05.avi"
+        },
+        {
+          "bytesCompleted": 123848704,
+          "length": 367118336,
+          "name": "Road.to.Avonlea.S05.FS.DVDRip.XviD-aAF/aaf-rta-s05e07.avi"
+        },
+        {
+          "bytesCompleted": 6227968,
+          "length": 366938112,
+          "name": "Road.to.Avonlea.S05.FS.DVDRip.XviD-aAF/aaf-rta-s05e13.avi"
+        },
+        {
+          "bytesCompleted": 182083584,
+          "length": 366632960,
+          "name": "Road.to.Avonlea.S05.FS.DVDRip.XviD-aAF/aaf-rta-s05e06.avi"
+        },
+        {
+          "bytesCompleted": 114950144,
+          "length": 366608384,
+          "name": "Road.to.Avonlea.S05.FS.DVDRip.XviD-aAF/aaf-rta-s05e04.avi"
+        },
+        {
+          "bytesCompleted": 198731776,
+          "length": 366503936,
+          "name": "Road.to.Avonlea.S05.FS.DVDRip.XviD-aAF/aaf-rta-s05e02.avi"
+        }
+      ],
+      "hashString": "4e2ec2b33e4c0e49a64ad60ac4c49a3976ac1801",
+      "haveUnchecked": 0,
+      "haveValid": 1985814528,
+      "honorsSessionLimits": true,
+      "id": 1,
+      "isFinished": false,
+      "isPrivate": false,
+      "leftUntilDone": 2785017856,
+      "magnetLink": "magnet:?xt=urn:btih:4e2ec2b33e4c0e49a64ad60ac4c49a3976ac1801&dn=Road.to.Avonlea.S05.FS.DVDRip.XviD-aAF&tr=udp%3A%2F%2Ftracker.zer0day.to%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&tr=udp%3A%2F%2Fcoppersurfer.tk%3A6969%2Fannounce",
+      "manualAnnounceTime": -1,
+      "maxConnectedPeers": 50,
+      "metadataPercentComplete": 1,
+      "name": "Road.to.Avonlea.S05.FS.DVDRip.XviD-aAF",
+      "peer-limit": 50,
+      "peers": [],
+      "peersConnected": 0,
+      "peersFrom": {
+        "fromCache": 0,
+        "fromDht": 0,
+        "fromIncoming": 0,
+        "fromLpd": 0,
+        "fromLtep": 0,
+        "fromPex": 0,
+        "fromTracker": 0
+      },
+      "peersGettingFromUs": 0,
+      "peersSendingToUs": 0,
+      "percentDone": 0.4162,
+      "pieceCount": 569,
+      "pieceSize": 8388608,
+      "pieces": "///////+4//+hCM/IUJOEfAAAAAAAAAAAAAAPq2vMqSOks+TXHom/CJqZ4bANwMKQMAAAAAAB85CBLh9yGRJ5kAHuXI5bhGA",
+      "priorities": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "rateDownload": 0,
+      "rateUpload": 0,
+      "recheckProgress": 0,
+      "seedIdleLimit": 30,
+      "seedIdleMode": 0,
+      "seedRatioLimit": 2,
+      "seedRatioMode": 0,
+      "sizeWhenDone": 4770832384,
+      "startDate": 1577657323,
+      "status": 0,
+      "torrentFile": "/home/mini/.config/transmission/torrents/Road.to.Avonlea.S05.FS.DVDRip.XviD-aAF.4e2ec2b33e4c0e49.torrent",
+      "totalSize": 4770832384,
+      "trackerStats": [
+        {
+          "announce": "udp://tracker.zer0day.to:1337/announce",
+          "announceState": 0,
+          "downloadCount": -1,
+          "hasAnnounced": true,
+          "hasScraped": true,
+          "host": "udp://tracker.zer0day.to:1337",
+          "id": 0,
+          "isBackup": false,
+          "lastAnnouncePeerCount": 0,
+          "lastAnnounceResult": "Connection failed",
+          "lastAnnounceStartTime": 0,
+          "lastAnnounceSucceeded": false,
+          "lastAnnounceTime": 1578022859,
+          "lastAnnounceTimedOut": false,
+          "lastScrapeResult": "Connection failed",
+          "lastScrapeStartTime": 0,
+          "lastScrapeSucceeded": false,
+          "lastScrapeTime": 1578020852,
+          "lastScrapeTimedOut": 0,
+          "leecherCount": -1,
+          "nextAnnounceTime": 0,
+          "nextScrapeTime": 1578028070,
+          "scrape": "udp://tracker.zer0day.to:1337/scrape",
+          "scrapeState": 1,
+          "seederCount": -1,
+          "tier": 0
+        },
+        {
+          "announce": "udp://tracker.leechers-paradise.org:6969/announce",
+          "announceState": 0,
+          "downloadCount": 0,
+          "hasAnnounced": true,
+          "hasScraped": true,
+          "host": "udp://tracker.leechers-paradise.org:6969",
+          "id": 1,
+          "isBackup": false,
+          "lastAnnouncePeerCount": 0,
+          "lastAnnounceResult": "Success",
+          "lastAnnounceStartTime": 0,
+          "lastAnnounceSucceeded": true,
+          "lastAnnounceTime": 1577658678,
+          "lastAnnounceTimedOut": false,
+          "lastScrapeResult": "Could not connect to tracker",
+          "lastScrapeStartTime": 1578024110,
+          "lastScrapeSucceeded": true,
+          "lastScrapeTime": 1578024110,
+          "lastScrapeTimedOut": 0,
+          "leecherCount": 7,
+          "nextAnnounceTime": 0,
+          "nextScrapeTime": 1578025910,
+          "scrape": "udp://tracker.leechers-paradise.org:6969/scrape",
+          "scrapeState": 1,
+          "seederCount": 0,
+          "tier": 1
+        },
+        {
+          "announce": "udp://coppersurfer.tk:6969/announce",
+          "announceState": 0,
+          "downloadCount": -1,
+          "hasAnnounced": true,
+          "hasScraped": true,
+          "host": "udp://coppersurfer.tk:6969",
+          "id": 2,
+          "isBackup": false,
+          "lastAnnouncePeerCount": 0,
+          "lastAnnounceResult": "Connection failed",
+          "lastAnnounceStartTime": 0,
+          "lastAnnounceSucceeded": false,
+          "lastAnnounceTime": 1578022832,
+          "lastAnnounceTimedOut": false,
+          "lastScrapeResult": "Connection failed",
+          "lastScrapeStartTime": 0,
+          "lastScrapeSucceeded": false,
+          "lastScrapeTime": 1578020171,
+          "lastScrapeTimedOut": 0,
+          "leecherCount": -1,
+          "nextAnnounceTime": 0,
+          "nextScrapeTime": 1578027390,
+          "scrape": "udp://coppersurfer.tk:6969/scrape",
+          "scrapeState": 1,
+          "seederCount": -1,
+          "tier": 2
+        }
+      ],
+      "trackers": [
+        {
+          "announce": "udp://tracker.zer0day.to:1337/announce",
+          "id": 0,
+          "scrape": "udp://tracker.zer0day.to:1337/scrape",
+          "tier": 0
+        },
+        {
+          "announce": "udp://tracker.leechers-paradise.org:6969/announce",
+          "id": 1,
+          "scrape": "udp://tracker.leechers-paradise.org:6969/scrape",
+          "tier": 1
+        },
+        {
+          "announce": "udp://coppersurfer.tk:6969/announce",
+          "id": 2,
+          "scrape": "udp://coppersurfer.tk:6969/scrape",
+          "tier": 2
+        }
+      ],
+      "uploadLimit": 0,
+      "uploadLimited": false,
+      "uploadRatio": 0.084,
+      "uploadedEver": 166839475,
+      "wanted": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "webseeds": [],
+      "webseedsSendingToUs": 0
+    },
+    {
+      "activityDate": 1576806038,
+      "addedDate": 1575181169,
+      "bandwidthPriority": 0,
+      "comment": "",
+      "corruptEver": 0,
+      "creator": "",
+      "dateCreated": 0,
+      "desiredAvailable": 0,
+      "doneDate": 0,
+      "downloadDir": "/media/mini/ServerSpace/Downloads",
+      "downloadLimit": 100,
+      "downloadLimited": false,
+      "downloadedEver": 8388608,
+      "error": 0,
+      "errorString": "",
+      "eta": -1,
+      "fileStats": [
+        {
+          "bytesCompleted": 8388608,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 0,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 0,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 0,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 0,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 0,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 0,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 0,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 0,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 0,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 0,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 0,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 0,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 0,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 0,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 0,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 0,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 0,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 0,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 0,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 0,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 0,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 0,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 0,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 0,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 0,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 0,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 0,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 0,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 0,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 0,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 0,
+          "priority": 0,
+          "wanted": true
+        }
+      ],
+      "files": [
+        {
+          "bytesCompleted": 8388608,
+          "length": 367077376,
+          "name": "Road.to.Avonlea.S02.REMASTERED.WS.DVDRip.XviD-aAF/aaf-road.to.avonlea.s02e09.all.that.glitters.dvdrip.xvid.avi"
+        },
+        {
+          "bytesCompleted": 0,
+          "length": 367075328,
+          "name": "Road.to.Avonlea.S02.REMASTERED.WS.DVDRip.XviD-aAF/aaf-road.to.avonlea.s02e11.its.just.a.stage.dvdrip.xvid.avi"
+        },
+        {
+          "bytesCompleted": 0,
+          "length": 367073280,
+          "name": "Road.to.Avonlea.S02.REMASTERED.WS.DVDRip.XviD-aAF/aaf-road.to.avonlea.s02e06.may.the.best.man.win.dvdrip.xvid.avi"
+        },
+        {
+          "bytesCompleted": 0,
+          "length": 367071232,
+          "name": "Road.to.Avonlea.S02.REMASTERED.WS.DVDRip.XviD-aAF/aaf-road.to.avonlea.s02e02.how.kissing.was.discovered.dvdrip.xvid.avi"
+        },
+        {
+          "bytesCompleted": 0,
+          "length": 367067136,
+          "name": "Road.to.Avonlea.S02.REMASTERED.WS.DVDRip.XviD-aAF/aaf-road.to.avonlea.s02e03.aunt.hettys.ordeal.dvdrip.xvid.avi"
+        },
+        {
+          "bytesCompleted": 0,
+          "length": 367067136,
+          "name": "Road.to.Avonlea.S02.REMASTERED.WS.DVDRip.XviD-aAF/aaf-road.to.avonlea.s02e07.family.rivalry.dvdrip.xvid.avi"
+        },
+        {
+          "bytesCompleted": 0,
+          "length": 367065088,
+          "name": "Road.to.Avonlea.S02.REMASTERED.WS.DVDRip.XviD-aAF/aaf-road.to.avonlea.s02e13.misfits.and.miracles.dvdrip.xvid.avi"
+        },
+        {
+          "bytesCompleted": 0,
+          "length": 367060992,
+          "name": "Road.to.Avonlea.S02.REMASTERED.WS.DVDRip.XviD-aAF/aaf-road.to.avonlea.s02e12.a.mothers.love.dvdrip.xvid.avi"
+        },
+        {
+          "bytesCompleted": 0,
+          "length": 367052800,
+          "name": "Road.to.Avonlea.S02.REMASTERED.WS.DVDRip.XviD-aAF/aaf-road.to.avonlea.s02e08.sea.ghost.dvdrip.xvid.avi"
+        },
+        {
+          "bytesCompleted": 0,
+          "length": 367048704,
+          "name": "Road.to.Avonlea.S02.REMASTERED.WS.DVDRip.XviD-aAF/aaf-road.to.avonlea.s02e01.sarahs.homecoming.dvdrip.xvid.avi"
+        },
+        {
+          "bytesCompleted": 0,
+          "length": 367040512,
+          "name": "Road.to.Avonlea.S02.REMASTERED.WS.DVDRip.XviD-aAF/aaf-road.to.avonlea.s02e10.dreamer.of.dreams.dvdrip.xvid.avi"
+        },
+        {
+          "bytesCompleted": 0,
+          "length": 366981120,
+          "name": "Road.to.Avonlea.S02.REMASTERED.WS.DVDRip.XviD-aAF/aaf-road.to.avonlea.s02e04.of.corsets.and.secrets.and.true.true.love.dvdrip.xvid.avi"
+        },
+        {
+          "bytesCompleted": 0,
+          "length": 366962688,
+          "name": "Road.to.Avonlea.S02.REMASTERED.WS.DVDRip.XviD-aAF/aaf-road.to.avonlea.s02e05.old.quarrels.old.love.dvdrip.xvid.avi"
+        },
+        {
+          "bytesCompleted": 0,
+          "length": 92246016,
+          "name": "Road.to.Avonlea.S02.REMASTERED.WS.DVDRip.XviD-aAF/aaf-rta.s02.extras4.between.the.action.choreographing.stunts.avi"
+        },
+        {
+          "bytesCompleted": 0,
+          "length": 47181824,
+          "name": "Road.to.Avonlea.S02.REMASTERED.WS.DVDRip.XviD-aAF/aaf-rta.s02.extras3.further.down.the.road.the.evolution.of.a.series.avi"
+        },
+        {
+          "bytesCompleted": 0,
+          "length": 47122432,
+          "name": "Road.to.Avonlea.S02.REMASTERED.WS.DVDRip.XviD-aAF/aaf-rta.s02.extras2.an.infusion.of.talent.gifted.guest.performers.avi"
+        },
+        {
+          "bytesCompleted": 0,
+          "length": 47058944,
+          "name": "Road.to.Avonlea.S02.REMASTERED.WS.DVDRip.XviD-aAF/aaf-rta.s02.extras1.creating.an.epic.dreamworld.elaborate.design.and.costume.avi"
+        },
+        {
+          "bytesCompleted": 0,
+          "length": 8382464,
+          "name": "Road.to.Avonlea.S02.REMASTERED.WS.DVDRip.XviD-aAF/aaf-road.to.avonlea.s02.extras.dvdrip.xvid-sample.avi"
+        },
+        {
+          "bytesCompleted": 0,
+          "length": 11889,
+          "name": "Road.to.Avonlea.S02.REMASTERED.WS.DVDRip.XviD-aAF/aaf-road.to.avonlea.s02e08.sea.ghost.dvdrip.xvid.nfo"
+        },
+        {
+          "bytesCompleted": 0,
+          "length": 11780,
+          "name": "Road.to.Avonlea.S02.REMASTERED.WS.DVDRip.XviD-aAF/aaf-road.to.avonlea.s02e05.old.quarrels.old.love.dvdrip.xvid.nfo"
+        },
+        {
+          "bytesCompleted": 0,
+          "length": 11763,
+          "name": "Road.to.Avonlea.S02.REMASTERED.WS.DVDRip.XviD-aAF/aaf-road.to.avonlea.s02e06.may.the.best.man.win.dvdrip.xvid.nfo"
+        },
+        {
+          "bytesCompleted": 0,
+          "length": 11761,
+          "name": "Road.to.Avonlea.S02.REMASTERED.WS.DVDRip.XviD-aAF/aaf-road.to.avonlea.s02e10.dreamer.of.dreams.dvdrip.xvid.nfo"
+        },
+        {
+          "bytesCompleted": 0,
+          "length": 11742,
+          "name": "Road.to.Avonlea.S02.REMASTERED.WS.DVDRip.XviD-aAF/aaf-road.to.avonlea.s02e07.family.rivalry.dvdrip.xvid.nfo"
+        },
+        {
+          "bytesCompleted": 0,
+          "length": 11723,
+          "name": "Road.to.Avonlea.S02.REMASTERED.WS.DVDRip.XviD-aAF/aaf-road.to.avonlea.s02e09.all.that.glitters.dvdrip.xvid.nfo"
+        },
+        {
+          "bytesCompleted": 0,
+          "length": 11720,
+          "name": "Road.to.Avonlea.S02.REMASTERED.WS.DVDRip.XviD-aAF/aaf-road.to.avonlea.s02e03.aunt.hettys.ordeal.dvdrip.xvid.nfo"
+        },
+        {
+          "bytesCompleted": 0,
+          "length": 11718,
+          "name": "Road.to.Avonlea.S02.REMASTERED.WS.DVDRip.XviD-aAF/aaf-road.to.avonlea.s02e12.a.mothers.love.dvdrip.xvid.nfo"
+        },
+        {
+          "bytesCompleted": 0,
+          "length": 11716,
+          "name": "Road.to.Avonlea.S02.REMASTERED.WS.DVDRip.XviD-aAF/aaf-road.to.avonlea.s02e01.sarahs.homecoming.dvdrip.xvid.nfo"
+        },
+        {
+          "bytesCompleted": 0,
+          "length": 11705,
+          "name": "Road.to.Avonlea.S02.REMASTERED.WS.DVDRip.XviD-aAF/aaf-road.to.avonlea.s02e13.misfits.and.miracles.dvdrip.xvid.nfo"
+        },
+        {
+          "bytesCompleted": 0,
+          "length": 11695,
+          "name": "Road.to.Avonlea.S02.REMASTERED.WS.DVDRip.XviD-aAF/aaf-road.to.avonlea.s02e11.its.just.a.stage.dvdrip.xvid.nfo"
+        },
+        {
+          "bytesCompleted": 0,
+          "length": 11671,
+          "name": "Road.to.Avonlea.S02.REMASTERED.WS.DVDRip.XviD-aAF/aaf-road.to.avonlea.s02e02.how.kissing.was.discovered.dvdrip.xvid.nfo"
+        },
+        {
+          "bytesCompleted": 0,
+          "length": 11621,
+          "name": "Road.to.Avonlea.S02.REMASTERED.WS.DVDRip.XviD-aAF/aaf-road.to.avonlea.s02e04.of.corsets.and.secrets.and.true.true.love.dvdrip.xvid.nfo"
+        },
+        {
+          "bytesCompleted": 0,
+          "length": 11170,
+          "name": "Road.to.Avonlea.S02.REMASTERED.WS.DVDRip.XviD-aAF/aaf-road.to.avonlea.s02.extras.dvdrip.xvid.nfo"
+        }
+      ],
+      "hashString": "d8b36fd2194113d3e56c27c7c6713a989df512f1",
+      "haveUnchecked": 0,
+      "haveValid": 8388608,
+      "honorsSessionLimits": true,
+      "id": 3,
+      "isFinished": false,
+      "isPrivate": false,
+      "leftUntilDone": 5005410138,
+      "magnetLink": "magnet:?xt=urn:btih:d8b36fd2194113d3e56c27c7c6713a989df512f1&dn=Road.to.Avonlea.S02.REMASTERED.WS.DVDRip.XviD-aAF&tr=udp%3A%2F%2Ftracker.zer0day.to%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&tr=udp%3A%2F%2Fcoppersurfer.tk%3A6969%2Fannounce",
+      "manualAnnounceTime": -1,
+      "maxConnectedPeers": 50,
+      "metadataPercentComplete": 1,
+      "name": "Road.to.Avonlea.S02.REMASTERED.WS.DVDRip.XviD-aAF",
+      "peer-limit": 50,
+      "peers": [],
+      "peersConnected": 0,
+      "peersFrom": {
+        "fromCache": 0,
+        "fromDht": 0,
+        "fromIncoming": 0,
+        "fromLpd": 0,
+        "fromLtep": 0,
+        "fromPex": 0,
+        "fromTracker": 0
+      },
+      "peersGettingFromUs": 0,
+      "peersSendingToUs": 0,
+      "percentDone": 0.0016,
+      "pieceCount": 598,
+      "pieceSize": 8388608,
+      "pieces": "gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "priorities": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "rateDownload": 0,
+      "rateUpload": 0,
+      "recheckProgress": 0,
+      "seedIdleLimit": 30,
+      "seedIdleMode": 0,
+      "seedRatioLimit": 2,
+      "seedRatioMode": 0,
+      "sizeWhenDone": 5013798746,
+      "startDate": 1577657321,
+      "status": 0,
+      "torrentFile": "/home/mini/.config/transmission/torrents/Road.to.Avonlea.S02.REMASTERED.WS.DVDRip.XviD-aAF.d8b36fd2194113d3.torrent",
+      "totalSize": 5013798746,
+      "trackerStats": [
+        {
+          "announce": "udp://tracker.zer0day.to:1337/announce",
+          "announceState": 0,
+          "downloadCount": -1,
+          "hasAnnounced": true,
+          "hasScraped": true,
+          "host": "udp://tracker.zer0day.to:1337",
+          "id": 0,
+          "isBackup": false,
+          "lastAnnouncePeerCount": 0,
+          "lastAnnounceResult": "Connection failed",
+          "lastAnnounceStartTime": 0,
+          "lastAnnounceSucceeded": false,
+          "lastAnnounceTime": 1578023318,
+          "lastAnnounceTimedOut": false,
+          "lastScrapeResult": "Connection failed",
+          "lastScrapeStartTime": 0,
+          "lastScrapeSucceeded": false,
+          "lastScrapeTime": 1578022859,
+          "lastScrapeTimedOut": 0,
+          "leecherCount": -1,
+          "nextAnnounceTime": 0,
+          "nextScrapeTime": 1578030090,
+          "scrape": "udp://tracker.zer0day.to:1337/scrape",
+          "scrapeState": 1,
+          "seederCount": -1,
+          "tier": 0
+        },
+        {
+          "announce": "udp://tracker.leechers-paradise.org:6969/announce",
+          "announceState": 0,
+          "downloadCount": 0,
+          "hasAnnounced": true,
+          "hasScraped": true,
+          "host": "udp://tracker.leechers-paradise.org:6969",
+          "id": 1,
+          "isBackup": false,
+          "lastAnnouncePeerCount": 0,
+          "lastAnnounceResult": "Success",
+          "lastAnnounceStartTime": 0,
+          "lastAnnounceSucceeded": true,
+          "lastAnnounceTime": 1577658766,
+          "lastAnnounceTimedOut": false,
+          "lastScrapeResult": "Could not connect to tracker",
+          "lastScrapeStartTime": 1578024110,
+          "lastScrapeSucceeded": true,
+          "lastScrapeTime": 1578024110,
+          "lastScrapeTimedOut": 0,
+          "leecherCount": 9,
+          "nextAnnounceTime": 0,
+          "nextScrapeTime": 1578025910,
+          "scrape": "udp://tracker.leechers-paradise.org:6969/scrape",
+          "scrapeState": 1,
+          "seederCount": 0,
+          "tier": 1
+        },
+        {
+          "announce": "udp://coppersurfer.tk:6969/announce",
+          "announceState": 0,
+          "downloadCount": -1,
+          "hasAnnounced": true,
+          "hasScraped": true,
+          "host": "udp://coppersurfer.tk:6969",
+          "id": 2,
+          "isBackup": false,
+          "lastAnnouncePeerCount": 0,
+          "lastAnnounceResult": "Connection failed",
+          "lastAnnounceStartTime": 0,
+          "lastAnnounceSucceeded": false,
+          "lastAnnounceTime": 1578023253,
+          "lastAnnounceTimedOut": false,
+          "lastScrapeResult": "Connection failed",
+          "lastScrapeStartTime": 0,
+          "lastScrapeSucceeded": false,
+          "lastScrapeTime": 1578022832,
+          "lastScrapeTimedOut": 0,
+          "leecherCount": -1,
+          "nextAnnounceTime": 0,
+          "nextScrapeTime": 1578030060,
+          "scrape": "udp://coppersurfer.tk:6969/scrape",
+          "scrapeState": 1,
+          "seederCount": -1,
+          "tier": 2
+        }
+      ],
+      "trackers": [
+        {
+          "announce": "udp://tracker.zer0day.to:1337/announce",
+          "id": 0,
+          "scrape": "udp://tracker.zer0day.to:1337/scrape",
+          "tier": 0
+        },
+        {
+          "announce": "udp://tracker.leechers-paradise.org:6969/announce",
+          "id": 1,
+          "scrape": "udp://tracker.leechers-paradise.org:6969/scrape",
+          "tier": 1
+        },
+        {
+          "announce": "udp://coppersurfer.tk:6969/announce",
+          "id": 2,
+          "scrape": "udp://coppersurfer.tk:6969/scrape",
+          "tier": 2
+        }
+      ],
+      "uploadLimit": 0,
+      "uploadLimited": false,
+      "uploadRatio": 0,
+      "uploadedEver": 0,
+      "wanted": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "webseeds": [],
+      "webseedsSendingToUs": 0
+    },
+    {
+      "activityDate": 1578024849,
+      "addedDate": 1577912896,
+      "bandwidthPriority": 0,
+      "comment": "",
+      "corruptEver": 0,
+      "creator": "",
+      "dateCreated": 0,
+      "desiredAvailable": 0,
+      "doneDate": 1577937877,
+      "downloadDir": "/media/mini/ServerSpace/Downloads/",
+      "downloadLimit": 100,
+      "downloadLimited": false,
+      "downloadedEver": 3048732064,
+      "error": 0,
+      "errorString": "",
+      "eta": -1,
+      "fileStats": [
+        {
+          "bytesCompleted": 341819064,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 311521882,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 579482487,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 335663114,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 365142623,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 293325224,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 468659181,
+          "priority": 0,
+          "wanted": true
+        },
+        {
+          "bytesCompleted": 339933066,
+          "priority": 0,
+          "wanted": true
+        }
+      ],
+      "files": [
+        {
+          "bytesCompleted": 341819064,
+          "length": 341819064,
+          "name": "The Witcher/Andrzej Sapkowski - Baptism of Fire The Witcher, Book 3 (Unabridged)/Baptism of Fire The Witcher, Book 3 (Unabridged).m4b"
+        },
+        {
+          "bytesCompleted": 311521882,
+          "length": 311521882,
+          "name": "The Witcher/Andrzej Sapkowski - Blood of Elves The Witcher, Book 1 (Unabridged)/Blood of Elves The Witcher, Book 1 (Unabridged).m4b"
+        },
+        {
+          "bytesCompleted": 579482487,
+          "length": 579482487,
+          "name": "The Witcher/Andrzej Sapkowski - Lady of the Lake The Witcher, Book 5 (Unabridged)/Lady of the Lake The Witcher, Book 5 (Unabridged).m4b"
+        },
+        {
+          "bytesCompleted": 335663114,
+          "length": 335663114,
+          "name": "The Witcher/Andrzej Sapkowski - Season of Storms (Unabridged)/Season of Storms (Unabridged).m4b"
+        },
+        {
+          "bytesCompleted": 365142623,
+          "length": 365142623,
+          "name": "The Witcher/Andrzej Sapkowski - Sword of Destiny (Unabridged)/Sword of Destiny (Unabridged).m4b"
+        },
+        {
+          "bytesCompleted": 293325224,
+          "length": 293325224,
+          "name": "The Witcher/Andrzej Sapkowski - The Last Wish (Unabridged)/The Last Wish (Unabridged).m4b"
+        },
+        {
+          "bytesCompleted": 468659181,
+          "length": 468659181,
+          "name": "The Witcher/Andrzej Sapkowski - The Tower of the Swallow The Witcher, Book 4 (Unabridged)/The Tower of the Swallow The Witcher, Book 4 (Unabridged).m4b"
+        },
+        {
+          "bytesCompleted": 339933066,
+          "length": 339933066,
+          "name": "The Witcher/Andrzej Sapkowski - Time of Contempt The Witcher, Book 2 (Unabridged)/Time of Contempt The Witcher, Book 2 (Unabridged).m4b"
+        }
+      ],
+      "hashString": "a18f51e8292c1aca5fe2048083e8112c4db4b127",
+      "haveUnchecked": 0,
+      "haveValid": 3035546641,
+      "honorsSessionLimits": true,
+      "id": 65,
+      "isFinished": false,
+      "isPrivate": false,
+      "leftUntilDone": 0,
+      "magnetLink": "magnet:?xt=urn:btih:a18f51e8292c1aca5fe2048083e8112c4db4b127&dn=The%20Witcher&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Ftracker.torrent.eu.org%3A451%2Fannounce&tr=udp%3A%2F%2Ftracker.open-internet.nl%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A69691337%2Fannounce&tr=udp%3A%2F%2Ftracker.vanitycore.co%3A6969%2Fannounce&tr=http%3A%2F%2Ftracker.baravik.org%3A6970%2Fannounce&tr=http%3A%2F%2Fretracker.telecom.by%3A80%2Fannounce&tr=http%3A%2F%2Ftracker.vanitycore.co%3A6969%2Fannounce",
+      "manualAnnounceTime": -1,
+      "maxConnectedPeers": 50,
+      "metadataPercentComplete": 1,
+      "name": "The Witcher",
+      "peer-limit": 50,
+      "peers": [
+        {
+          "address": "68.205.76.135",
+          "clientIsChoked": true,
+          "clientIsInterested": false,
+          "clientName": "-UW107Q-",
+          "flagStr": "T?EX",
+          "isDownloadingFrom": false,
+          "isEncrypted": true,
+          "isIncoming": false,
+          "isUTP": true,
+          "isUploadingTo": false,
+          "peerIsChoked": false,
+          "peerIsInterested": false,
+          "port": 6881,
+          "progress": 0,
+          "rateToClient": 0,
+          "rateToPeer": 0
+        },
+        {
+          "address": "72.255.154.161",
+          "clientIsChoked": true,
+          "clientIsInterested": false,
+          "clientName": "-UW1075-",
+          "flagStr": "UX",
+          "isDownloadingFrom": false,
+          "isEncrypted": false,
+          "isIncoming": false,
+          "isUTP": false,
+          "isUploadingTo": true,
+          "peerIsChoked": false,
+          "peerIsInterested": true,
+          "port": 6881,
+          "progress": 0.6022,
+          "rateToClient": 0,
+          "rateToPeer": 0
+        },
+        {
+          "address": "81.166.82.176",
+          "clientIsChoked": true,
+          "clientIsInterested": false,
+          "clientName": "µTorrent 6.1.6",
+          "flagStr": "T?I",
+          "isDownloadingFrom": false,
+          "isEncrypted": false,
+          "isIncoming": true,
+          "isUTP": true,
+          "isUploadingTo": false,
+          "peerIsChoked": false,
+          "peerIsInterested": false,
+          "port": 34607,
+          "progress": 0,
+          "rateToClient": 0,
+          "rateToPeer": 0
+        },
+        {
+          "address": "82.4.204.199",
+          "clientIsChoked": true,
+          "clientIsInterested": false,
+          "clientName": "qBittorrent 4.1.3",
+          "flagStr": "TEX",
+          "isDownloadingFrom": false,
+          "isEncrypted": true,
+          "isIncoming": false,
+          "isUTP": true,
+          "isUploadingTo": false,
+          "peerIsChoked": true,
+          "peerIsInterested": false,
+          "port": 8999,
+          "progress": 1,
+          "rateToClient": 0,
+          "rateToPeer": 0
+        },
+        {
+          "address": "85.227.241.234",
+          "clientIsChoked": true,
+          "clientIsInterested": false,
+          "clientName": "µTorrent 6.1.6",
+          "flagStr": "T?EX",
+          "isDownloadingFrom": false,
+          "isEncrypted": true,
+          "isIncoming": false,
+          "isUTP": true,
+          "isUploadingTo": false,
+          "peerIsChoked": false,
+          "peerIsInterested": false,
+          "port": 34355,
+          "progress": 0,
+          "rateToClient": 0,
+          "rateToPeer": 0
+        },
+        {
+          "address": "142.116.138.36",
+          "clientIsChoked": true,
+          "clientIsInterested": false,
+          "clientName": "qBittorrent 4.2.1",
+          "flagStr": "T?EX",
+          "isDownloadingFrom": false,
+          "isEncrypted": true,
+          "isIncoming": false,
+          "isUTP": true,
+          "isUploadingTo": false,
+          "peerIsChoked": false,
+          "peerIsInterested": false,
+          "port": 31816,
+          "progress": 0,
+          "rateToClient": 0,
+          "rateToPeer": 0
+        }
+      ],
+      "peersConnected": 6,
+      "peersFrom": {
+        "fromCache": 0,
+        "fromDht": 0,
+        "fromIncoming": 1,
+        "fromLpd": 0,
+        "fromLtep": 0,
+        "fromPex": 5,
+        "fromTracker": 0
+      },
+      "peersGettingFromUs": 1,
+      "peersSendingToUs": 0,
+      "percentDone": 1,
+      "pieceCount": 724,
+      "pieceSize": 4194304,
+      "pieces": "////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////8A==",
+      "priorities": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "rateDownload": 0,
+      "rateUpload": 0,
+      "recheckProgress": 0,
+      "seedIdleLimit": 30,
+      "seedIdleMode": 0,
+      "seedRatioLimit": 2,
+      "seedRatioMode": 0,
+      "sizeWhenDone": 3035546641,
+      "startDate": 1577937591,
+      "status": 6,
+      "torrentFile": "/home/mini/.config/transmission/torrents/The Witcher.a18f51e8292c1aca.torrent",
+      "totalSize": 3035546641,
+      "trackerStats": [
+        {
+          "announce": "udp://tracker.coppersurfer.tk:6969",
+          "announceState": 1,
+          "downloadCount": 2939,
+          "hasAnnounced": true,
+          "hasScraped": true,
+          "host": "udp://tracker.coppersurfer.tk:6969",
+          "id": 0,
+          "isBackup": false,
+          "lastAnnouncePeerCount": 80,
+          "lastAnnounceResult": "Success",
+          "lastAnnounceStartTime": 1578024466,
+          "lastAnnounceSucceeded": true,
+          "lastAnnounceTime": 1578024466,
+          "lastAnnounceTimedOut": false,
+          "lastScrapeResult": "Could not connect to tracker",
+          "lastScrapeStartTime": 1578024351,
+          "lastScrapeSucceeded": true,
+          "lastScrapeTime": 1578024466,
+          "lastScrapeTimedOut": 0,
+          "leecherCount": 22,
+          "nextAnnounceTime": 1578026139,
+          "nextScrapeTime": 1578026270,
+          "scrape": "udp://tracker.coppersurfer.tk:6969",
+          "scrapeState": 1,
+          "seederCount": 134,
+          "tier": 0
+        },
+        {
+          "announce": "udp://tracker.leechers-paradise.org:6969",
+          "announceState": 1,
+          "downloadCount": 4092,
+          "hasAnnounced": true,
+          "hasScraped": true,
+          "host": "udp://tracker.leechers-paradise.org:6969",
+          "id": 1,
+          "isBackup": false,
+          "lastAnnouncePeerCount": 80,
+          "lastAnnounceResult": "Success",
+          "lastAnnounceStartTime": 1578023993,
+          "lastAnnounceSucceeded": true,
+          "lastAnnounceTime": 1578023993,
+          "lastAnnounceTimedOut": false,
+          "lastScrapeResult": "Connection failed",
+          "lastScrapeStartTime": 1578022170,
+          "lastScrapeSucceeded": true,
+          "lastScrapeTime": 1578023993,
+          "lastScrapeTimedOut": 0,
+          "leecherCount": 29,
+          "nextAnnounceTime": 1578025913,
+          "nextScrapeTime": 1578025800,
+          "scrape": "udp://tracker.leechers-paradise.org:6969",
+          "scrapeState": 1,
+          "seederCount": 172,
+          "tier": 1
+        },
+        {
+          "announce": "udp://tracker.torrent.eu.org:451/announce",
+          "announceState": 1,
+          "downloadCount": 5495,
+          "hasAnnounced": true,
+          "hasScraped": true,
+          "host": "udp://tracker.torrent.eu.org:451",
+          "id": 2,
+          "isBackup": false,
+          "lastAnnouncePeerCount": 80,
+          "lastAnnounceResult": "Success",
+          "lastAnnounceStartTime": 1578024318,
+          "lastAnnounceSucceeded": true,
+          "lastAnnounceTime": 1578024318,
+          "lastAnnounceTimedOut": false,
+          "lastScrapeResult": "",
+          "lastScrapeStartTime": 1578024280,
+          "lastScrapeSucceeded": true,
+          "lastScrapeTime": 1578024318,
+          "lastScrapeTimedOut": 0,
+          "leecherCount": 11,
+          "nextAnnounceTime": 1578026236,
+          "nextScrapeTime": 1578026120,
+          "scrape": "udp://tracker.torrent.eu.org:451/scrape",
+          "scrapeState": 1,
+          "seederCount": 127,
+          "tier": 2
+        },
+        {
+          "announce": "udp://tracker.open-internet.nl:6969/announce",
+          "announceState": 1,
+          "downloadCount": 4094,
+          "hasAnnounced": true,
+          "hasScraped": true,
+          "host": "udp://tracker.open-internet.nl:6969",
+          "id": 3,
+          "isBackup": false,
+          "lastAnnouncePeerCount": 80,
+          "lastAnnounceResult": "Success",
+          "lastAnnounceStartTime": 1578023070,
+          "lastAnnounceSucceeded": true,
+          "lastAnnounceTime": 1578023071,
+          "lastAnnounceTimedOut": false,
+          "lastScrapeResult": "Could not connect to tracker",
+          "lastScrapeStartTime": 1578023000,
+          "lastScrapeSucceeded": true,
+          "lastScrapeTime": 1578023071,
+          "lastScrapeTimedOut": 0,
+          "leecherCount": 31,
+          "nextAnnounceTime": 1578024886,
+          "nextScrapeTime": 0,
+          "scrape": "udp://tracker.open-internet.nl:6969/scrape",
+          "scrapeState": 2,
+          "seederCount": 166,
+          "tier": 3
+        },
+        {
+          "announce": "udp://tracker.opentrackr.org:69691337/announce",
+          "announceState": 1,
+          "downloadCount": -1,
+          "hasAnnounced": true,
+          "hasScraped": true,
+          "host": "udp://tracker.opentrackr.org:-1",
+          "id": 4,
+          "isBackup": false,
+          "lastAnnouncePeerCount": 0,
+          "lastAnnounceResult": "Connection failed",
+          "lastAnnounceStartTime": 0,
+          "lastAnnounceSucceeded": false,
+          "lastAnnounceTime": 1578018143,
+          "lastAnnounceTimedOut": false,
+          "lastScrapeResult": "Connection failed",
+          "lastScrapeStartTime": 0,
+          "lastScrapeSucceeded": false,
+          "lastScrapeTime": 1578024871,
+          "lastScrapeTimedOut": 0,
+          "leecherCount": -1,
+          "nextAnnounceTime": 1578025364,
+          "nextScrapeTime": 1578032110,
+          "scrape": "udp://tracker.opentrackr.org:69691337/scrape",
+          "scrapeState": 1,
+          "seederCount": -1,
+          "tier": 4
+        },
+        {
+          "announce": "udp://tracker.vanitycore.co:6969/announce",
+          "announceState": 0,
+          "downloadCount": -1,
+          "hasAnnounced": false,
+          "hasScraped": false,
+          "host": "udp://tracker.vanitycore.co:6969",
+          "id": 5,
+          "isBackup": true,
+          "lastAnnouncePeerCount": 0,
+          "lastAnnounceResult": "",
+          "lastAnnounceStartTime": 0,
+          "lastAnnounceSucceeded": false,
+          "lastAnnounceTime": 0,
+          "lastAnnounceTimedOut": false,
+          "lastScrapeResult": "",
+          "lastScrapeStartTime": 0,
+          "lastScrapeSucceeded": false,
+          "lastScrapeTime": 0,
+          "lastScrapeTimedOut": 0,
+          "leecherCount": -1,
+          "nextAnnounceTime": 0,
+          "nextScrapeTime": 0,
+          "scrape": "udp://tracker.vanitycore.co:6969/scrape",
+          "scrapeState": 0,
+          "seederCount": -1,
+          "tier": 5
+        },
+        {
+          "announce": "http://tracker.vanitycore.co:6969/announce",
+          "announceState": 1,
+          "downloadCount": -1,
+          "hasAnnounced": true,
+          "hasScraped": true,
+          "host": "http://tracker.vanitycore.co:6969",
+          "id": 8,
+          "isBackup": false,
+          "lastAnnouncePeerCount": 0,
+          "lastAnnounceResult": "Could not connect to tracker",
+          "lastAnnounceStartTime": 0,
+          "lastAnnounceSucceeded": false,
+          "lastAnnounceTime": 1578024632,
+          "lastAnnounceTimedOut": false,
+          "lastScrapeResult": "Could not connect to tracker",
+          "lastScrapeStartTime": 0,
+          "lastScrapeSucceeded": false,
+          "lastScrapeTime": 1578020771,
+          "lastScrapeTimedOut": 0,
+          "leecherCount": -1,
+          "nextAnnounceTime": 1578031837,
+          "nextScrapeTime": 1578028030,
+          "scrape": "http://tracker.vanitycore.co:6969/scrape",
+          "scrapeState": 1,
+          "seederCount": -1,
+          "tier": 5
+        },
+        {
+          "announce": "http://tracker.baravik.org:6970/announce",
+          "announceState": 1,
+          "downloadCount": -1,
+          "hasAnnounced": true,
+          "hasScraped": true,
+          "host": "http://tracker.baravik.org:6970",
+          "id": 6,
+          "isBackup": false,
+          "lastAnnouncePeerCount": 0,
+          "lastAnnounceResult": "Could not connect to tracker",
+          "lastAnnounceStartTime": 0,
+          "lastAnnounceSucceeded": false,
+          "lastAnnounceTime": 1578024769,
+          "lastAnnounceTimedOut": false,
+          "lastScrapeResult": "Could not connect to tracker",
+          "lastScrapeStartTime": 0,
+          "lastScrapeSucceeded": false,
+          "lastScrapeTime": 1578018720,
+          "lastScrapeTimedOut": 0,
+          "leecherCount": -1,
+          "nextAnnounceTime": 1578031984,
+          "nextScrapeTime": 1578025970,
+          "scrape": "http://tracker.baravik.org:6970/scrape",
+          "scrapeState": 1,
+          "seederCount": -1,
+          "tier": 6
+        },
+        {
+          "announce": "http://retracker.telecom.by:80/announce",
+          "announceState": 1,
+          "downloadCount": -1,
+          "hasAnnounced": true,
+          "hasScraped": true,
+          "host": "http://retracker.telecom.by:80",
+          "id": 7,
+          "isBackup": false,
+          "lastAnnouncePeerCount": 0,
+          "lastAnnounceResult": "Could not connect to tracker",
+          "lastAnnounceStartTime": 0,
+          "lastAnnounceSucceeded": false,
+          "lastAnnounceTime": 1578017806,
+          "lastAnnounceTimedOut": false,
+          "lastScrapeResult": "Could not connect to tracker",
+          "lastScrapeStartTime": 0,
+          "lastScrapeSucceeded": false,
+          "lastScrapeTime": 1578019311,
+          "lastScrapeTimedOut": 1,
+          "leecherCount": -1,
+          "nextAnnounceTime": 1578025049,
+          "nextScrapeTime": 1578026520,
+          "scrape": "http://retracker.telecom.by:80/scrape",
+          "scrapeState": 1,
+          "seederCount": -1,
+          "tier": 7
+        }
+      ],
+      "trackers": [
+        {
+          "announce": "udp://tracker.coppersurfer.tk:6969",
+          "id": 0,
+          "scrape": "udp://tracker.coppersurfer.tk:6969",
+          "tier": 0
+        },
+        {
+          "announce": "udp://tracker.leechers-paradise.org:6969",
+          "id": 1,
+          "scrape": "udp://tracker.leechers-paradise.org:6969",
+          "tier": 1
+        },
+        {
+          "announce": "udp://tracker.torrent.eu.org:451/announce",
+          "id": 2,
+          "scrape": "udp://tracker.torrent.eu.org:451/scrape",
+          "tier": 2
+        },
+        {
+          "announce": "udp://tracker.open-internet.nl:6969/announce",
+          "id": 3,
+          "scrape": "udp://tracker.open-internet.nl:6969/scrape",
+          "tier": 3
+        },
+        {
+          "announce": "udp://tracker.opentrackr.org:69691337/announce",
+          "id": 4,
+          "scrape": "udp://tracker.opentrackr.org:69691337/scrape",
+          "tier": 4
+        },
+        {
+          "announce": "udp://tracker.vanitycore.co:6969/announce",
+          "id": 5,
+          "scrape": "udp://tracker.vanitycore.co:6969/scrape",
+          "tier": 5
+        },
+        {
+          "announce": "http://tracker.baravik.org:6970/announce",
+          "id": 6,
+          "scrape": "http://tracker.baravik.org:6970/scrape",
+          "tier": 6
+        },
+        {
+          "announce": "http://retracker.telecom.by:80/announce",
+          "id": 7,
+          "scrape": "http://retracker.telecom.by:80/scrape",
+          "tier": 7
+        },
+        {
+          "announce": "http://tracker.vanitycore.co:6969/announce",
+          "id": 8,
+          "scrape": "http://tracker.vanitycore.co:6969/scrape",
+          "tier": 8
+        }
+      ],
+      "uploadLimit": 100,
+      "uploadLimited": false,
+      "uploadRatio": 0.9431,
+      "uploadedEver": 2875437212,
+      "wanted": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "webseeds": [],
+      "webseedsSendingToUs": 0
+    }
+  ]
+}
