@@ -330,15 +330,15 @@ app.get('/sessions', async (_, res) => {
   // console.log('getting active user sessions...');
   const request = require('request-promise-native');
   if (!process.env.PLEX_SERVER_URL || !process.env.PLEX_TOKEN) {
-    res.send({ users: 0 });
+    res.send({ size: 0 });
     return;
   }
 
-  const headers = {
-    Accept: 'application/json',
-    'X-Plex-Token': process.env.PLEX_TOKEN
-  };
   try {
+    const headers = {
+      Accept: 'application/json',
+      'X-Plex-Token': process.env.PLEX_TOKEN
+    };
     const plexResponse = await request({
       uri: `${process.env.PLEX_SERVER_URL}/status/sessions`,
       headers,
@@ -360,9 +360,10 @@ app.get('/sessions', async (_, res) => {
       return;
     }
   } catch (error) {
-    res.send({ users: false });
+    res.send({ size: false });
+    return;
   }
-  res.send({ users: false });
+  res.send({ size: false });
 });
 
 app.get('/dashboard', (_, res) => {

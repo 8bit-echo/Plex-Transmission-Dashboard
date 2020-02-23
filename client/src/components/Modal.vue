@@ -18,7 +18,7 @@
           v-model="prompt"
           class="prompt"
           autofocus="true"
-          placeholder="Name of TV Show"
+          :placeholder="modalExtra.placeholder ? modalExtra.placeholder : 'Name of TV Show'"
         />
       </template>
 
@@ -69,6 +69,7 @@
        */
       confirmAction() {
         this.isPrompt ? this.modalConfirm(this.prompt) : this.modalConfirm();
+        this.prompt = "";
         this.hideDialog();
       }
     }

@@ -12,11 +12,7 @@
         @keyup.enter="doSearch()"
       />
 
-      <button
-        v-if="searchTerm"
-        class="clear"
-        @click.prevent="searchTerm = ''"
-      >
+      <button v-if="searchTerm" class="clear" @click.prevent="searchTerm = ''">
         &#10006;
       </button>
       <img
@@ -28,16 +24,10 @@
     </div>
 
     <div class="search-results">
-
-      <template
-        class="section"
-        v-for="(result, name) in results"
-      >
-        <h2
-          :key="name"
-          @click="toggle(name)"
-        >
-          {{name | capitalize() }} {{visibleSections.includes(name) ? '–' : '+'}}
+      <template class="section" v-for="(result, name) in results">
+        <h2 :key="name" @click="toggle(name)">
+          {{ name | capitalize() }}
+          {{ visibleSections.includes(name) ? '–' : '+' }}
         </h2>
 
         <template v-if="visibleSections.includes(name)">
@@ -49,6 +39,10 @@
         </template>
       </template>
     </div>
+
+    <button class="direct-add" @click="handleDirectAdd()">
+      Add from magnet
+    </button>
   </div>
 </template>
 
@@ -56,6 +50,8 @@
   import { post } from '../functions';
   import Torrent from './SearchTorrent';
   import AppError from '@/AppError';
+  import { mapMutations } from 'vuex';
+  import { get } from '../functions';
   /**
    * All the state in this view is self-contained.
    */
@@ -86,6 +82,7 @@
     },
 
     methods: {
+      ...mapMutations(['OPEN_MODAL', 'DISPLAY_NOTIFICATION']),
       async doSearch() {
         this.isLoading = true;
         this.$refs.search.blur();
@@ -115,6 +112,32 @@
         } else {
           this.visibleSections.push(key);
         }
+      },
+
+      handleDirectAdd() {
+        console.log('click');
+        this.OPEN_MODAL({
+          msg: `Add torrent from magnet link`,
+          extra: {
+            isPrompt: true,
+            placeholder: ' '
+          },
+          action: magnet => {
+            try {
+              get(`/torrent?magnet=${magnet}`).then(success => {
+                console.log(success);
+                this.DISPLAY_NOTIFICATION({
+                  display: true,
+                  level: 'okay',
+                  message: 'Torrent queued for download'
+                });
+              });
+            } catch (error) {
+              console.log(error);
+              new AppError('Failed to add torrent to queue.');
+            }
+          }
+        });
       }
     }
   };
@@ -192,5 +215,23 @@
 
   .toggle {
     color: rgba(white, 0.25);
+  }
+
+  .direct-add {
+    background: #e5a00d;
+    color: white;
+    appearance: none;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 1.5rem;
+    font-size: 0.85rem;
+    font-weight: bold;
+
+    &:hover,
+    &:active {
+      filter: brightness(0.9);
+    }
   }
 </style>
