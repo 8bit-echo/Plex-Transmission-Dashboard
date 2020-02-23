@@ -18,37 +18,27 @@
       </div>
       <div class="right">
         <div class="activity-indicator indicator" v-if="activeUsers">
-          <span class="user-count">{{ activeUsers }}</span>
+          <span class="user-count">{{ activeUsers.size }}</span>
           <div class="icon">
-            <img
-              src="@/assets/activity-icon.svg"
-              width="25"
-            />
+            <img src="@/assets/activity-icon.svg" width="25" />
+          </div>
+          <div class="tooltip">
+            <p v-for="session in activeUsers.sessions" :key="session.user">
+              {{ session.user }}
+            </p>
           </div>
         </div>
 
-        <div
-          class="finished indicator"
-          v-show="finishedTorrents > 0"
-        >
+        <div class="finished indicator" v-show="finishedTorrents > 0">
           {{ finishedTorrents }} ✓
         </div>
 
-        <div
-          class="download indicator"
-          v-show="totalDownloadSpeed !== ''"
-        >
+        <div class="download indicator" v-show="totalDownloadSpeed !== ''">
           ↓ {{ totalDownloadSpeed }}/s
         </div>
 
-        <div
-          class="loading-indicator indicator"
-          v-if="isLoading"
-        >
-          <img
-            src="@/assets/spinner.svg"
-            width="25"
-          />
+        <div class="loading-indicator indicator" v-if="isLoading">
+          <img src="@/assets/spinner.svg" width="25" />
         </div>
       </div>
     </div>
@@ -168,7 +158,7 @@
         left: 0;
         color: #e5a00d;
         align-self: flex-end;
-        padding-right:5px;
+        padding-right: 5px;
       }
       .icon {
         width: 20px;
@@ -178,7 +168,45 @@
 
         img {
           max-width: 20px;
+        }
+      }
 
+      &:hover {
+        .tooltip {
+          visibility: visible;
+          transform: translateY(20px);
+          transition: transform 0.25s cubic-bezier(0.075, 0.82, 0.165, 1);
+        }
+      }
+
+      .tooltip {
+        pointer-events: none;
+        visibility: hidden;
+        background: #111;
+        color: white;
+        position: absolute;
+        bottom: -22px;
+        padding: 0.5rem 2rem;
+        border-radius: 7px;
+        right: 5px;
+        font-size: 12px;
+
+        p {
+          margin: 0;
+        }
+
+        &::before {
+          content: '';
+          display: block;
+          width: 10px;
+          height: 10px;
+          -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+          position: absolute;
+          top: -5px;
+          right: 10%;
+          background: inherit;
+          z-index: -1;
         }
       }
     }

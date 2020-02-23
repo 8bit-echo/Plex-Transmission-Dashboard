@@ -126,7 +126,7 @@ export default new Vuex.Store({
     },
 
     getActiveUsers({ commit, state }) {
-      get('/sessions').then(({ users }) => {
+      get('/sessions').then(( users ) => {
         if (users !== state.activeUsers) {
           commit('ACTIVE_USERS', users);
         }

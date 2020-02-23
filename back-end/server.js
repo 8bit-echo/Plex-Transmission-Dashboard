@@ -346,7 +346,17 @@ app.get('/sessions', async (_, res) => {
     });
 
     if (plexResponse.MediaContainer) {
-      res.send({ users: plexResponse.MediaContainer.size });
+      const responseObject = {
+        size: plexResponse.MediaContainer.size,
+        sessions: plexResponse.MediaContainer.Metadata.map(session => {
+          return {
+            user: session.User.title,
+            media: session.title
+          }
+        })
+
+      }
+      res.send(responseObject);
       return;
     }
   } catch (error) {
