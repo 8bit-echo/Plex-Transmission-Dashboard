@@ -17,7 +17,7 @@
         </div>
       </div>
       <div class="right">
-        <div class="activity-indicator indicator" v-if="activeUsers">
+        <div class="activity-indicator indicator" v-if="activeUsers.size > 0">
           <span class="user-count">{{ activeUsers.size }}</span>
           <div class="icon">
             <img src="@/assets/activity-icon.svg" width="25" />
