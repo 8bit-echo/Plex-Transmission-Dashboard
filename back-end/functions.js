@@ -12,17 +12,19 @@ async function shell(cmd) {
       if (error) {
         console.error(error);
         reject(error);
-      };
+      }
       console.log(`> ${stdout}`);
       resolve(stdout);
-    })
-  })
+    });
+  });
 }
 
 async function getVPNStatus() {
   try {
-    let output = await shell(`pgrep -x openvpn >/dev/null && echo "true" || echo "false"`);
-    return {status: JSON.parse(output)};
+    let output = await shell(
+      `pgrep -x openvpn >/dev/null && echo "true" || echo "false"`
+    );
+    return { status: JSON.parse(output) };
   } catch (error) {
     console.log(error);
   }
@@ -32,24 +34,28 @@ async function disableVPN() {
   console.log('disabling vpn');
   const psTree = require('ps-tree');
 
-  const kill = (pid) => {
+  const kill = pid => {
     const killTree = true;
     if (killTree) {
       psTree(pid, (err, children) => {
-        [pid].concat(
-          children.map((p) => {
-            return p.PID;
-          })
-        ).forEach((tpid) => {
-          try { process.kill(tpid, 'SIGKILL') }
-          catch (ex) { }
-        });
+        [pid]
+          .concat(
+            children.map(p => {
+              return p.PID;
+            })
+          )
+          .forEach(tpid => {
+            try {
+              process.kill(tpid, 'SIGKILL');
+            } catch (ex) {}
+          });
 
         return true;
       });
     } else {
-      try { process.kill(pid, 'SIGKILL') }
-      catch (ex) { }
+      try {
+        process.kill(pid, 'SIGKILL');
+      } catch (ex) {}
     }
   };
 
@@ -61,13 +67,13 @@ async function enableVPN() {
   console.log('enabling vpn');
   const sh = require('child_process').exec;
   ovpnProcess = sh('openvpn /home/mini/Templates/minivultr.ovpn');
-  ovpnProcess.stdout.on('data', function (data) {
+  ovpnProcess.stdout.on('data', function(data) {
     console.log('stdout: ' + data);
   });
-  ovpnProcess.stderr.on('data', function (data) {
+  ovpnProcess.stderr.on('data', function(data) {
     console.log('stdout: ' + data);
   });
-  ovpnProcess.on('close', function (code) {
+  ovpnProcess.on('close', function(code) {
     console.log('closing code: ' + code);
   });
 
@@ -78,7 +84,7 @@ async function enableVPN() {
 
 async function getTVFolders() {
   try {
-    const folders = await shell(`ls "${serverRoot}/${tvShows}"`);
+    const folders = await shell(`ls "${tvShows}"`);
     const asArray = JSON.parse(`["${folders.replace(/\n/g, `","`)}"]`);
     return asArray;
   } catch (error) {
@@ -87,24 +93,25 @@ async function getTVFolders() {
 }
 
 function guessTVShow(file, folders) {
-  let bestGuess = undefined;
-  folders.some((folder, i) => {
-    const fileName = stringPrep(file);
-    const folderName = stringPrep(folder);
-    if (fileName.includes(folderName)) {
-      bestGuess = folders[i];
-    }
-    return fileName.includes(folderName);
-  });
+  const Fuzzyset = require('fuzzyset.js');
+  // remove empty strings as they can cause unexpected results.
+  folders.filter(folder => folder !== '');
 
-  return bestGuess;
+  const stringCompare = new Fuzzyset(folders, false);
+  const match = stringCompare.get(file);
+
+  if (match && match[0][1]) {
+    console.log('match: ', match[0][1]);
+    return folders[folders.indexOf(match[0][1])];
+  }
+  return false;
 }
 
 function stringPrep(str) {
   return str
     .toLowerCase()
     .replace(
-      /(web?(rip|dl)|\[[a-z]+\]|((h|x)\.?26(4|5))|(hdtv)|(\d{3,4}p)|(-)|(aac(\d\.\d)?)|(www\.(.+)\.(com|org|net))|(HEVCs?|10.?bit)|(bluray))/gi,
+      /(web?(rip|dl)|\[[a-z]+\]|((h|x)\.?26(4|5))|(hdtv)|(\d{3,4}p)|(-)|(aac(\d\.\d)?)|(www\.(.+)\.(com|org|net))|(HEVCs?|10.?bit)|(bluray))|(xvid)/gi,
       ''
     )
     .replace(
@@ -117,14 +124,14 @@ function stringPrep(str) {
 
 function extractSeasonNumber(fileName, withPrefix = false) {
   const match = fileName.match(/s(\d\d?)/i);
-  const fullSeason = fileName.match(/season ?(\d\d?)/i)
+  const fullSeason = fileName.match(/season ?(\d\d?)/i);
   if (match) {
     // remove leading 0 in season nums < 10
     match[1] =
       match[1].toString().charAt(0) === '0' ? match[1].slice(1, 2) : match[1];
     return `${withPrefix ? 'Season ' : ''}${match[1]}`;
   } else if (fullSeason) {
-    return `${withPrefix ? 'Season ' : ''}${fullSeason[1]}`
+    return `${withPrefix ? 'Season ' : ''}${fullSeason[1]}`;
   }
   return `. Couldn't determine `;
 }
@@ -187,12 +194,14 @@ async function removeDirtyFiles(dir) {
 
 async function makeDir(dir) {
   console.log(`path does not exist. making directory now...`);
-  shell(`mkdir "${dir}"`).then(() => {
-    return true;
-  }).catch(error => {
-    console.log(error);
-    return false;
-  })
+  shell(`mkdir "${dir}"`)
+    .then(() => {
+      return true;
+    })
+    .catch(error => {
+      console.log(error);
+      return false;
+    });
 }
 
 module.exports = {

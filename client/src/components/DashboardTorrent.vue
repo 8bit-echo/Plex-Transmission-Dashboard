@@ -8,7 +8,10 @@
       <div class="meta">
         {{ torrent.percentDone | toPercentage }} of
         {{ torrent.sizeWhenDone | toHuman }}
-        <span class="download-rate" v-if="torrent.rateDownload">
+        <span
+          class="download-rate"
+          v-if="torrent.rateDownload"
+        >
           ↓ {{ torrent.rateDownload | toHuman }}/s
         </span>
       </div>
@@ -58,7 +61,7 @@
       cleanup: string => {
         return string
           .replace(
-            /(web?(rip|dl)|\[[a-z]+\]|((h|x)\.?26(4|5))|(hdtv)|(\d{3,4}p)|(-)|(a?ac(\d\.\d)?)|(www\.(.+)\.(com|org|net))|(HEVCs?|10.?bit)|(bluray)|(dvd(rip)?)|(DL)|(DD\+\d( \d)?))/gi,
+            /(web?(rip|dl)|\[[a-z]+\]|((h|x)\.?26(4|5))|(hdtv)|(\d{3,4}p)|(-)|(aac(\d\.\d)?)|(www\.(.+)\.(com|org|net))|(HEVCs?|10.?bit)|(bluray)|(dvd(rip)?)|(DL)|(DD\+\d( \d)?))|(xvid)/gi,
             ''
           )
           .replace(

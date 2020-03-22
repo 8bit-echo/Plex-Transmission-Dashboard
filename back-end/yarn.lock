@@ -923,6 +923,11 @@ fsevents@^1.2.7:
     nan "^2.12.1"
     node-pre-gyp "^0.12.0"
 
+fuzzyset.js@^0.0.91:
+  version "0.0.91"
+  resolved "https://registry.yarnpkg.com/fuzzyset.js/-/fuzzyset.js-0.0.91.tgz#afb2b006747d0fcc3352f7e0b579293cc47bb377"
+  integrity sha512-xywf1FmNf527kOl1urhh/GW3TcQsDlQVdcavBRB05cljrk8WpvPg6Qi23D72RdP1i9z7Lm8Wcnavi+H2lg9bHw==
+
 gauge@~2.7.3:
   version "2.7.4"
   resolved "https://registry.yarnpkg.com/gauge/-/gauge-2.7.4.tgz#2c03405c7538c39d7eb37b317022e325fb018bf7"

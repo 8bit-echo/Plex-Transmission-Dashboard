@@ -25,13 +25,16 @@ export async function get(endpoint) {
  */
 export async function post(endpoint, payload) {
   try {
-    let response = await fetch(`http://${process.env.VUE_APP_HOST}${endpoint}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    });
+    let response = await fetch(
+      `http://${process.env.VUE_APP_HOST}${endpoint}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      }
+    );
     let json = await response.json();
     return json;
   } catch (error) {
@@ -46,9 +49,9 @@ export async function _delete(endpoint, payload) {
   let response = await fetch(`http://${process.env.VUE_APP_HOST}${endpoint}`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     },
-    body: JSON.stringify(payload),
+    body: JSON.stringify(payload)
   });
   let json = await response.json();
   return json;
@@ -62,7 +65,7 @@ export function deviceType() {
   const ratio = window.devicePixelRatio || 1;
   const screen = {
     width: window.screen.width * ratio,
-    height: window.screen.height * ratio,
+    height: window.screen.height * ratio
   };
 
   // iPhone X Detection
@@ -88,7 +91,11 @@ export function toHuman(bytes) {
     return '';
   }
   const i = Math.floor(Math.log(bytes) / Math.log(1024));
-  return (bytes / Math.pow(1024, i)).toFixed(1) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
+  return (
+    (bytes / Math.pow(1024, i)).toFixed(1) * 1 +
+    ' ' +
+    ['B', 'kB', 'MB', 'GB', 'TB'][i]
+  );
 }
 
 /**
@@ -119,7 +126,9 @@ export async function offlineHandler() {
     console.log('checking for connection with server...');
 
     try {
-      const json = await (await fetch(`http://${process.env.VUE_APP_HOST}/ping`)).json();      
+      const json = await (
+        await fetch(`http://${process.env.VUE_APP_HOST}/ping`)
+      ).json();
       if (json && json.success) {
         // received heartbeat from server.
         console.log('back online with server...');
@@ -159,12 +168,12 @@ export function setGlobalTimers(timerName = undefined) {
       }, 1000 * 60);
       break;
 
-      case 'sessions':
-        console.log('setting active users timer');
-        window.sessionTimer = setInterval(() => {
-          window.app.$store.dispatch('getActiveUsers');
-        }, 1000 * 20);
-        break;
+    case 'sessions':
+      console.log('setting active users timer');
+      window.sessionTimer = setInterval(() => {
+        window.app.$store.dispatch('getActiveUsers');
+      }, 1000 * 20);
+      break;
 
     default:
       console.log('setting all timers');
@@ -192,5 +201,5 @@ export const txStatus = {
   DOWNLOAD: 4, // Downloading
   SEED_WAIT: 5, // Queued to seed
   SEED: 6, // Seeding
-  ISOLATED: 7, // Torrent can't find peers
+  ISOLATED: 7 // Torrent can't find peers
 };
