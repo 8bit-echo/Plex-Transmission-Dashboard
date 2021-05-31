@@ -191,7 +191,7 @@ app.post('/move-movie', async (req, res) => {
       res.send({ success });
     }
   } catch (error) {
-    console.log(`caught error determining if torrent was a folder ${err}`);
+    console.log(`caught error determining if torrent was a folder ${error}`);
   }
 });
 
@@ -218,8 +218,8 @@ app.post('/move-tv-show', async (req, res) => {
       res.send({ success });
     }
   } catch (error) {
-    console.log(`caught error trying to move TV show. ${err}`);
-    res.send({ success: false, err });
+    console.log(`caught error trying to move TV show. ${error}`);
+    res.send({ success: false, error });
   }
 });
 

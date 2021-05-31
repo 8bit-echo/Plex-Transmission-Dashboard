@@ -1,7 +1,7 @@
 <template>
-  <div class="torrent-info modal open">
+  <div class="torrent-info modal">
 
-    <div class="dialog open">
+    <div class="dialog">
       <div class="modal-content">
         more things here.
       </div>

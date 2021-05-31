@@ -3,18 +3,13 @@
     :class="['torrent', { selected: selected, paused: torrent.status == 0 }]"
     @click="select(torrent)"
   >
-
     <div class="inner-container">
-
       <p class="name">{{ torrent.name | cleanup }}</p>
 
       <div class="meta">
         {{ torrent.percentDone | toPercentage }} of
         {{ torrent.sizeWhenDone | toHuman }}
-        <span
-          class="download-rate"
-          v-if="torrent.rateDownload"
-        >
+        <span class="download-rate" v-if="torrent.rateDownload">
           ↓ {{ torrent.rateDownload | toHuman }}/s
         </span>
       </div>
@@ -27,7 +22,6 @@
       :style="{ width: percentDone(torrent.percentDone) }"
       :class="isDone ? 'done' : ''"
     ></div>
-
   </div>
 </template>
 
@@ -37,16 +31,16 @@
     props: ['torrent', 'selected'],
 
     computed: {
-      isDone: function() {
+      isDone: function () {
         return this.torrent.percentDone == 1;
-      }
+      },
     },
 
     filters: {
       /**
        * converts number of bytes to human readable format
        */
-      toHuman: bytes => {
+      toHuman: (bytes) => {
         if (!bytes) {
           return 'unknown';
         }
@@ -58,14 +52,14 @@
         );
       },
 
-      toPercentage: float => {
+      toPercentage: (float) => {
         return (float * 100).toFixed(2) + '%';
       },
 
       /**
        * removes a bunch of the garbage strings from torrent names. far from perfect.
        **/
-      cleanup: string => {
+      cleanup: (string) => {
         return string
           .replace(
             /(web?(rip|dl)|\[[a-z]+\]|((h|x)\.?26(4|5))|(hdtv)|(\d{3,4}p)|(-)|(aac(\d\.\d)?)|(www\.(.+)\.(com|org|net))|(HEVCs?|10.?bit)|(bluray)|(dvd(rip)?)|(DL)|(DD\+\d( \d)?))|(xvid)/gi,
@@ -78,7 +72,7 @@
           .replace(/(mkv)|(avi)|(mp4)/gi, '')
           .replace(/(\(\))|(\[\])|(\.\d)/gi, '')
           .replace(/\./g, ' ');
-      }
+      },
     },
 
     methods: {
@@ -96,8 +90,8 @@
        */
       select(torrent) {
         this.TORRENT_SELECTED(torrent);
-      }
-    }
+      },
+    },
   };
 </script>
 
@@ -130,6 +124,7 @@
 
     .inner-container {
       padding: 0 0.5em;
+      position: relative;
     }
 
     p {
@@ -171,6 +166,18 @@
         left: calc(100% - #{$offset});
         transform: rotate(45deg);
       }
+    }
+
+    .info {
+      background: none;
+      border: none;
+      outline: none;
+      color: white;
+      position: absolute;
+      left: 96%;
+      top: 0;
+      font-family: cursive;
+      font-size: 1.25rem;
     }
   }
 </style>
