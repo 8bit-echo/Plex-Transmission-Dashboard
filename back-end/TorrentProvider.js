@@ -190,11 +190,11 @@ class _1337x extends TorrentProvider {
   }
 }
 
-const allEngines = [Zooqle, _1337x];
+const allEngines = [ _1337x];
 
 module.exports = {
   TorrentProvider,
-  Zooqle,
+//  Zooqle,
   _1337x,
   allEngines,
 };
