@@ -20,6 +20,7 @@
     text-align: center;
     background-color: rgba(0, 0, 0, 0.15);
     backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
     width: 100%;
     z-index: 3;
     display: flex;

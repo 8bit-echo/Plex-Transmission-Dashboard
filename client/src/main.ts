@@ -21,11 +21,12 @@ window.onerror = (error) => {
   new AppError(error.toString());
 };
 
-window.app = createApp(App).use(store, key).use(router).mount('#app');
-
-window.app.config.errorHandler = (error: Error) => {
+let app = createApp(App);
+app.config.errorHandler = (error) => {
   console.log('caught error through vue');
   console.log(error);
   store.commit('LOADING_INDICATOR', false);
-  new AppError(error);
+  new AppError((error as Error).toString());
 };
+
+app.use(store, key).use(router).mount('#app');

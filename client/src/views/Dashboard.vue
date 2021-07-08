@@ -26,9 +26,9 @@
       getTorrents();
       setGlobalTimers('torrents');
 
-      onMounted(() => {
-        if (!isPWA() && container.value) container.value.style.paddingTop = '16px';
-      });
+      // onMounted(() => {
+      //   if (!isPWA() && container.value) container.value.style.paddingTop = '16px';
+      // });
 
       onUnmounted(() => {
         // @ts-ignore
