@@ -1,18 +1,15 @@
 <template>
   <div class="toggle">
     <span>Movies</span>
-    <input
-      type="checkbox"
-      id="switch"
-    /><label for="switch">Toggle</label>
+    <input type="checkbox" id="switch" /><label for="switch">Toggle</label>
     <span>TV Shows</span>
   </div>
 </template>
 
-<script>
+<script lang="ts">
   export default {
-		name: 'Toggle',
-		/* NOT CURRENTLY IN USE */
+    name: 'Toggle',
+    /* NOT CURRENTLY IN USE */
   };
 </script>
 

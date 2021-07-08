@@ -1,13 +1,7 @@
 <template>
   <div :class="{ modal: true, open: modalOpen, prompt: isPrompt }">
-    <div
-      ref="dialog"
-      :class="{ dialog: true, open: modalOpen }"
-    >
-      <button
-        class="exit"
-        @click="hideDialog()"
-      >&#215;</button>
+    <div ref="dialog" :class="{ dialog: true, open: modalOpen }">
+      <button class="exit" @click="closeModal()">&#215;</button>
       <div class="modal-content">
         {{ modalText }}
       </div>
@@ -18,62 +12,65 @@
           v-model="prompt"
           class="prompt"
           autofocus="true"
-          :placeholder="modalExtra.placeholder ? modalExtra.placeholder : 'Name of TV Show'"
+          :placeholder="
+            modalExtra.placeholder ? modalExtra.placeholder : 'Name of TV Show'
+          "
         />
       </template>
 
       <div class="actions">
-        <button @click="hideDialog()">Cancel</button>
-        <button
-          class="primary"
-          @click="confirmAction()"
-        >Confirm</button>
+        <button @click="closeModal()">Cancel</button>
+        <button class="primary" @click="confirmAction()">Confirm</button>
       </div>
     </div>
   </div>
 </template>
 
-<script>
-  import { mapState, mapMutations } from 'vuex';
-  export default {
+<script lang="ts">
+  import { computed, defineComponent, ref } from 'vue';
+  import { useModal } from '../composables/useModal';
+  export default defineComponent({
     name: 'Modal',
 
-    data() {
-      return {
-        prompt: ''
-      };
-    },
+    setup() {
+      const {
+        modalOpen,
+        modalText,
+        modalConfirm,
+        modalExtra,
+        openModal,
+        closeModal,
+      } = useModal();
 
-    computed: {
-      ...mapState([
-        'modalOpen', // boolean
-        'modalText', // string
-        'modalConfirm', // function
-        'modalExtra' // any
-      ]),
-
-      isPrompt() {
-        return this.modalExtra && this.modalExtra.isPrompt;
-      }
-    },
-
-    methods: {
-      ...mapMutations(['OPEN_MODAL', 'CLOSE_MODAL']),
-
-      hideDialog() {
-        this.CLOSE_MODAL();
-      },
+      const prompt = ref('');
+      const isPrompt = computed(
+        () => modalExtra.value && modalExtra?.value.isPrompt
+      );
 
       /**
        * The modal is passed an action to perform on Confirm which is called before closing the dialog.
        */
-      confirmAction() {
-        this.isPrompt ? this.modalConfirm(this.prompt) : this.modalConfirm();
-        this.prompt = "";
-        this.hideDialog();
-      }
-    }
-  };
+      const confirmAction = () => {
+        if (prompt.value) { 
+          isPrompt.value ? modalConfirm.value(prompt.value) : modalConfirm.value();
+        prompt.value = '';
+        closeModal();
+        }
+      };
+
+      return {
+        modalOpen,
+        modalText,
+        modalConfirm,
+        modalExtra,
+        openModal,
+        closeModal,
+        isPrompt,
+        prompt,
+        confirmAction,
+      };
+    },
+  });
 </script>
 
 <style lang="scss">
@@ -122,7 +119,7 @@
       font-size: 1rem;
       padding: 0.5rem;
       text-align: center;
-      background-color:darken(#1f2326, 5%);
+      background-color: darken(#1f2326, 5%);
       color: white;
       border: none;
       outline: none;

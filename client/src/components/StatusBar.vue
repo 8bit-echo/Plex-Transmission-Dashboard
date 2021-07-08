@@ -1,13 +1,13 @@
 <template>
   <section id="status">
     <div
-      v-if="globalNotification"
-      :class="['global-notification', globalNotification]"
+      v-if="!!globalNotification"
+      :class="['global-notification', !!globalNotification]"
     >
       {{ globalNotification }}
     </div>
     <div
-      :class="['status-bar', { hasGlobal: globalNotification !== false }]"
+      :class="['status-bar', { hasGlobal: !!globalNotification }]"
       ref="statusBar"
     >
       <div class="left">
@@ -20,7 +20,7 @@
         <div class="activity-indicator indicator" v-if="activeUsers.size > 0">
           <span class="user-count">{{ activeUsers.size }}</span>
           <div class="icon">
-            <img src="@/assets/activity-icon.svg" width="25" />
+            <img src="../assets/activity-icon.svg" width="25" />
           </div>
           <div class="tooltip">
             <p v-for="session in activeUsers.sessions" :key="session.user">
@@ -38,37 +38,40 @@
         </div>
 
         <div class="loading-indicator indicator" v-if="isLoading">
-          <img src="@/assets/spinner.svg" width="25" />
+          <img src="../assets/spinner.svg" width="25" />
         </div>
       </div>
     </div>
   </section>
 </template>
 
-<script>
-  import { mapState, mapGetters } from 'vuex';
-  import { setStatusBarColor } from '@/functions';
-  export default {
-    computed: {
-      ...mapState([
-        'isLoading',
-        'vpnActive',
-        'globalNotification',
-        'activeUsers'
-      ]),
-      ...mapGetters(['totalDownloadSpeed', 'finishedTorrents'])
-    },
+<script lang="ts">
+  import { computed, defineComponent, onMounted } from 'vue';
+  import { useStore } from 'vuex';
+  import { useNotifications } from '../composables/useNotifications';
+  import { useVPN } from '../composables/useVPN';
+  import { setStatusBarColor } from '../functions';
+  import { key } from '../store';
+  export default defineComponent({
+    setup() {
+      const store = useStore(key);
+      const { vpnActive } = useVPN();
+      const { globalNotification } = useNotifications();
 
-    methods: {
+      const isLoading = computed(() => store.state.isLoading);
+      const activeUsers = computed(() => store.state.activeUsers);
+      const totalDownloadSpeed = computed(() => store.getters.totalDownloadSpeed);
+      const finishedTorrents = computed(() => store.getters.finishedTorrents);
+
       /**
        * this is really only used for the PWA on iPhones with a notch to make the notification feel more native.
        */
-      changeStatusBarColor() {
+      const changeStatusBarColor = () => {
         if (
-          this.globalNotification &&
-          typeof this.globalNotification === 'string'
+          globalNotification.value &&
+          typeof globalNotification.value === 'string'
         ) {
-          switch (this.globalNotification.toLowerCase()) {
+          switch (globalNotification.value.toLowerCase()) {
             case 'offline': {
               setStatusBarColor('#605f73');
             }
@@ -76,19 +79,28 @@
         } else {
           setStatusBarColor();
         }
-      }
+
+        onMounted(() => {
+          changeStatusBarColor();
+        });
+      };
+
+      return {
+        vpnActive,
+        globalNotification,
+        isLoading,
+        activeUsers,
+        totalDownloadSpeed,
+        finishedTorrents,
+      };
     },
 
-    watch: {
-      globalNotification() {
-        this.changeStatusBarColor();
-      }
-    },
-
-    mounted() {
-      this.changeStatusBarColor();
-    }
-  };
+    // watch: {
+    //   globalNotification() {
+    //     this.changeStatusBarColor();
+    //   },
+    // },
+  });
 </script>
 
 <style lang="scss" scoped>
@@ -97,7 +109,7 @@
     top: 0;
     width: 100%;
     z-index: 3;
-    background-color: darken(#1f2326, 2.5%);
+    background-color: rgba(0, 0, 0, 0.15);
     padding-top: 20px;
   }
 

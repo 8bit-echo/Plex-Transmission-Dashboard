@@ -1,51 +1,45 @@
 <template>
-  <div
-    id="dashboard"
-    class="container"
-    ref="container"
-  >
+  <div id="dashboard" class="container" ref="container">
     <Controls />
     <Transmission />
   </div>
 </template>
 
-<script>
-  import Controls from '@/components/Controls';
-  import Transmission from '@/components/Transmission';
-  import { mapState, mapActions } from 'vuex';
-  import { setGlobalTimers, deviceType, isPWA } from '@/functions';
+<script lang="ts">
+  import Controls from '../components/Controls.vue';
+  import Transmission from '../components/Transmission.vue';
+  import { setGlobalTimers, isPWA } from '../functions';
+  import { defineComponent, onMounted, onUnmounted, ref } from 'vue';
+  import { useTorrents } from '../composables/useTorrents';
 
-  export default {
+  export default defineComponent({
     name: 'Dashboard',
     components: {
       Controls,
-      Transmission
+      Transmission,
     },
 
-    computed: {
-      ...mapState(['torrents', 'selectedTorrent'])
-    },
+    setup() {
+      const { getTorrents } = useTorrents();
+      const container = ref<HTMLDivElement>();
 
-    methods: {
-      ...mapActions(['getTorrents'])
-    },
-
-    created() {
-      // get torrents and put it on a 7 second polling.
-      this.getTorrents();
+      getTorrents();
       setGlobalTimers('torrents');
-    },
 
-    mounted() {
-      if (!isPWA()) {
-        this.$refs.container.style.paddingTop = '16px';
-      }
-    },
+      onMounted(() => {
+        if (!isPWA() && container.value) container.value.style.paddingTop = '16px';
+      });
 
-    destroyed() {
-      clearInterval(window.torrentTimer);
-    }
-  };
+      onUnmounted(() => {
+        // @ts-ignore
+        clearInterval(window.torrentTimer);
+      });
+
+      return {
+        container,
+      };
+    },
+  });
 </script>
 
 <style lang="scss">

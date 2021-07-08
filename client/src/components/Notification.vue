@@ -1,6 +1,10 @@
 <template>
   <div
-    :class="['notification', notificationType, {hasGlobal: globalNotification !== false}]"
+    :class="[
+      'notification',
+      notificationType,
+      { hasGlobal: !!globalNotification },
+    ]"
     ref="notification"
   >
     <div class="notification-container">
@@ -9,124 +13,92 @@
   </div>
 </template>
 
-<script>
-  import { mapMutations, mapState } from 'vuex';
-  import { setStatusBarColor } from '@/functions';
-  export default {
-    data() {
-      return {
-        drag: false,
-        touchStart: 0,
-        touchEnd: 0
+<script lang="ts">
+  import { computed, defineComponent, onMounted, ref } from 'vue';
+  import { setStatusBarColor } from '../functions';
+  import { useNotifications } from '../composables/useNotifications';
+
+  export default defineComponent({
+    setup() {
+      const {
+        notificationType,
+        notificationText,
+        globalNotification,
+        displayNotification,
+      } = useNotifications();
+
+      const drag = ref(false);
+      const touchStart = ref(0);
+      const touchEnd = ref(0);
+      const notification = ref<HTMLDivElement>();
+
+      const touchDirection = computed(() => {
+        if (touchStart.value === touchEnd.value) return 'none';
+        return touchStart.value > touchEnd.value ? 'up' : 'down';
+      });
+
+      const touchDelta = computed(() => touchEnd.value - touchStart.value);
+
+      const handleDown = (e: TouchEvent) => {
+        e.preventDefault();
+        touchStart.value = e.touches[0].screenY;
+        drag.value = true;
+        if (notification.value) notification.value.style.transition = 'none';
       };
-    },
 
-    computed: {
-      ...mapState([
-        'notificationVisible', //boolean
-        'notificationType', // string<[okay, warning, error, '']>
-        'notificationText', // string
-        'globalNotification' // boolean
-      ]),
-
-      /**
-       *  gesture recognizer: [up, down, none]
-       */
-      touchDirection() {
-        if (this.touchStart === this.touchEnd) {
-          return 'none';
-        }
-        return this.touchStart > this.touchEnd ? 'up' : 'down';
-      },
-
-      /**
-       * number of pixels from start to end of touch gesture.
-       */
-      touchDelta() {
-        return this.touchEnd - this.touchStart;
-      }
-    },
-
-    methods: {
-      ...mapMutations(['DISPLAY_NOTIFICATION']),
-
-      /**
-       * gesture recognizer for touchstart action
-       */
-      handleDown(e) {
+      const handleMove = (e: TouchEvent) => {
         e.preventDefault();
-        this.touchStart = e.touches['0'].screenY;
-        this.drag = true;
-        this.$refs.notification.style.transition = 'none';
-      },
-
-      /**
-       * gesture recognizer for touchmove action
-       */
-      handleMove(e) {
-        e.preventDefault();
-        if (this.drag) {
-          this.touchEnd = e.touches['0'].screenY;
-          this.$refs.notification.style.top = `${this.touchDelta}px`;
+        if (drag.value) {
+          touchEnd.value = e.touches[0].screenY;
+          if (notification.value)
+            notification.value.style.top = `${touchDelta.value}px`;
           if (
-            this.touchDirection === 'up' &&
-            Math.abs(this.touchDelta) >=
-              0.55 * this.$refs.notification.scrollHeight
+            notification.value &&
+            touchDirection.value === 'up' &&
+            Math.abs(touchDelta.value) >= 0.55 * notification.value.scrollHeight
           ) {
-            this.dismissNotification();
+            dismissNotification();
           }
         }
-      },
+      };
 
-      /**
-       * gesture recognizer for touchend action
-       */
-      handleUp(e) {
-        e.preventDefault();
-        this.drag = false;
-        this.$refs.notification.style.transition = 'top 250ms ease-in';
-      },
-
-      /**
-       * a notification is dismissed if swiped upwards at least 55% of it's own height.
-       */
-      dismissNotification() {
-        this.$refs.notification.style.top = '-110px';
-        setStatusBarColor();
-        this.DISPLAY_NOTIFICATION(false);
-      }
-    },
-
-    mounted() {
-      // have to register events like this because Safari is trash, but I have an iPhone.
-      this.$refs.notification.addEventListener(
-        'touchstart',
-        this.handleDown,
-        false
-      );
-
-      this.$refs.notification.addEventListener(
-        'touchmove',
-        this.handleMove,
-        false
-      );
-
-      this.$refs.notification.addEventListener('touchend', this.handleUp, false);
-    },
-
-    watch: {
-      /**
-       * I dont remember why I have to do this exactly, but I do for some edge case probably. Sorry...
-       */
-      notificationVisible(newVal) {
-        if (newVal) {
-          this.$refs.notification.style.top = '0';
-        } else {
-          this.$refs.notification.style.top = '-100px';
+      const dismissNotification = () => {
+        if (notification.value) {
+          notification.value.style.top = '-110px';
+          setStatusBarColor();
+          displayNotification({ display: false });
         }
-      }
-    }
-  };
+      };
+
+      const handleUp = (e: TouchEvent) => {
+
+        e.preventDefault();
+        drag.value = false;
+        if (notification.value) { 
+          notification.value.style.transition = 'top 250ms ease-in';
+        }
+      };
+
+      onMounted(() => {
+        if (notification.value) {
+          // have to register events like this because Safari is trash, but I have an iPhone.
+          notification.value.addEventListener('touchstart', handleDown, false);
+
+          notification.value.addEventListener('touchmove', handleMove, false);
+
+          notification.value.addEventListener('touchend', handleUp, false);
+        }
+      });
+
+      return {
+        notificationType,
+        notificationText,
+        globalNotification,
+        notification,
+        handleDown,
+      };
+    },
+  });
 </script>
 
 <style lang="scss" scoped>

@@ -1,36 +1,30 @@
 <template>
   <nav id="nav">
     <router-link to="/">
-      <img
-        src="@/assets/search-icon.svg"
-        alt="Search"
-      >
+      <img src="../assets/search-icon.svg" alt="Search" />
       Search
     </router-link>
 
     <router-link to="/dashboard">
-      <img
-        src="@/assets/dashboard-icon.svg"
-        alt="Dashboard"
-      >
+      <img src="../assets/dashboard-icon.svg" alt="Dashboard" />
       Dashboard
     </router-link>
-
   </nav>
 </template>
 
 <style lang="scss" scoped>
   #nav {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     position: fixed;
     text-align: center;
-    background-color: darken(#1f2326, 5%);
+    background-color: rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(30px);
     width: 100%;
     z-index: 3;
     display: flex;
     justify-content: space-evenly;
-    padding-bottom: 5px;
+    padding: 5px 0;
 
     a {
       font-weight: bold;
@@ -39,16 +33,16 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: baseline;
+      justify-content: flex-start;
       box-sizing: border-box;
       color: grey;
-      font-size: 12px;
+      font-size: 10px;
       width: 33%;
 
       img {
-        width: 24px;
-        height: 24px;
-        margin: 10px;
+        width: 30px;
+        height: 30px;
+        padding-bottom: 4px;
         filter: grayscale(1);
       }
 
@@ -67,7 +61,7 @@
     }
 
     @media screen and (width: 375px) and (height: 768px) {
-      padding-bottom: 35px !important;
+      padding-bottom: 30px !important;
     }
   }
 </style>

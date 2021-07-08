@@ -3,7 +3,7 @@
     <h1>Search</h1>
     <div class="input-container">
       <input
-        ref="search"
+        ref="searchEl"
         name="search"
         type="text"
         autofocus="true"
@@ -24,9 +24,9 @@
     </div>
 
     <div class="search-results">
-      <template class="section" v-for="(result, name) in results">
-        <h2 :key="name" @click="toggle(name)">
-          {{ name | capitalize() }}
+      <div class="section" v-for="(result, name) in results" :key="name">
+        <h2 @click="toggle(name)">
+          {{ capitalize(name) }}
           {{ visibleSections.includes(name) ? '–' : '+' }}
         </h2>
 
@@ -37,7 +37,7 @@
             :torrent="torrent"
           />
         </template>
-      </template>
+      </div>
     </div>
 
     <button class="direct-add" @click="handleDirectAdd()">
@@ -46,101 +46,107 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
   import { post } from '../functions';
-  import Torrent from './SearchTorrent';
-  import AppError from '@/AppError';
-  import { mapMutations } from 'vuex';
+  import AppError from '../AppError';
   import { get } from '../functions';
+  import Torrent from '../components/SearchTorrent.vue';
+  import { ref, defineComponent } from 'vue';
+  import { useFilters } from '../composables/useFilters';
+  import { useModal } from '../composables/useModal';
+  import { useNotifications } from '../composables/useNotifications';
+  import { TorrentDashboard } from '../@types/index';
   /**
    * All the state in this view is self-contained.
    */
-  export default {
+  export default defineComponent({
     name: 'Search',
     components: { Torrent },
 
-    data() {
-      return {
-        searchTerm: '',
-        isLoading: false,
-        msg: '',
-        results: null,
-        visibleSections: []
-      };
-    },
-    computed: {
-      dimensions() {
-        return `${window.innerWidth} x ${window.innerHeight}`;
-      }
-    },
+    setup() {
+      const searchTerm = ref('');
+      const isLoading = ref(false);
+      const msg = ref('');
+      const results = ref<TorrentDashboard.SearchResults>({});
+      const visibleSections = ref<string[]>([]);
+      const searchEl = ref<HTMLInputElement>();
 
-    filters: {
-      capitalize(string) {
-        string = string[0].toUpperCase() + string.slice(1);
-        return string.replace(/_/g, '');
-      }
-    },
+      const { openModal } = useModal();
+      const { capitalize } = useFilters();
+      const { displayNotification } = useNotifications();
 
-    methods: {
-      ...mapMutations(['OPEN_MODAL', 'DISPLAY_NOTIFICATION']),
-      async doSearch() {
-        this.isLoading = true;
-        this.$refs.search.blur();
-        console.log(`searching for ${this.searchTerm}`);
+      const doSearch = async () => {
+        isLoading.value = true;
+        searchEl.value?.blur();
+        console.log(`searching for ${searchTerm.value}`);
         try {
-          const response = await post('/search', { search: this.searchTerm });
+          const response = await post('/search', { search: searchTerm.value });
           if (response.error) {
-            this.msg = response.error;
+            msg.value = response.error;
             new AppError(response.error);
           } else {
-            this.results = response;
-            this.visibleSections = Object.keys(response);
+            results.value = response;
+            visibleSections.value = Object.keys(response);
           }
-          this.isLoading = false;
+          isLoading.value = false;
         } catch (error) {
           new AppError(error);
-          this.msg = error.toString();
+          msg.value = error.toString();
         }
-      },
+      };
 
-      toggle(key) {
-        if (this.visibleSections.includes(key)) {
-          this.visibleSections.splice(
-            this.visibleSections.findIndex(el => el === key),
+      const toggle = (key: string) => {
+        if (visibleSections.value?.includes(key)) {
+          visibleSections.value?.splice(
+            visibleSections.value?.findIndex((el) => el === key),
             1
           );
         } else {
-          this.visibleSections.push(key);
+          visibleSections.value?.push(key);
         }
-      },
+      };
 
-      handleDirectAdd() {
+      const handleDirectAdd = () => {
         console.log('click');
-        this.OPEN_MODAL({
+        openModal({
           msg: `Add torrent from magnet link`,
           extra: {
             isPrompt: true,
-            placeholder: ' '
+            placeholder: ' ',
           },
-          action: magnet => {
+          action: async (magnet: string) => {
             try {
-              get(`/torrent?magnet=${magnet}`).then(success => {
-                console.log(success);
-                this.DISPLAY_NOTIFICATION({
+              const success = await get(`/torrent?magnet=${magnet}`);
+              if (success) {
+                displayNotification({
                   display: true,
                   level: 'okay',
-                  message: 'Torrent queued for download'
+                  message: 'Torrent queued for download',
                 });
-              });
+              } else {
+                new AppError('Failed to add magnet Torrent');
+              }
             } catch (error) {
-              console.log(error);
               new AppError('Failed to add torrent to queue.');
             }
-          }
+          },
         });
-      }
-    }
-  };
+      };
+
+      return {
+        capitalize,
+        doSearch,
+        searchTerm,
+        isLoading,
+        msg,
+        results,
+        visibleSections,
+        searchEl,
+        toggle,
+        handleDirectAdd,
+      };
+    },
+  });
 </script>
 
 <style scoped lang="scss">
@@ -206,7 +212,10 @@
   }
 
   .search-results {
-    margin-top: 40px;
+    margin: 40px 10px;
+    max-height: 66vh;
+    overflow: scroll;
+    padding-bottom: 65px;
 
     h2 {
       text-align: left;

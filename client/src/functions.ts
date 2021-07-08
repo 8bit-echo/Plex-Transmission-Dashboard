@@ -1,18 +1,23 @@
-import AppError from '@/AppError';
+import { TorrentDashboard } from './@types';
+import AppError from './AppError';
+import { Actions, Mutations } from './constants';
+import { store } from './store';
 
 /**
  * convenience method via fetch API for GET requests.
  */
-export async function get(endpoint) {
+export async function get(endpoint: string) {
   try {
-    let response = await fetch(`http://${process.env.VUE_APP_HOST}${endpoint}`);
+    let response = await fetch(
+      `http://${import.meta.env.VITE_APP_HOST}${endpoint}`
+    );
     let json = await response.json();
     return json;
   } catch (error) {
     if (error.message === 'Failed to fetch') {
-      fetch(`http://${process.env.VUE_APP_HOST}/ping`)
-        .then(res => res.json())
-        .then(json => console.log(`ping recieved JSON: ${json}`))
+      fetch(`http://${import.meta.env.VITE_APP_HOST}/ping`)
+        .then((res) => res.json())
+        .then((json) => console.log(`ping recieved JSON: ${json}`))
         .catch(() => {
           offlineHandler();
         });
@@ -23,16 +28,19 @@ export async function get(endpoint) {
 /**
  * convenience method via fetch API for POST requests.
  */
-export async function post(endpoint, payload) {
+export async function post(
+  endpoint: string,
+  payload: TorrentDashboard.POSTPayload
+) {
   try {
     let response = await fetch(
-      `http://${process.env.VUE_APP_HOST}${endpoint}`,
+      `http://${import.meta.env.VITE_APP_HOST}${endpoint}`,
       {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
       }
     );
     let json = await response.json();
@@ -45,14 +53,17 @@ export async function post(endpoint, payload) {
 /**
  * convenience method via fetch API for DELETE requests.
  */
-export async function _delete(endpoint, payload) {
-  let response = await fetch(`http://${process.env.VUE_APP_HOST}${endpoint}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(payload)
-  });
+export async function _delete(endpoint: string, payload: { id: number }) {
+  let response = await fetch(
+    `http://${import.meta.env.VITE_APP_HOST}${endpoint}`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    }
+  );
   let json = await response.json();
   return json;
 }
@@ -65,7 +76,7 @@ export function deviceType() {
   const ratio = window.devicePixelRatio || 1;
   const screen = {
     width: window.screen.width * ratio,
-    height: window.screen.height * ratio
+    height: window.screen.height * ratio,
   };
 
   // iPhone X Detection
@@ -86,16 +97,12 @@ export function isPWA() {
 /**
  * bytes to human readable data format
  */
-export function toHuman(bytes) {
-  if (!bytes) {
-    return '';
-  }
+export function toHuman(bytes?: number): string {
+  if (!bytes) return '';
   const i = Math.floor(Math.log(bytes) / Math.log(1024));
-  return (
-    (bytes / Math.pow(1024, i)).toFixed(1) * 1 +
-    ' ' +
+  return `${(bytes / Math.pow(1024, i)).toFixed(1)} ${
     ['B', 'kB', 'MB', 'GB', 'TB'][i]
-  );
+  }`;
 }
 
 /**
@@ -110,11 +117,11 @@ export function setStatusBarColor(color = '#202027') {
  */
 export async function offlineHandler() {
   //display offline global statusbar notification.
-  window.app.$store.commit('GLOBAL_NOTIFICATION', 'Offline');
+  store.commit(Mutations.globalNotification, 'Offline');
   // set vpn off.
-  window.app.$store.commit('VPN_STATUS', false);
+  store.commit(Mutations.VPNStatus, false);
   // set Active users to 0.
-  window.app.$store.commit('ACTIVE_USERS', false);
+  store.commit(Mutations.activeUsers, false);
 
   // clear all timers on fetching new resources.
   clearInterval(window.vpnTimer);
@@ -127,13 +134,13 @@ export async function offlineHandler() {
 
     try {
       const json = await (
-        await fetch(`http://${process.env.VUE_APP_HOST}/ping`)
+        await fetch(`http://${import.meta.env.VITE_APP_HOST}/ping`)
       ).json();
       if (json && json.success) {
         // received heartbeat from server.
         console.log('back online with server...');
-        window.app.$store.commit('GLOBAL_NOTIFICATION', false);
-        window.app.$store.dispatch('getVPNStatus');
+        store.commit(Mutations.globalNotification, undefined);
+        store.dispatch(Actions.getVPNStatus);
 
         console.log('clearing all timers');
         // clear the heartbeat timer and reinstate the other timers.
@@ -152,41 +159,41 @@ export async function offlineHandler() {
 /**
  * sets all timers if no arguments are passed, or sets a single timer if it's string name is passed.
  */
-export function setGlobalTimers(timerName = undefined) {
+export function setGlobalTimers(timerName?: string) {
   switch (timerName) {
     case 'torrents':
       console.log('setting torrentTimer');
       window.torrentTimer = setInterval(() => {
-        window.app.$store.dispatch('getTorrents');
+        store.dispatch(Actions.getTorrents);
       }, 1000 * 7);
       break;
 
     case 'vpn':
       console.log('setting vpnTimer');
       window.vpnTimer = setInterval(() => {
-        window.app.$store.dispatch('getVPNStatus');
+        store.dispatch(Actions.getVPNStatus);
       }, 1000 * 60);
       break;
 
     case 'sessions':
       console.log('setting active users timer');
       window.sessionTimer = setInterval(() => {
-        window.app.$store.dispatch('getActiveUsers');
+        store.dispatch(Actions.getActiveUsers);
       }, 1000 * 20);
       break;
 
     default:
       console.log('setting all timers');
       window.torrentTimer = setInterval(() => {
-        window.app.$store.dispatch('getTorrents');
+        store.dispatch(Actions.getTorrents);
       }, 1000 * 7);
 
       window.vpnTimer = setInterval(() => {
-        window.app.$store.dispatch('getVPNStatus');
+        store.dispatch(Actions.getVPNStatus);
       }, 1000 * 60);
 
       window.vpnTimer = setInterval(() => {
-        window.app.$store.dispatch('getActiveUsers');
+        store.dispatch(Actions.getActiveUsers);
       }, 1000 * 20);
       break;
   }
@@ -201,5 +208,5 @@ export const txStatus = {
   DOWNLOAD: 4, // Downloading
   SEED_WAIT: 5, // Queued to seed
   SEED: 6, // Seeding
-  ISOLATED: 7 // Torrent can't find peers
+  ISOLATED: 7, // Torrent can't find peers
 };
