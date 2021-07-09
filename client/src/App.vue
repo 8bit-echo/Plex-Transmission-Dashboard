@@ -53,3 +53,22 @@
     },
   });
 </script>
+
+<style lang="scss">
+  @media screen and (min-width: 416px) {
+    #dashboard {
+      display: flex;
+      margin-top: 75px;
+    }
+
+    .controls {
+      width: clamp(250px, 35%, 400px);
+    }
+
+    .transmission {
+      flex: 1;
+      height: 90vh;
+      overflow: scroll;
+    }
+  }
+</style>

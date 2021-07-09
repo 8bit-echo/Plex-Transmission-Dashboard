@@ -44,16 +44,16 @@
 
 <style lang="scss">
   .container {
-    width: 100%;
-    height: 99.9%;
-    display: grid;
-    grid-template-columns: calc(100% / 3) auto;
-    overflow: hidden;
+    // width: 100%;
+    // height: 99.9%;
+    // display: grid;
+    // grid-template-columns: calc(100% / 3) auto;
+    // overflow: hidden;
 
     @media screen and (max-width: 415px) {
-      grid-template-columns: 1fr;
-      grid-template-rows: 100px auto;
-      overflow: hidden;
+      // grid-template-columns: 1fr;
+      // grid-template-rows: 100px auto;
+      // overflow: hidden;
     }
   }
 </style>

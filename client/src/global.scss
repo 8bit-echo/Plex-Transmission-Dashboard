@@ -3,19 +3,11 @@
 *::after {
   box-sizing: border-box;
 }
-:root {
-  --topBarColor: #202027;
-}
+
+body,
 html {
-  height: 100%;
-  width: 100%;
-  background: #2c2c2c;
-  background: var(--topBarColor);
-  overflow: hidden;
-}
-body {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   min-height: 100vh;
   overflow: hidden;
   margin: 0;
@@ -23,8 +15,8 @@ body {
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
-  padding: env(safe-area-inset-top) env(safe-area-inset-right)
-    env(safe-area-inset-left);
+  user-select: none;
+  padding: env(safe-area-inset-left) 0 0 0;
 
   background: radial-gradient(
       circle at 0% 100%,
@@ -55,8 +47,8 @@ body {
 
 main {
   // padding-top: 32px;
-  height: 100vh;
-  overflow: hidden;
+  // height: 100vh;
+  // overflow: hidden;
 }
 
 #app {
@@ -64,19 +56,20 @@ main {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  width: 100vw;
-  height: 100%;
+  // width: 100vw;
+  // height: 100vh;
+  // overflow: hidden;
   -webkit-overflow-scrolling: touch; /* enables 'momentum' (smooth) scrolling */
 
-  &.hasGlobal {
-    main {
-      padding-top: 55px;
-    }
-  }
+  // &.hasGlobal {
+  //   main {
+  //     padding-top: 75px;
+  //   }
+  // }
 }
 
 @media screen and (width: 375px) and (height: 768px) {
-  main {
-    padding-top: 24px;
-  }
+  // main {
+  //   padding-top: 24px;
+  // }
 }

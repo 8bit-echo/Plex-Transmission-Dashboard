@@ -33,10 +33,21 @@
 
 <style lang="scss">
   .transmission {
-    padding: 1em;
-    padding-bottom: 40px;
-    overflow-y: scroll;
+    // background: purple;
+    // padding: 1em;
+    // padding-bottom: 40px;
+    // overflow-y: scroll;
     color: white;
-    padding-bottom: 165px;
+    padding-bottom: 100px;
+
+    @media screen and (max-width: 415px) {
+      position:fixed;
+      margin-top: 100px;
+      height: calc(100vh - 70px);
+      width: 100vw;
+      overflow: scroll;
+      padding-top: 80px;
+      padding-bottom: 120px;
+    }
   }
 </style>

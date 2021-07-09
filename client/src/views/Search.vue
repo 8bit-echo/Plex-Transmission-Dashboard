@@ -81,7 +81,7 @@
         console.log(`searching for ${searchTerm.value}`);
         try {
           const response = await post('/search', { search: searchTerm.value });
-          if (response.error) {
+          if (response.error || !response.success) {
             msg.value = response.error;
             new AppError(response.error);
           } else {
@@ -152,7 +152,7 @@
 <style scoped lang="scss">
   .search {
     padding: 30px 0;
-    padding-top: 45px;
+    padding-top: 120px;
   }
 
   h1 {
@@ -165,6 +165,8 @@
   .input-container {
     position: relative;
     padding: 0 1rem;
+    width: clamp(300px, 80vw, 600px);
+    margin: auto;
   }
 
   input[type='text'] {
@@ -190,10 +192,10 @@
     position: absolute;
     background: rgba(white, 0.25);
     color: #3b3b48;
-    right: 0;
+    right: 1rem;
     top: 0;
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     text-align: center;
     border-radius: 100%;
     font-size: 1rem;

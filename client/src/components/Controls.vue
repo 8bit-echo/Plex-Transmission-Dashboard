@@ -167,7 +167,11 @@
         if (!torrent) return;
         store.commit(Mutations.loadingIndicator, true);
         try {
-          const response = await post('/move-tv-show', { torrent: torrent.name, show, season });
+          const response = await post('/move-tv-show', {
+            torrent: torrent.name,
+            show,
+            season,
+          });
 
           store.commit(Mutations.loadingIndicator, false);
           if (response.success) {
@@ -252,8 +256,12 @@
 <style lang="scss">
   .controls {
     background: rgba(0, 0, 0, 0.15);
-    color: white;
+    backdrop-filter: blur(30px);
     height: calc(97vh - 120px);
+
+    -webkit-backdrop-filter: blur(30px);
+    // color: white;
+
     border-radius: 4px;
     margin-left: 10px;
 
@@ -293,39 +301,16 @@
       }
     }
 
-    .status-bar {
-      background: rgb(32, 32, 39);
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      .indicator {
-        display: flex;
-        align-items: center;
-        background: rgb(32, 32, 39);
-        padding: 5px;
-        color: lightgrey;
-      }
-      .statusLight {
-        width: 0.75rem;
-        height: 0.75rem;
-        border: solid 1px lightgrey;
-        border-radius: 50%;
-        display: inline-block;
-        margin: 0 10px;
-        background-color: #c76172;
-
-        &.active {
-          background-color: #2bca2b;
-        }
-      }
-    }
-
     @media screen and (max-width: 415px) {
       width: 100vw;
       height: 100px;
       overflow: hidden;
+      margin-left: 0;
       margin: 0;
+      z-index: 5;
+      // margin-top: 70px;
+      top: 70px;
+      position: fixed;
 
       .buttons {
         display: flex;

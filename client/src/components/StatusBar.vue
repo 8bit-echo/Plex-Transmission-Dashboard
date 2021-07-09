@@ -110,7 +110,7 @@
     width: 100%;
     z-index: 3;
     background-color: rgba(0, 0, 0, 0.15);
-    padding-top: 20px;
+    padding-top: 10px;
   }
 
   .global-notification {
@@ -233,7 +233,7 @@
     }
   }
 
-  @media screen and (width: 375px) and (height: 768px) {
+  @media screen and (max-width: 414px) and (max-height: 896px) {
     #status {
       padding-top: 36px !important;
     }
