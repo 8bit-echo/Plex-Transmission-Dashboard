@@ -81,7 +81,8 @@
         console.log(`searching for ${searchTerm.value}`);
         try {
           const response = await post('/search', { search: searchTerm.value });
-          if (response.error || !response.success) {
+          console.log(response);
+          if (response.error) {
             msg.value = response.error;
             new AppError(response.error);
           } else {
@@ -192,13 +193,14 @@
     position: absolute;
     background: rgba(white, 0.25);
     color: #3b3b48;
-    right: 1rem;
+    right: 0;
     top: 0;
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
+    line-height: 1;
     text-align: center;
     border-radius: 100%;
-    font-size: 1rem;
+    font-size: 0.75rem;
     display: flex;
     justify-content: center;
     align-items: center;

@@ -51,11 +51,17 @@
        * The modal is passed an action to perform on Confirm which is called before closing the dialog.
        */
       const confirmAction = () => {
-        if (prompt.value) { 
-          isPrompt.value ? modalConfirm.value(prompt.value) : modalConfirm.value();
+        if (prompt.value) {
+          if (isPrompt.value) {
+            modalConfirm.value(prompt.value);
+          } else {
+            modalConfirm.value();
+          }
+        } else {
+          modalConfirm.value();
+        }
         prompt.value = '';
         closeModal();
-        }
       };
 
       return {
