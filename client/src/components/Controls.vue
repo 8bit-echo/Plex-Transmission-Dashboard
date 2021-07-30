@@ -28,12 +28,14 @@
           Remove from Queue
         </button>
       </template>
+
+      <button v-if="isDev" @click="debugFunc()">DEBUG BUTTON</button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-  import { post, _delete, txStatus } from '../functions';
+  import { post, _delete, txStatus, ENV_DEV } from '../functions';
   import { useStore } from 'vuex';
   import AppError from '../AppError';
   import { computed, defineComponent } from 'vue';
@@ -174,6 +176,8 @@
           });
 
           store.commit(Mutations.loadingIndicator, false);
+          console.log(response);
+
           if (response.success) {
             displayNotification({
               display: true,
@@ -233,6 +237,15 @@
         }
       };
 
+      const isDev = ENV_DEV;
+      const debugFunc = () => {
+        displayNotification({
+          display: true,
+          level: 'okay',
+          message: 'Debug Test',
+        });
+      };
+
       return {
         isLoading,
         vpnActive,
@@ -240,6 +253,8 @@
         disableMove,
         selectedTorrent,
         playPauseText,
+        isDev,
+        debugFunc,
         deselectTorrents,
         toggleVPN,
         handleStartStop,

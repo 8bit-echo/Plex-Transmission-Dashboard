@@ -210,3 +210,5 @@ export const txStatus = {
   SEED: 6, // Seeding
   ISOLATED: 7, // Torrent can't find peers
 };
+
+export const ENV_DEV = process.env.NODE_ENV === 'development';

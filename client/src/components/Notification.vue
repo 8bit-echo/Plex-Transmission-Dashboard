@@ -6,6 +6,7 @@
       { hasGlobal: !!globalNotification },
     ]"
     ref="notification"
+    :style="notificationVisible ? 'top:0' : 'top: -110px'"
   >
     <div class="notification-container">
       {{ notificationText }}
@@ -25,6 +26,7 @@
         notificationText,
         globalNotification,
         displayNotification,
+        notificationVisible,
       } = useNotifications();
 
       const drag = ref(false);
@@ -71,10 +73,9 @@
       };
 
       const handleUp = (e: TouchEvent) => {
-
         e.preventDefault();
         drag.value = false;
-        if (notification.value) { 
+        if (notification.value) {
           notification.value.style.transition = 'top 250ms ease-in';
         }
       };
@@ -93,6 +94,7 @@
       return {
         notificationType,
         notificationText,
+        notificationVisible,
         globalNotification,
         notification,
         handleDown,

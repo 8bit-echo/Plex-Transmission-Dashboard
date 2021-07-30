@@ -1,6 +1,6 @@
 <template>
   <div id="app" :class="{ hasGlobal: globalNotification !== 'false' }">
-    <!-- <Notification /> -->
+    <Notification />
     <StatusBar />
     <main ref="main">
       <router-view />
