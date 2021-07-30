@@ -4,7 +4,7 @@ export namespace TorrentDashboard {
     toggle?: boolean;
     torrentName?: string;
     show?: string;
-    torrent?: string;
+    torrent?: Torrent | string;
     season?: string;
     id?: number;
     action?: string;
@@ -38,5 +38,5 @@ export namespace TorrentDashboard {
 
   type SearchResults = Record<string, SearchResultItem[]>;
 
-  type Torrent = Transmission.Torrent
+  type Torrent = Transmission.Torrent;
 }
