@@ -168,7 +168,7 @@
         store.commit(Mutations.loadingIndicator, true);
         try {
           const response = await post('/move-tv-show', {
-            torrent: torrent.name,
+            torrent,
             show,
             season,
           });
